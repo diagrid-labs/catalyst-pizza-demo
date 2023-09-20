@@ -38,6 +38,10 @@ components:
           schema:
           $ref: '#/components/schemas/PizzaType'
           example: pepperoni
+        amount:
+          type: integer
+          format: int32
+          example: 1
         orderDate:
           type: string
           format: date-time
