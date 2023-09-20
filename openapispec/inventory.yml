@@ -24,13 +24,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  pizzaType:
-                    $ref: '#/components/schemas/PizzaType'
-                  stockCount:
-                    type: integer
-                    format: int32
+                $ref: '#/components/schemas/InventoryResult'
     put:
       tags:
         - pizzatype
@@ -63,3 +57,11 @@ components:
         - margherita
         - hawaiian
         - hot pepper
+    InventoryResult:
+      type: object
+      properties:
+        pizzaType:
+          $ref: '#/components/schemas/PizzaType'
+        stockCount:
+          type: integer
+          format: int32
