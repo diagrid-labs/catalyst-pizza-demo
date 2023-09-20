@@ -30,33 +30,20 @@ components:
           type: string
           format: uuid
           example: cab5d2c8-506f-4d5a-8cee-696f6374e7b5
-        customer:
-          schema:
-          $ref: '#/components/schemas/Customer'
         pizzaType:
           schema:
           $ref: '#/components/schemas/PizzaType'
           example: pepperoni
+        amount:
+          type: integer
+          format: int32
+          example: 1
         orderDate:
           type: string
           format: date-time
           example: '2023-01-30T00:00:00.000Z'
-        status:
-          schema:
-          $ref: '#/components/schemas/Status'
-          example: placed
       xml:
         name: order
-    Customer:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Alex
-        email:
-          type: string
-          format: email
-          example: alex@ishungry.io
     PizzaType:
       type: string
       enum:
@@ -64,11 +51,3 @@ components:
         - margherita
         - hawaiian
         - hot pepper
-    Status:
-      type: string
-      enum:
-        - placed
-        - instock
-        - notinstock
-        - inpreparation
-        - completed
