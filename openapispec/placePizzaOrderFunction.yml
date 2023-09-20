@@ -1,6 +1,6 @@
 openapi: '3.0.2'
 info:
-  title: Create Pizza order
+  title: Place Pizza order
   version: '1.0'
 servers:
   - url: https://api.server.test/v1
@@ -9,11 +9,11 @@ paths:
     post:
       tags:
         - order
-      summary: Create a new pizza order
-      description: Create a new pizza order
-      operationId: createOrder
+      summary: Place a new pizza order
+      description: Place a new pizza order
+      operationId: placeOrder
       requestBody:
-        description: Create a new pizza order
+        description: Place a new pizza order
         content:
           application/json:
             schema:
