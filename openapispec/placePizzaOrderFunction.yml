@@ -69,7 +69,7 @@ components:
       type: string
       enum:
         - placed
-        - approved
         - instock
         - notinstock
+        - inpreparation
         - completed
