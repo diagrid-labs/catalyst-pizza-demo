@@ -1,7 +1,9 @@
 import type { Types } from "ably";
 import type { WorkflowState } from "./WorkflowState";
+import type { OrderItem } from "./Order";
 
 export type PizzaWorkflow = RealtimeState & {
+  orderItems: OrderItem[];
   clientId: string;
   orderId: string;
   isWorkflowComplete: boolean;

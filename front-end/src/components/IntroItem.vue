@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FlagIcon from "./icons/FlagIcon.vue";
+import PizzaSelectionItem from "./PizzaSelectionItem.vue";
 import { pizzaProcessStore } from "../stores";
 import { v4 as uuid } from "uuid";
 import { PizzaType, type Order } from "@/types/Order";
@@ -42,8 +43,9 @@ async function placeOrder() {
     </h1>
     <div class="flex-row">
       <h3>
-        Place an order and see the progress of the pizza workflow.
+        Select some pizzas, place an order, and see the progress of the pizza workflow.
       </h3>
+      <PizzaSelectionItem />
       <button @click="placeOrder" :disabled="disableOrdering">
         Place order
       </button>
