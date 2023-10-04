@@ -30,6 +30,20 @@ components:
           type: string
           format: uuid
           example: cab5d2c8-506f-4d5a-8cee-696f6374e7b5
+        orderItems:
+          type: array
+          items:
+            schema:
+            $ref: '#/components/schemas/OrderItem'
+        orderDate:
+          type: string
+          format: date-time
+          example: '2023-01-30T00:00:00.000Z'
+      xml:
+        name: order
+    OrderItem:
+      type: object
+      properties:
         pizzaType:
           schema:
           $ref: '#/components/schemas/PizzaType'
@@ -38,12 +52,6 @@ components:
           type: integer
           format: int32
           example: 1
-        orderDate:
-          type: string
-          format: date-time
-          example: '2023-01-30T00:00:00.000Z'
-      xml:
-        name: order
     PizzaType:
       type: string
       enum:

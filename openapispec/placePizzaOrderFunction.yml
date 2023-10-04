@@ -34,14 +34,11 @@ components:
         customer:
           schema:
           $ref: '#/components/schemas/Customer'
-        pizzaType:
-          schema:
-          $ref: '#/components/schemas/PizzaType'
-          example: pepperoni
-        amount:
-          type: integer
-          format: int32
-          example: 1
+        orderItems:
+          type: array
+          items:
+            schema:
+            $ref: '#/components/schemas/OrderItem'
         orderDate:
           type: string
           format: date-time
@@ -62,6 +59,17 @@ components:
           type: string
           format: email
           example: alex@ishungry.io
+    OrderItem:
+      type: object
+      properties:
+        pizzaType:
+          schema:
+          $ref: '#/components/schemas/PizzaType'
+          example: pepperoni
+        amount:
+          type: integer
+          format: int32
+          example: 1
     PizzaType:
       type: string
       enum:
