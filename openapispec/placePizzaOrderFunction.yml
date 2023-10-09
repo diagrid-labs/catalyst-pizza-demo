@@ -76,7 +76,7 @@ components:
         - pepperoni
         - margherita
         - hawaiian
-        - hot pepper
+        - vegetarian
     Status:
       type: string
       enum:
