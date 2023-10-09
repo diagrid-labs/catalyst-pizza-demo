@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import FlagIcon from "./icons/FlagIcon.vue";
+
 </script>
 
 <template>
   <div class="dessertmenu">
     <h2>
-      <FlagIcon />
       More information
-      <FlagIcon />
     </h2>
     <div class="flex-list">
       <ul>

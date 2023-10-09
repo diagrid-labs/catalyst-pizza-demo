@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import FlagIcon from "./icons/FlagIcon.vue";
 import PizzaSelectionItem from "./PizzaSelectionItem.vue";
 import { pizzaProcessStore } from "../stores";
 import { v4 as uuid } from "uuid";
@@ -20,11 +19,11 @@ async function placeOrder() {
     customerEmail: "ada@wantspizza.now",
     orderItems: [
       {
-        type: PizzaType.Margarita,
+        type: PizzaType.Margherita,
         amount: 1,
       },
       {
-        type: PizzaType.Hawaii,
+        type: PizzaType.Hawaiian,
         amount: 1,
       },
     ],
@@ -37,20 +36,14 @@ async function placeOrder() {
 <template>
   <div class="greetings">
     <h1>
-      <FlagIcon />
       Diagrid Pizza Store
-      <FlagIcon />
     </h1>
     <div class="flex-row">
       <h3>
         Select some pizzas, place an order, and see the progress of the pizza workflow.
       </h3>
-      <PizzaSelectionItem />
-      <button @click="placeOrder" :disabled="disableOrdering">
-        Place order
-      </button>
     </div>
-    <div class="flex-center">
+    <div class="flex-row">
       <details>
         <summary>More info about the workflow...</summary>
         <p class="animate">
@@ -67,6 +60,15 @@ async function placeOrder() {
         </p>
       </details>
     </div>
+    
+    <PizzaSelectionItem />
+    
+    <div class="flex-row">
+      <button @click="placeOrder" :disabled="disableOrdering">
+        Place order
+      </button>
+    </div>
+    
   </div>
 </template>
 
@@ -114,14 +116,11 @@ button:disabled {
 }
 
 .flex-row {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-details {
-  cursor: pointer;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .flex-center {
@@ -141,12 +140,12 @@ details {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .flex-center {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     text-align: left;
   }
 }

@@ -11,7 +11,7 @@ const {
 </script>
 
 <template>
-    <div>
+    <div class="flex-row-pizza" >
         <PizzaItem :state=orderItems[0] />
         <PizzaItem :state=orderItems[1] />
         <PizzaItem :state=orderItems[2] />
@@ -20,5 +20,10 @@ const {
 </template>
 
 <style scoped>
-
+.flex-row-pizza {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
 </style>
