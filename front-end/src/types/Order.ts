@@ -16,8 +16,8 @@ export type Pizza = {
 };
 
 export enum PizzaType {
-  Hawaii = "hawaii",
-  Margarita = "margarita",
   Pepperoni = "pepperoni",
-  Spinach = "spinach",
+  Margherita = "margherita",
+  Hawaiian = "hawaiian",
+  Vegetarian = "vegetarian",
 }

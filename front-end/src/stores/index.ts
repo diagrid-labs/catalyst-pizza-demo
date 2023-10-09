@@ -23,10 +23,10 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     isWorkflowComplete: false,
     isOrderPlaced: false,
     orderItems:[ 
-      { type: PizzaType.Hawaii, amount: 0 },
-      { type: PizzaType.Margarita, amount: 0 },
-      { type: PizzaType.Pepperoni, amount: 0 },
-      { type: PizzaType.Spinach, amount: 0 }
+      { type: PizzaType.Pepperoni, amount: 10 },
+      { type: PizzaType.Margherita, amount: 0 },
+      { type: PizzaType.Hawaiian, amount: 0 },
+      { type: PizzaType.Vegetarian, amount: 0 }
     ],
     orderReceivedState: {
       messageSentTimeStampUTC: 0,
