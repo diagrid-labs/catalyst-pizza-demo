@@ -2,7 +2,7 @@
 import PizzaSelectionItem from "./PizzaSelectionItem.vue";
 import { pizzaProcessStore } from "../stores";
 import { v4 as uuid } from "uuid";
-import { PizzaType, type Order } from "@/types/Order";
+import type { Order } from "@/types/Order";
 import { storeToRefs } from "pinia";
 
 const store = pizzaProcessStore();
@@ -17,16 +17,7 @@ async function placeOrder() {
     dateTime: today,
     customerName: "Ada",
     customerEmail: "ada@wantspizza.now",
-    orderItems: [
-      {
-        type: PizzaType.Margherita,
-        amount: 1,
-      },
-      {
-        type: PizzaType.Hawaiian,
-        amount: 1,
-      },
-    ],
+    orderItems: store.orderItems,
   };
   store.start(clientId, order);
 }

@@ -9,7 +9,7 @@ import PizzaInOvenImage from "../assets/PizzaInOven.png";
 import BoxAndDrinkImage from "../assets/BoxAndDrink.png";
 import DeliveryImage from "../assets/Delivery.png";
 import DeliveredImage from "../assets/Map.gif";
-import { PizzaType, type Order } from "@/types/Order";
+import { type Pizza, PizzaType, type Order } from "@/types/Order";
 
 export const pizzaProcessStore = defineStore("pizza-process", {
   state: (): PizzaWorkflow => ({
@@ -23,10 +23,10 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     isWorkflowComplete: false,
     isOrderPlaced: false,
     orderItems:[ 
-      { type: PizzaType.Pepperoni, amount: 10 },
-      { type: PizzaType.Margherita, amount: 0 },
-      { type: PizzaType.Hawaiian, amount: 0 },
-      { type: PizzaType.Vegetarian, amount: 0 }
+      { type: { name: PizzaType.Pepperoni, image: ""}, amount: 5 },
+      { type:{ name: PizzaType.Margherita, image: ""}, amount: 0 },
+      { type:{ name: PizzaType.Hawaiian, image: ""}, amount: 0 },
+      { type:{ name: PizzaType.Vegetarian, image: ""}, amount: 0 },
     ],
     orderReceivedState: {
       messageSentTimeStampUTC: 0,

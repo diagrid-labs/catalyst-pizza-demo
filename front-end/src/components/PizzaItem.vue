@@ -22,7 +22,11 @@ function addPizza() {
 
 <template>
     <div class="pizza-item">
-        <button @click="addPizza">{{props.state.type}}</button>
+      <img
+        v-bind:alt="props.state.type.name"
+        v-bind:title="props.state.type.name"
+        :src="props.state.type.image">
+      <button @click="addPizza">{{props.state.type.name}}</button>
         <div>{{props.state.amount}}</div>
     </div>
 </template>

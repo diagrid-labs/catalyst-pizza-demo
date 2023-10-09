@@ -7,12 +7,13 @@ export type Order = {
 };
 
 export type OrderItem = {
-  type: PizzaType;
+  type: Pizza;
   amount: number;
 };
 
 export type Pizza = {
   name: PizzaType;
+  image: string;
 };
 
 export enum PizzaType {
