@@ -15,7 +15,7 @@ const {
 } = storeToRefs(store);
 
 function addPizza() {
-  // add pizza to order
+  store.incrementPizzaCount(props.state.type.name);
 }
 
 </script>

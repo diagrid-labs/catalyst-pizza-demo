@@ -96,6 +96,10 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     },
   }),
   actions: {
+    incrementPizzaCount(pizza: PizzaType) {
+      const pizzaIndex = this.orderItems.findIndex((item) => item.type.name === pizza);
+      this.orderItems[pizzaIndex].amount++;
+    },
     async start(clientId: string, order: Order) {
       this.$reset();
       this.$state.clientId = clientId;
