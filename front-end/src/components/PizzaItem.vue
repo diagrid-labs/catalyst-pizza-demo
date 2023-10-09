@@ -37,7 +37,12 @@ function addPizza() {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+}
+
+img {
+  width: 150px;
+  height: 150px;
+  border: 1px dashed black;
 }
 
 button {

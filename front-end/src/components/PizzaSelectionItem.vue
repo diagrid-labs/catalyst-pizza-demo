@@ -20,10 +20,21 @@ const {
 </template>
 
 <style scoped>
+
 .flex-row-pizza {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+      display: flex;
+      flex-direction: wrap;
+      align-items: center;
+      justify-content: center;
+  }
+
+@media (min-width: 1024px) {
+  .flex-row-pizza {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+  }
 }
+
 </style>
