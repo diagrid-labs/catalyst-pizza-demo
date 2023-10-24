@@ -41,8 +41,7 @@ function addPizza() {
 
 img {
   width: 150px;
-  height: 150px;
-  border: 1px dashed black;
+  height: auto;
 }
 
 button {

@@ -7,6 +7,7 @@ import OrderImage from "../assets/Order.png";
 import PizzaAndDrinkImage from "../assets/PizzaAndDrink.png";
 import PizzaInOvenImage from "../assets/PizzaInOven.png";
 import BoxAndDrinkImage from "../assets/BoxAndDrink.png";
+import PizzaPepperoni from "../assets/PizzaPepperoni.png";
 import DeliveryImage from "../assets/Delivery.png";
 import DeliveredImage from "../assets/Map.gif";
 import { type Pizza, PizzaType, type Order } from "@/types/Order";
@@ -23,10 +24,10 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     isWorkflowComplete: false,
     isOrderPlaced: false,
     orderItems:[ 
-      { type: { name: PizzaType.Pepperoni, image: ""}, amount: 5 },
-      { type:{ name: PizzaType.Margherita, image: ""}, amount: 0 },
-      { type:{ name: PizzaType.Hawaiian, image: ""}, amount: 0 },
-      { type:{ name: PizzaType.Vegetarian, image: ""}, amount: 0 },
+      { type: { name: PizzaType.Pepperoni, image: PizzaPepperoni}, amount: 5 },
+      { type:{ name: PizzaType.Margherita, image: PizzaPepperoni}, amount: 0 },
+      { type:{ name: PizzaType.Hawaiian, image: PizzaPepperoni}, amount: 0 },
+      { type:{ name: PizzaType.Vegetarian, image: PizzaPepperoni}, amount: 0 },
     ],
     orderReceivedState: {
       messageSentTimeStampUTC: 0,
