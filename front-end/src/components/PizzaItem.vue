@@ -22,24 +22,28 @@ function addPizza() {
 
 <template>
     <div class="pizza-item">
+      
+      <button @click="addPizza">
       <img
         v-bind:alt="props.state.type.name"
         v-bind:title="props.state.type.name"
         :src="props.state.type.image">
-      <button @click="addPizza">{{props.state.type.name}}</button>
-        <div>{{props.state.amount}}</div>
+        {{props.state.type.name}}
+        <div class="amount">{{props.state.amount}}</div>
+      </button>
     </div>
 </template>
 
 <style scoped>
 .pizza-item {
-    margin: 0.7em;
+    margin: 0.5em;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 img {
+  margin: 0.5em 0.2em;
   width: 150px;
   height: auto;
 }
@@ -49,10 +53,15 @@ button {
   border-color: var(--vt-c-yellow-dark);
   border-radius: 0.5rem;
   padding: 0.7rem;
+  font-weight: bold;
   font-size: 1rem;
   margin-top: 1rem;
   font-family: 'Space Grotesk', sans-serif;
   transition: all 0.4s ease-out;
+}
+
+.amount {
+  font-weight: normal;
 }
 
 button:hover:enabled {
