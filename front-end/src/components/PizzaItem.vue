@@ -24,10 +24,10 @@ function addPizza() {
     <div class="pizza-item">
       
       <button @click="addPizza">
-      <img
-        v-bind:alt="props.state.type.name"
-        v-bind:title="props.state.type.name"
-        :src="props.state.type.image">
+        <img
+          v-bind:alt="props.state.type.name"
+          v-bind:title="props.state.type.name"
+          :src="props.state.type.image">
         {{props.state.type.name}}
         <div class="amount">{{props.state.amount}}</div>
       </button>
@@ -37,9 +37,6 @@ function addPizza() {
 <style scoped>
 .pizza-item {
     margin: 0.5em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 img {
@@ -49,6 +46,9 @@ img {
 }
 
 button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: var(--vt-c-yellow-dark);
   border-color: var(--vt-c-yellow-dark);
   border-radius: 0.5rem;
