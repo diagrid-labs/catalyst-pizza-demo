@@ -54,7 +54,7 @@ async function placeOrder() {
     
     <PizzaSelectionItem />
     
-    <div class="flex-row">
+    <div class="flex-center">
       <button @click="placeOrder" :disabled="disableOrdering">
         Place order
       </button>

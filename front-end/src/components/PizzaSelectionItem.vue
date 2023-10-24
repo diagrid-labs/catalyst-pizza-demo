@@ -23,7 +23,8 @@ const {
 
 .flex-row-pizza {
       display: flex;
-      flex-direction: wrap;
+      flex-direction: row;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: center;
   }
