@@ -6,12 +6,11 @@ import type { WorkflowState } from "@/types/WorkflowState";
 
 const store = pizzaProcessStore();
 const {
-  orderReceivedState,
-  kitchenInstructionsState,
-  preparationState,
-  collectionState,
-  deliveryState,
-  deliveredState,
+  orderPlacedState: orderReceivedState,
+  inStockState: kitchenInstructionsState,
+  notInStockState: preparationState,
+  inPreparationState: collectionState,
+  completedState: deliveryState,
 } = storeToRefs(store);
 </script>
 
@@ -40,11 +39,6 @@ const {
     class="animate"
     v-if="(deliveryState as WorkflowState).isVisible"
     :state="(deliveryState as WorkflowState)"
-  />
-  <ProgressItem
-    class="animate"
-    v-if="(deliveredState as WorkflowState).isVisible"
-    :state="(deliveredState as WorkflowState)"
   />
 </template>
 

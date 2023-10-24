@@ -29,10 +29,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       { type:{ name: PizzaType.Hawaiian, image: PizzaPepperoni}, amount: 0 },
       { type:{ name: PizzaType.Vegetarian, image: PizzaPepperoni}, amount: 0 },
     ],
-    orderReceivedState: {
-      messageSentTimeStampUTC: 0,
-      messageReceivedTimestamp: 0,
-      messageDeliveredTimestamp: 0,
+    orderPlacedState: {
       title: "Order Received",
       orderId: "",
       image: OrderImage,
@@ -40,10 +37,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       isDisabled: true,
       isCurrentState: false,
     },
-    kitchenInstructionsState: {
-      messageSentTimeStampUTC: 0,
-      messageReceivedTimestamp: 0,
-      messageDeliveredTimestamp: 0,
+    inStockState: {
       title: "Sending instructions to the kitchen",
       orderId: "",
       image: PizzaAndDrinkImage,
@@ -51,10 +45,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       isDisabled: true,
       isCurrentState: false,
     },
-    preparationState: {
-      messageSentTimeStampUTC: 0,
-      messageReceivedTimestamp: 0,
-      messageDeliveredTimestamp: 0,
+    notInStockState: {
       title: "Preparing your pizza",
       orderId: "",
       image: PizzaInOvenImage,
@@ -62,10 +53,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       isDisabled: true,
       isCurrentState: false,
     },
-    collectionState: {
-      messageSentTimeStampUTC: 0,
-      messageReceivedTimestamp: 0,
-      messageDeliveredTimestamp: 0,
+    inPreparationState: {
       title: "Collecting your order",
       orderId: "",
       image: BoxAndDrinkImage,
@@ -73,24 +61,10 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       isDisabled: true,
       isCurrentState: false,
     },
-    deliveryState: {
-      messageSentTimeStampUTC: 0,
-      messageReceivedTimestamp: 0,
-      messageDeliveredTimestamp: 0,
-      title: "Delivering your order",
+    completedState: {
+      title: "Your order is complete and can be collected.",
       orderId: "",
       image: DeliveryImage,
-      isVisible: false,
-      isDisabled: true,
-      isCurrentState: false,
-    },
-    deliveredState: {
-      messageSentTimeStampUTC: 0,
-      messageReceivedTimestamp: 0,
-      messageDeliveredTimestamp: 0,
-      title: "Order is delivered",
-      orderId: "",
-      image: DeliveredImage,
       isVisible: false,
       isDisabled: true,
       isCurrentState: false,
@@ -106,7 +80,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       this.$state.clientId = clientId;
       this.$state.orderId = order.id;
       this.$state.disableOrdering = true;
-      this.$state.orderReceivedState.isVisible = true;
+      this.$state.orderPlacedState.isVisible = true;
       await this.createRealtimeConnection(clientId, order);
     },
     async createRealtimeConnection(clientId: string, order: Order) {
@@ -171,153 +145,109 @@ export const pizzaProcessStore = defineStore("pizza-process", {
 
     subscribeToMessages() {
       this.channelInstance?.subscribe(
-        "receive-order",
+        "order-placed",
         (message: Types.Message) => {
-          this.handleOrderReceived(message);
+          this.handleOrderPlaced(message);
         }
       );
       this.channelInstance?.subscribe(
-        "send-instructions-to-kitchen",
+        "items-in-stock",
         (message: Types.Message) => {
-          this.handleSendInstructions(message);
+          this.handleItemsInStock(message);
         }
       );
       this.channelInstance?.subscribe(
-        "prepare-pizza",
+        "items-not-in-stock",
         (message: Types.Message) => {
-          this.handlePreparePizza(message);
+          this.handleItemsNotInStock(message);
         }
       );
       this.channelInstance?.subscribe(
-        "collect-order",
+        "order-in-preparation",
         (message: Types.Message) => {
-          this.handleCollectOrder(message);
+          this.handleOrderInPreperation(message);
         }
       );
       this.channelInstance?.subscribe(
-        "deliver-order",
+        "order-completed",
         (message: Types.Message) => {
-          this.handleDeliverOrder(message);
-        }
-      );
-      this.channelInstance?.subscribe(
-        "delivered-order",
-        (message: Types.Message) => {
-          this.handleDeliveredOrder(message);
+          this.handleOrderCompleted(message);
         }
       );
     },
 
-    handleOrderReceived(message: Types.Message) {
+    handleOrderPlaced(message: Types.Message) {
       this.$patch({
-        orderReceivedState: {
+        orderPlacedState: {
           orderId: message.data.orderId,
-          messageSentTimeStampUTC: message.data.messageSentTimeStampUTC,
-          messageReceivedTimestamp: message.timestamp,
-          messageDeliveredTimestamp: Date.now(),
           isDisabled: false,
           isCurrentState: true,
         },
-        kitchenInstructionsState: {
+        inStockState: {
           isVisible: true,
         },
       });
     },
 
-    handleSendInstructions(message: Types.Message) {
+    handleItemsInStock(message: Types.Message) {
       this.$patch({
-        kitchenInstructionsState: {
+        inStockState: {
           orderId: message.data.orderId,
-          messageSentTimeStampUTC: message.data.messageSentTimeStampUTC,
-          messageReceivedTimestamp: message.timestamp,
-          messageDeliveredTimestamp: Date.now(),
           isDisabled: false,
           isCurrentState: true,
         },
-        orderReceivedState: {
+        orderPlacedState: {
           isCurrentState: false,
         },
-        preparationState: {
+        notInStockState: {
           isVisible: true,
         },
       });
     },
 
-    handlePreparePizza(message: Types.Message) {
+    handleItemsNotInStock(message: Types.Message) {
       this.$patch({
-        preparationState: {
+        notInStockState: {
           orderId: message.data.orderId,
-          messageSentTimeStampUTC: message.data.messageSentTimeStampUTC,
-          messageReceivedTimestamp: message.timestamp,
-          messageDeliveredTimestamp: Date.now(),
           isDisabled: false,
           isCurrentState: true,
         },
-        kitchenInstructionsState: {
+        inStockState: {
           isCurrentState: false,
         },
-        collectionState: {
+        inPreparationState: {
           isVisible: true,
         },
       });
     },
 
-    handleCollectOrder(message: Types.Message) {
+    handleOrderInPreperation(message: Types.Message) {
       this.$patch({
-        collectionState: {
+        inPreparationState: {
           orderId: message.data.orderId,
-          messageSentTimeStampUTC: message.data.messageSentTimeStampUTC,
-          messageReceivedTimestamp: message.timestamp,
-          messageDeliveredTimestamp: Date.now(),
           isDisabled: false,
           isCurrentState: true,
         },
-        preparationState: {
+        notInStockState: {
           isCurrentState: false,
         },
-        deliveryState: {
+        completedState: {
           isVisible: true,
         },
       });
     },
 
-    handleDeliverOrder(message: Types.Message) {
+    handleOrderCompleted(message: Types.Message) {
       this.$patch({
-        deliveryState: {
+        completedState: {
           orderId: message.data.orderId,
-          messageSentTimeStampUTC: message.data.messageSentTimeStampUTC,
-          messageReceivedTimestamp: message.timestamp,
-          messageDeliveredTimestamp: Date.now(),
           isDisabled: false,
           isCurrentState: true,
         },
-        collectionState: {
+        inPreparationState: {
           isCurrentState: false,
-        },
-        deliveredState: {
-          isVisible: true,
-        },
+        }
       });
-    },
-
-    handleDeliveredOrder(message: Types.Message) {
-      this.$patch({
-        deliveredState: {
-          orderId: message.data.orderId,
-          messageSentTimeStampUTC: message.data.messageSentTimeStampUTC,
-          messageReceivedTimestamp: message.timestamp,
-          messageDeliveredTimestamp: Date.now(),
-          isDisabled: false,
-          isCurrentState: true,
-        },
-        collectionState: {
-          isCurrentState: false,
-        },
-        isWorkflowComplete: true,
-      });
-      setTimeout(() => {
-        this.disableOrdering = false;
-      }, 2000);
     },
   },
 });

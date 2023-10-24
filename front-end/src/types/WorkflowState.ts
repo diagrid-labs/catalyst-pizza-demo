@@ -5,7 +5,4 @@ export type WorkflowState = {
   isVisible: boolean;
   isDisabled: boolean;
   isCurrentState: boolean;
-  messageSentTimeStampUTC: number;
-  messageReceivedTimestamp: number;
-  messageDeliveredTimestamp: number;
 };
