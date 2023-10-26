@@ -72,9 +72,7 @@ function getImgTitle(state: WorkflowState) {
         {{
           props.state.isDisabled
             ? "Waiting for your order..."
-            : `${convertToTimeSeconds(
-                props.state.messageReceivedTimestamp
-              )} - ${props.state.title} (${props.state.orderId.split("-")[1]})`
+            : `${props.state.title} (${props.state.orderId.split("-")[1]})`
         }}
       </p>
     </div>

@@ -4,12 +4,18 @@ import { pizzaProcessStore } from "../stores";
 import { v4 as uuid } from "uuid";
 import type { Order } from "@/types/Order";
 import { storeToRefs } from "pinia";
+import type { Types } from "ably/promises";
 
 const store = pizzaProcessStore();
 const { disableOrdering } = storeToRefs(store);
 
 async function placeOrder() {
   const clientId = store.clientId === "" ? uuid() : store.clientId;
+  const order = createOrder();
+  store.start(clientId, order);
+}
+
+function createOrder() {
   const today = new Date();
   const orderId = uuid();
   const order: Order = {
@@ -19,7 +25,29 @@ async function placeOrder() {
     customerEmail: "ada@wantspizza.now",
     orderItems: store.orderItems,
   };
-  store.start(clientId, order);
+
+  return order;
+}
+
+function createSimulatedMessage(order: Order) {
+  const message = {
+    clientId: "",
+    connectionId: "",
+    data: order,
+    encoding: "",
+    extras: "",
+    id: "",
+    name: "order-placed",
+    timestamp: 1,
+  } as Types.Message;
+
+  return message;
+}
+
+async function simulateOrderPlaced() {
+  const order = createOrder();
+  const message = createSimulatedMessage(order);
+  store.handleOrderPlaced(message);
 }
 
 </script>
@@ -44,7 +72,7 @@ async function placeOrder() {
           >
             Dapr Workflow API
           </a>.
-          The <code>PizzaWorkflow</code> function calls 6 activity
+          The <code>PizzaWorkflow</code> function calls 4 activity
           functions in sequence. Each of these functions publishes a message via
           websockets, which is received by this website, so you can see how far the
           workflow has progressed in real-time.
@@ -57,6 +85,11 @@ async function placeOrder() {
     <div class="flex-center">
       <button @click="placeOrder" :disabled="disableOrdering">
         Place order
+      </button>
+    </div>
+    <div class="flex-center">
+      <button @click="simulateOrderPlaced">
+        Simulate order placed
       </button>
     </div>
     

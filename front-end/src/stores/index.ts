@@ -179,7 +179,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     handleOrderPlaced(message: Types.Message) {
       this.$patch({
         orderPlacedState: {
-          orderId: message.data.orderId,
+          orderId: message.data.id,
           isDisabled: false,
           isCurrentState: true,
         },
@@ -192,7 +192,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     handleItemsInStock(message: Types.Message) {
       this.$patch({
         inStockState: {
-          orderId: message.data.orderId,
+          orderId: message.data.id,
           isDisabled: false,
           isCurrentState: true,
         },
@@ -208,7 +208,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     handleItemsNotInStock(message: Types.Message) {
       this.$patch({
         notInStockState: {
-          orderId: message.data.orderId,
+          orderId: message.data.id,
           isDisabled: false,
           isCurrentState: true,
         },
@@ -224,7 +224,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     handleOrderInPreperation(message: Types.Message) {
       this.$patch({
         inPreparationState: {
-          orderId: message.data.orderId,
+          orderId: message.data.id,
           isDisabled: false,
           isCurrentState: true,
         },
@@ -240,7 +240,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     handleOrderCompleted(message: Types.Message) {
       this.$patch({
         completedState: {
-          orderId: message.data.orderId,
+          orderId: message.data.id,
           isDisabled: false,
           isCurrentState: true,
         },
