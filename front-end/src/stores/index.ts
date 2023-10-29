@@ -4,12 +4,12 @@ import type { Types } from "ably";
 import { Realtime } from "ably/promises";
 import type { PizzaWorkflow } from "@/types/PizzaWorkflow";
 import OrderImage from "../assets/Order.png";
-import PizzaAndDrinkImage from "../assets/PizzaAndDrink.png";
 import PizzaInOvenImage from "../assets/PizzaInOven.png";
-import BoxAndDrinkImage from "../assets/BoxAndDrink.png";
-import PizzaPepperoni from "../assets/PizzaPepperoni.png";
-import DeliveryImage from "../assets/Delivery.png";
-import DeliveredImage from "../assets/Map.gif";
+import PizzaBoxImage from "../assets/PizzaBox.png";
+import PizzaPepperoni from "../assets/Pizza1.png";
+import PizzaHawaii from "../assets/Pizza2.png";
+import PizzaVegetarian from "../assets/Pizza3.png";
+import PizzaMargherita from "../assets/Pizza4.png";
 import { type Pizza, PizzaType, type Order } from "@/types/Order";
 
 export const pizzaProcessStore = defineStore("pizza-process", {
@@ -25,9 +25,9 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     isOrderPlaced: false,
     orderItems:[ 
       { type: { name: PizzaType.Pepperoni, image: PizzaPepperoni}, amount: 5 },
-      { type:{ name: PizzaType.Margherita, image: PizzaPepperoni}, amount: 0 },
-      { type:{ name: PizzaType.Hawaiian, image: PizzaPepperoni}, amount: 0 },
-      { type:{ name: PizzaType.Vegetarian, image: PizzaPepperoni}, amount: 0 },
+      { type:{ name: PizzaType.Margherita, image: PizzaMargherita}, amount: 0 },
+      { type:{ name: PizzaType.Hawaiian, image: PizzaHawaii}, amount: 0 },
+      { type:{ name: PizzaType.Vegetarian, image: PizzaVegetarian}, amount: 0 },
     ],
     orderPlacedState: {
       title: "Order Received",
@@ -38,33 +38,33 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       isCurrentState: false,
     },
     inStockState: {
-      title: "Sending instructions to the kitchen",
+      title: "Pizzas are in stock",
       orderId: "",
-      image: PizzaAndDrinkImage,
+      image: OrderImage,
       isVisible: false,
       isDisabled: true,
       isCurrentState: false,
     },
     notInStockState: {
-      title: "Preparing your pizza",
+      title: "Pizzas are not in stock",
+      orderId: "",
+      image: OrderImage,
+      isVisible: false,
+      isDisabled: true,
+      isCurrentState: false,
+    },
+    inPreparationState: {
+      title: "Preparing your order",
       orderId: "",
       image: PizzaInOvenImage,
       isVisible: false,
       isDisabled: true,
       isCurrentState: false,
     },
-    inPreparationState: {
-      title: "Collecting your order",
-      orderId: "",
-      image: BoxAndDrinkImage,
-      isVisible: false,
-      isDisabled: true,
-      isCurrentState: false,
-    },
     completedState: {
-      title: "Your order is complete and can be collected.",
+      title: "Order is complete and can be collected.",
       orderId: "",
-      image: DeliveryImage,
+      image: PizzaBoxImage,
       isVisible: false,
       isDisabled: true,
       isCurrentState: false,

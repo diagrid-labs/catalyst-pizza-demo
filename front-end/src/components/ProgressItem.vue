@@ -6,42 +6,11 @@ export interface WorkflowStateInterface {
 }
 const props = defineProps<WorkflowStateInterface>();
 
-function convertToTimeSeconds(timestamp: number) {
-  const date = new Date(timestamp);
-  const hours = date.getHours().toString();
-  const minutes = date.getMinutes().toString();
-  const seconds = date.getSeconds().toString();
-  return `${hours.padStart(2, "0")}:${minutes.padStart(
-    2,
-    "0"
-  )}:${seconds.padStart(2, "0")}`;
-}
-
-function convertToTimeMilliseconds(timestamp: number) {
-  const date = new Date(timestamp);
-  const hours = date.getHours().toString();
-  const minutes = date.getMinutes().toString();
-  const seconds = date.getSeconds().toString();
-  const milliseconds = date.getMilliseconds().toString();
-  return `${hours.padStart(2, "0")}:${minutes.padStart(
-    2,
-    "0"
-  )}:${seconds.padStart(2, "0")}.${milliseconds.padStart(3, "0")}`;
-}
-
 function getImgTitle(state: WorkflowState) {
   if (state.isDisabled) {
     return "Waiting...";
   } else {
-    return `Sent from workflow: ${convertToTimeMilliseconds(
-      state.messageSentTimeStampUTC
-    )}\nReceived by Ably: ${convertToTimeMilliseconds(
-      state.messageReceivedTimestamp
-    )} (${
-      state.messageReceivedTimestamp - state.messageSentTimeStampUTC
-    }ms)\nReceived in front-end: ${convertToTimeMilliseconds(
-      state.messageDeliveredTimestamp
-    )} (${state.messageDeliveredTimestamp - state.messageSentTimeStampUTC}ms)`;
+    return state.title;
   }
 }
 </script>
@@ -101,6 +70,12 @@ function getImgTitle(state: WorkflowState) {
 
 .transition {
   transition: all 0.3s ease-in-out;
+}
+
+.details > img {
+  width: 150px;
+  border: 0;
+  height: auto;
 }
 
 .green-dot {
