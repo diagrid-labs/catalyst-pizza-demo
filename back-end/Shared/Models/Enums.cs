@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace OrderService.Models
+namespace Shared.Models
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum OrderStatus

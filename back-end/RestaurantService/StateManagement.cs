@@ -2,7 +2,7 @@ using System.Text.Json;
 using Dapr.Client;
 using Shared.Models;
 
-namespace OrderService.Controllers
+namespace RestaurantService
 {
     public class StateManagement
     {

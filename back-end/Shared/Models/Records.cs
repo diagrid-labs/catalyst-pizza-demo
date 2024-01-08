@@ -1,4 +1,4 @@
-namespace OrderService.Models
+namespace Shared.Models
 {
 
     public record PizzaQuantity(PizzaType PizzaType, int Quantity)

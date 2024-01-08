@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using OrderService.Models;
 using OrderService.Controllers;
+using Shared.Models;
 
 namespace CheckoutService.Controllers;
 

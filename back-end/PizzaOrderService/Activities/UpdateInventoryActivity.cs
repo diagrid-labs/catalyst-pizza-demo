@@ -1,6 +1,6 @@
 using Dapr.Workflow;
 using OrderService.Controllers;
-using OrderService.Models;
+using Shared.Models;
 
 namespace OrderService.Activities
 {

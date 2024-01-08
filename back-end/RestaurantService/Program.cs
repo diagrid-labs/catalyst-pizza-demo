@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using RestaurantService;
+using Dapr.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+
+var stateManagement = new StateManagement(new DaprClientBuilder().Build());
 
 app.UseHttpsRedirection();
 

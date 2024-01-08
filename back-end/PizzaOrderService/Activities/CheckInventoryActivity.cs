@@ -1,8 +1,6 @@
-using System.Text.Json;
-using Dapr.Client;
 using Dapr.Workflow;
 using OrderService.Controllers;
-using OrderService.Models;
+using Shared.Models;
 
 namespace OrderService.Activities
 {
