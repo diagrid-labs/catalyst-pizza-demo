@@ -27,3 +27,12 @@ Content-Type: application/json
 ### Get the status of the workflow
 @wfresponse={{wfrequest.response.body.instanceID}}
 GET {{dapr_url}}/v1.0-beta1/workflows/dapr/{{wfresponse}}
+
+###
+### Raise an event
+### 
+@event_name=order-prepared
+POST {{dapr_url}}/v1.0-beta1/workflows/dapr/{{wfresponse}}/raiseEvent/{{event_name}}
+Content-Type: application/text
+
+true

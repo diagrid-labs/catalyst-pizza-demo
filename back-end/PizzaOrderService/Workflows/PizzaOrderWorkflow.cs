@@ -35,15 +35,26 @@ namespace OrderService.Workflows
                 return new OrderResult(OrderStatus.Cancelled, order, "Insufficient inventory");
             }
 
-            // await context.CallActivityAsync(
-            //     nameof(UpdateInventoryActivity),
-            //     inventoryRequest);
-
             await context.CallActivityAsync(
-                nameof(NotifyActivity),
-                new Notification($"Order {orderId} has completed for {order.Customer.Name}!"));
+                nameof(SendOrderToRestaurantActivity),
+                order);
 
-            return new OrderResult(OrderStatus.Completed, order);
+            var orderPreparedResult = await context.WaitForExternalEventAsync<bool>("order-prepared");
+            
+            Order updatedOrder;
+            if (orderPreparedResult) {
+                updatedOrder = order with { Status = OrderStatus.Completed };
+                await context.CallActivityAsync(
+                    nameof(NotifyActivity),
+                    new Notification($"Order {orderId} has completed for {updatedOrder.Customer.Name}!"));
+            }
+            else {
+                updatedOrder = order with { Status = OrderStatus.Cancelled };
+            }
+
+            Console.WriteLine($"Completing order {orderId} with status {order.Status} for {order.Customer.Name}.");
+
+            return new OrderResult(updatedOrder.Status, updatedOrder);
         }
     }
 }
