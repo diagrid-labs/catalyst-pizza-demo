@@ -20,7 +20,7 @@ namespace OrderService.Workflows
                     new Notification($"Received order {order.OrderId} from {order.Customer.Name}", updatedOrder));
 
             // Determine if there is enough of the item available for purchase by checking the inventory.
-            var inventoryRequest = new InventoryRequest(order.PizzasRequested);
+            var inventoryRequest = new InventoryRequest(order.OrderItems);
             var inventoryResult = await context.CallActivityAsync<InventoryResult>(
                 nameof(CheckInventoryActivity),
                 inventoryRequest);

@@ -1,14 +1,19 @@
 export type Order = {
-  id: string;
-  dateTime: Date;
-  customerName: string;
-  customerEmail: string;
+  orderId: string;
+  orderDate: Date;
+  customer: Customer;
   orderItems: OrderItem[];
+  status: OrderStatus;
 };
 
+export type Customer = {
+    name: string;
+    email: string;
+}
+
 export type OrderItem = {
-  type: Pizza;
-  amount: number;
+  pizzaType: Pizza;
+  quantity: number;
 };
 
 export type Pizza = {
@@ -21,4 +26,13 @@ export enum PizzaType {
   Margherita = "margherita",
   Hawaiian = "hawaiian",
   Vegetarian = "vegetarian",
+}
+
+export enum OrderStatus {
+  Received = "Received",
+  CheckedInventory = "CheckedInventory",
+  SentToKitchen = "SentToKitchen",
+  CompletedPreparation = "CompletedPreparation",
+  CancelledLimitedInventory = "CancelledLimitedInventory",
+  Unknown = "Unknown",
 }

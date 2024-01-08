@@ -23,7 +23,7 @@ app.UseHttpsRedirection();
 
 app.MapPost("/prepare", [Topic("pizza-pubsub", "pizza-orders")] async (Order order) => {
     Console.WriteLine("Kitchen received: " + order.OrderId);
-    await stateManagement.UpdatePizzaInventoryAsync(order.PizzasRequested);
+    await stateManagement.UpdatePizzaInventoryAsync(order.OrderItems);
     Thread.Sleep(3000);
     var updatedOrder = order with { Status = OrderStatus.CompletedPreparation };
     await stateManagement.SaveOrderAsync(updatedOrder);

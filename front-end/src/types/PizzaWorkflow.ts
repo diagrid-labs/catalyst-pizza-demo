@@ -10,10 +10,10 @@ export type PizzaWorkflow = RealtimeState & {
   disableOrdering: boolean;
   receivedOrderState: WorkflowState;
   checkedInventoryState: WorkflowState;
-  notInStockState: WorkflowState;
-  inPreparationState: WorkflowState;
-  completedState: WorkflowState;
-  cancelledState: WorkflowState;
+  insufficientInventoryState: WorkflowState;
+  sentToKitchenState: WorkflowState;
+  completedPreparationState: WorkflowState;
+  cancelledLimitedInventoryState: WorkflowState;
   isOrderPlaced: boolean;
 };
 
