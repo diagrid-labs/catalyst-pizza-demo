@@ -3,9 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
-# Dapr files
+# Dapr files & local secrets
 
 .dapr
+secrets.json
 
 # User-specific files
 *.rsuser

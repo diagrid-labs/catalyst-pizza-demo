@@ -16,7 +16,7 @@ namespace OrderService.Workflows
 
             await context.CallActivityAsync(
                     nameof(NotifyActivity),
-                    new Notification($"Created order for {order.Customer.Name}"));
+                    new Notification($"Created order for {order.Customer.Name}", order));
 
             // Determine if there is enough of the item available for purchase by checking the inventory.
             var inventoryRequest = new InventoryRequest(order.PizzasRequested);
@@ -24,29 +24,34 @@ namespace OrderService.Workflows
                 nameof(CheckInventoryActivity),
                 inventoryRequest);
 
-            // If there is insufficient inventory, inform the user and stop the workflow.
+            Order updatedOrder;
+            Notification inventoryNotification;
             if (!inventoryResult.IsSufficientInventory)
             {
                 // End the workflow here since we don't have sufficient inventory.
-                await context.CallActivityAsync(
-                    nameof(NotifyActivity),
-                    new Notification($"Insufficient inventory for {order.Customer.Name}"));
+                updatedOrder = order with { Status = OrderStatus.Cancelled };
+                inventoryNotification = new Notification($"Inventory is insufficient for {order.Customer.Name}", updatedOrder);
 
                 return new OrderResult(OrderStatus.Cancelled, order, "Insufficient inventory");
+            } else {
+                inventoryNotification = new Notification($"Inventory is sufficient for {order.Customer.Name}", order);
             }
+
+            await context.CallActivityAsync(
+                    nameof(NotifyActivity),
+                    inventoryNotification);
 
             await context.CallActivityAsync(
                 nameof(SendOrderToRestaurantActivity),
                 order);
 
             var orderPreparedResult = await context.WaitForExternalEventAsync<bool>("order-prepared");
-            
-            Order updatedOrder;
+
             if (orderPreparedResult) {
                 updatedOrder = order with { Status = OrderStatus.Completed };
                 await context.CallActivityAsync(
                     nameof(NotifyActivity),
-                    new Notification($"Order {orderId} has completed for {updatedOrder.Customer.Name}!"));
+                    new Notification($"Order {orderId} has completed for {updatedOrder.Customer.Name}!", order));
             }
             else {
                 updatedOrder = order with { Status = OrderStatus.Cancelled };

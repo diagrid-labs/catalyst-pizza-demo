@@ -13,5 +13,5 @@ namespace Shared.Models
     public record OrderResult(OrderStatus Status, Order Order, string? Message = null);
     public record InventoryRequest(PizzaQuantity[] PizzasRequested);
     public record InventoryResult(bool IsSufficientInventory, PizzaQuantity[] PizzasInStock);
-    public record Notification(string Message);
+    public record Notification(string Message, Order Order);
 }

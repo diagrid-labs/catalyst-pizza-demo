@@ -2,8 +2,16 @@ using Dapr.Workflow;
 using OrderService.Workflows;
 using OrderService.Activities;
 using OrderService.Controllers;
+using IO.Ably;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var httpClient = new HttpClient {
+    BaseAddress = new Uri("http://localhost:3500/v1.0/")
+};
+var response = await httpClient.GetAsync("secrets/localsecretstore/AblyApiKey");
+var secrets = await response.Content.ReadFromJsonAsync<Secrets>();
+builder.Services.AddSingleton<IRestClient>(new AblyRest(secrets?.AblyApiKey));
 
 builder.Services.AddControllers();
 builder.Services.AddDaprClient();
@@ -51,3 +59,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+class Secrets
+{
+    public string? AblyApiKey { get; set; }
+}

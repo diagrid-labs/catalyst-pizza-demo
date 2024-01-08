@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ably.io" Version="1.2.14" />
     <PackageReference Include="Dapr.Client" Version="1.12.0" />
     <PackageReference Include="Dapr.Workflow" Version="1.12.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
