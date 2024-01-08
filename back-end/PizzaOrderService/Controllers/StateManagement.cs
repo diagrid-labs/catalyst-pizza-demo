@@ -68,6 +68,13 @@ namespace OrderService.Controllers
                 saveStateItems.AsReadOnly());
         }
 
+        public async Task SaveOrderAsync(Order order)
+        {
+            await _client.SaveStateAsync(
+                storeName,
+                FormatKey(nameof(Order), order.OrderId),
+                order);
+        }
         private static string FormatKey(string typeName, string key)
         {
             return $"{typeName}-{key}";
@@ -78,12 +85,5 @@ namespace OrderService.Controllers
             return key.Split("-")[1];
         }
 
-        public async Task SaveOrderAsync(Order order)
-        {
-            await _client.SaveStateAsync(
-                storeName,
-                @"order-{order.OrderId}",
-                order);
-        }
     }
 }
