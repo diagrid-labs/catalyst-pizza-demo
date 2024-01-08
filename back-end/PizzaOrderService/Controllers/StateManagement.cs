@@ -7,7 +7,7 @@ namespace OrderService.Controllers
     public class StateManagement
     {
         private readonly DaprClient _client;
-        private static readonly string storeName = "statestore";
+        private static readonly string storeName = "pizza-statestore";
 
         public StateManagement(DaprClient client)
         {

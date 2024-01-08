@@ -14,7 +14,7 @@ Content-Type: application/json
     "OrderDate": "{{currentDate}}",
     "Customer" : {
         "Name": "Leonardo",
-        "Email": "leonardo@tnm.shell"
+        "Email": "leonardo@tmnt.shell"
     },
     "PizzasRequested": [
         {

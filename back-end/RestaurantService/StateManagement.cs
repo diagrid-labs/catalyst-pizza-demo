@@ -7,7 +7,7 @@ namespace RestaurantService
     public class StateManagement
     {
         private readonly DaprClient _client;
-        private static readonly string storeName = "statestore";
+        private static readonly string storeName = "pizza-statestore";
 
         public StateManagement(DaprClient client)
         {
@@ -16,19 +16,10 @@ namespace RestaurantService
 
         public async Task<List<PizzaQuantity>> GetPizzasAsync(PizzaType[] pizzaTypes)
         {
-            IReadOnlyList<BulkStateItem> bulkStateItems;
-            try
-            {
-                bulkStateItems = await _client.GetBulkStateAsync(
+            var bulkStateItems = await _client.GetBulkStateAsync(
                 storeName,
                 pizzaTypes.Select(p => FormatKey(nameof(PizzaType), p.ToString())).ToList().AsReadOnly(),
                 1);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"ERROR!!! Exception: {ex.Message}");
-                throw;
-            }
 
             var pizzas = new List<PizzaQuantity>();
             foreach (var item in bulkStateItems)
@@ -70,6 +61,7 @@ namespace RestaurantService
 
         public async Task SaveOrderAsync(Order order)
         {
+            Console.WriteLine($"Saving order {order.OrderId}.");
             await _client.SaveStateAsync(
                 storeName,
                 FormatKey(nameof(Order), order.OrderId),

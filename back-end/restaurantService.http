@@ -1,0 +1,25 @@
+@dapr_url=http://localhost:3502
+@workflow_id={{$guid}}
+@currentDate={{$datetime iso8601}}
+
+###
+### Post an Order to the pizza-orders topic
+###
+POST {{dapr_url}}/v1.0/publish/pizza-pubsub/pizza-orders
+Content-Type: application/json
+
+{
+    "OrderId": "{{workflow_id}}",
+    "OrderDate": "{{currentDate}}",
+    "Customer" : {
+        "Name": "Leonardo",
+        "Email": "leonardo@tmnt.shell"
+    },
+    "PizzasRequested": [
+        {
+            "PizzaType": "Pepperoni",
+            "Quantity": 2
+        }
+    ],
+    "Status" : "Created"
+}

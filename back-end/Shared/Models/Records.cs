@@ -7,6 +7,7 @@ namespace Shared.Models
         {
         }
     }
+
     public record Order(string OrderId, PizzaQuantity[] PizzasRequested, DateTime OrderDate, Customer Customer, OrderStatus Status = OrderStatus.Created);
     public record Customer(string Name, string Email);
     public record OrderResult(OrderStatus Status, Order Order, string? Message = null);

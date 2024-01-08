@@ -1,18 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using RestaurantService;
+using Dapr;
 using Dapr.Client;
+using Dapr.AspNetCore;
+using Shared.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// var httpClient = new HttpClient {
-//     BaseAddress = new Uri("http://localhost:3500/v1.0/")
-// };
-
-// builder.Services.AddSingleton<IRealtimeNotification, RealtimeNotification>();
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseCloudEvents();
+app.MapSubscribeHandler();
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -23,9 +21,11 @@ var stateManagement = new StateManagement(new DaprClientBuilder().Build());
 
 app.UseHttpsRedirection();
 
-app.MapPost("/prepare", async () => {
-    //Prepare order
-
+app.MapPost("/prepare", [Topic("pizza-pubsub", "pizza-orders")] async (Order order) => {
+    Console.WriteLine("RestaurantService received : " + order.OrderId);
+    var updatedOrder = order with { Status = OrderStatus.Completed };
+    await stateManagement.SaveOrderAsync(updatedOrder);
+    return Results.Ok(new { status = "SUCCESS" });
 });
 
 app.Run();
