@@ -14,7 +14,7 @@ namespace OrderService.Controllers
             _client = client;
         }
 
-        public async Task<List<PizzaQuantity>> GetAsync(PizzaType[] pizzaTypes)
+        public async Task<List<PizzaQuantity>> GetPizzasAsync(PizzaType[] pizzaTypes)
         {
             var bulkStateItems = await _client.GetBulkStateAsync(
                 storeName,
@@ -42,7 +42,7 @@ namespace OrderService.Controllers
             return pizzas;
         }
 
-        public async Task SaveAsync(IEnumerable<PizzaQuantity> pizzas)
+        public async Task SavePizzasAsync(IEnumerable<PizzaQuantity> pizzas)
         {
             var saveStateItems = new List<SaveStateItem<PizzaQuantity>>();
 
@@ -57,6 +57,14 @@ namespace OrderService.Controllers
             await _client.SaveBulkStateAsync(
                 storeName,
                 saveStateItems.AsReadOnly());
+        }
+
+        public async Task SaveOrderAsync(Order order)
+        {
+            await _client.SaveStateAsync(
+                storeName,
+                order.OrderId,
+                order);
         }
     }
 }

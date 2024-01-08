@@ -21,7 +21,7 @@ public class InventoryController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetInventory()
     {
-        var pizzas = await _stateManagement.GetAsync(
+        var pizzas = await _stateManagement.GetPizzasAsync(
             new PizzaType[] {
                 PizzaType.Pepperoni,
                 PizzaType.Margherita,
@@ -40,7 +40,7 @@ public class InventoryController : ControllerBase
     {
         const int Quantity = 20;
         var pizzas = GetPizzasWithQuantity(Quantity);
-        await _stateManagement.SaveAsync(pizzas);
+        await _stateManagement.SavePizzasAsync(pizzas);
         _logger.LogInformation($"Inventory Restocked to {Quantity} for all pizzas!");
     }
 
@@ -48,7 +48,7 @@ public class InventoryController : ControllerBase
     public async void ClearInventory()
     {
         var pizzas = GetPizzasWithQuantity(0);
-        await _stateManagement.SaveAsync(pizzas);
+        await _stateManagement.SavePizzasAsync(pizzas);
         _logger.LogInformation("Cleared inventory!");
     }
 

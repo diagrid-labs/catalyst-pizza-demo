@@ -16,8 +16,8 @@ builder.Services.AddDaprWorkflow(options =>
 
     // These are the activities that get invoked by the workflow(s).
     options.RegisterActivity<NotifyActivity>();
+    options.RegisterActivity<SaveOrderActivity>();
     options.RegisterActivity<CheckInventoryActivity>();
-    options.RegisterActivity<UpdateInventoryActivity>();
 });
 
 // Dapr uses a random port for gRPC by default. If we don't know what that port

@@ -17,7 +17,7 @@ namespace OrderService.Activities
 
         public override async Task<object?> RunAsync(WorkflowActivityContext context, InventoryRequest req)
         {
-           var pizzasInStock = await _stateManagement.GetAsync(
+           var pizzasInStock = await _stateManagement.GetPizzasAsync(
                 req.PizzasRequested.Select(p => p.PizzaType)
                 .ToArray());
 
@@ -28,7 +28,7 @@ namespace OrderService.Activities
                 updatedPizzaList.Add(pizza);
             }
 
-            await _stateManagement.SaveAsync(updatedPizzaList);
+            await _stateManagement.SavePizzasAsync(updatedPizzaList);
 
             return null;
         }

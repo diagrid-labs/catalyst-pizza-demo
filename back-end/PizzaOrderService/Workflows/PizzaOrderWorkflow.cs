@@ -10,13 +10,16 @@ namespace OrderService.Workflows
         {
             string orderId = context.InstanceId;
 
-            // Notify the user that an order has come through
             await context.CallActivityAsync(
-                nameof(NotifyActivity),
-                new Notification($"Received order {orderId} for {order.Customer.Name}"));
+                nameof(SaveOrderActivity),
+                order);
+
+            await context.CallActivityAsync(
+                    nameof(NotifyActivity),
+                    new Notification($"Created order for {order.Customer.Name}"));
 
             // Determine if there is enough of the item available for purchase by checking the inventory.
-            var inventoryRequest = new InventoryRequest(order.Pizzas);
+            var inventoryRequest = new InventoryRequest(order.PizzasRequested);
             var inventoryResult = await context.CallActivityAsync<InventoryResult>(
                 nameof(CheckInventoryActivity),
                 inventoryRequest);
@@ -32,13 +35,13 @@ namespace OrderService.Workflows
                 return new OrderResult(OrderStatus.Cancelled, order, "Insufficient inventory");
             }
 
-            await context.CallActivityAsync(
-                nameof(UpdateInventoryActivity),
-                inventoryRequest);
+            // await context.CallActivityAsync(
+            //     nameof(UpdateInventoryActivity),
+            //     inventoryRequest);
 
             await context.CallActivityAsync(
                 nameof(NotifyActivity),
-                new Notification($"Order {orderId} has completed!"));
+                new Notification($"Order {orderId} has completed for {order.Customer.Name}!"));
 
             return new OrderResult(OrderStatus.Completed, order);
         }
