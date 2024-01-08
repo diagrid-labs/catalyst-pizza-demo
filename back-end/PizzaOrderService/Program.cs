@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDaprClient();
+builder.Services.AddDaprWorkflowClient();
 builder.Services.AddSingleton<StateManagement>();
 
 builder.Services.AddDaprWorkflow(options =>
@@ -42,10 +43,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCloudEvents();
+app.MapSubscribeHandler();
+
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
