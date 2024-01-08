@@ -16,10 +16,19 @@ namespace OrderService.Controllers
 
         public async Task<List<PizzaQuantity>> GetPizzasAsync(PizzaType[] pizzaTypes)
         {
-            var bulkStateItems = await _client.GetBulkStateAsync(
+            IReadOnlyList<BulkStateItem> bulkStateItems;
+            try
+            {
+                bulkStateItems = await _client.GetBulkStateAsync(
                 storeName,
-                pizzaTypes.Select(p => p.ToString()).ToList().AsReadOnly(),
+                pizzaTypes.Select(p => FormatKey(nameof(PizzaType), p.ToString())).ToList().AsReadOnly(),
                 1);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR!!! Exception: {ex.Message}");
+                throw;
+            }
 
             var pizzas = new List<PizzaQuantity>();
             foreach (var item in bulkStateItems)
@@ -35,7 +44,7 @@ namespace OrderService.Controllers
                     pizzas.Add(pizzaQuantity);
                 }
                 else {
-                    pizzas.Add(new PizzaQuantity(Enum.Parse<PizzaType>(item.Key), 0));
+                    pizzas.Add(new PizzaQuantity(Enum.Parse<PizzaType>(GetPizzaTypeFromKey(item.Key)), 0));
                 }
             }
 
@@ -49,7 +58,7 @@ namespace OrderService.Controllers
             foreach (var pizza in pizzas)
             {
                 saveStateItems.Add(new SaveStateItem<PizzaQuantity>(
-                    pizza.PizzaType.ToString(),
+                    FormatKey(nameof(PizzaType), pizza.PizzaType.ToString()),
                     pizza,
                     null));
             };
@@ -59,11 +68,21 @@ namespace OrderService.Controllers
                 saveStateItems.AsReadOnly());
         }
 
+        private static string FormatKey(string typeName, string key)
+        {
+            return $"{typeName}-{key}";
+        }
+
+        private static string GetPizzaTypeFromKey(string key)
+        {
+            return key.Split("-")[1];
+        }
+
         public async Task SaveOrderAsync(Order order)
         {
             await _client.SaveStateAsync(
                 storeName,
-                order.OrderId,
+                @"order-{order.OrderId}",
                 order);
         }
     }
