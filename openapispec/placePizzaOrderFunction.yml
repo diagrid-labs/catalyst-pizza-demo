@@ -80,8 +80,7 @@ components:
     Status:
       type: string
       enum:
-        - placed
-        - instock
-        - notinstock
-        - inpreparation
+        - created
+        - processing
         - completed
+        - cancelled

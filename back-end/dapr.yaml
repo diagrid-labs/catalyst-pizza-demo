@@ -1,0 +1,20 @@
+version: 1
+common:
+  resourcesPath: Resources
+apps:
+  - appID: pizza-service
+    appDirPath: PizzaOrderService
+    appPort: 5064
+    daprHTTPPort: 3500
+    command: ["dotnet", "run"]
+    appLogDestination: fileAndConsole
+    daprdLogDestination: fileAndConsole
+    logLevel: debug
+  - appID: restaurant-service
+    appDirPath: RestaurantService
+    appPort: 5066
+    daprHTTPPort: 3502
+    command: ["dotnet", "run"]
+    appLogDestination: fileAndConsole
+    daprdLogDestination: fileAndConsole
+    logLevel: debug

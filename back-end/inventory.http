@@ -1,0 +1,10 @@
+@app_url=http://localhost:5064
+
+### Get inventory
+GET {{app_url}}/inventory
+
+### Restock inventory
+POST {{app_url}}/inventory/restock
+
+### Clear inventory
+DELETE {{app_url}}/inventory
