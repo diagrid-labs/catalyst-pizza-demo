@@ -8,15 +8,16 @@ namespace OrderService.Workflows
     {
         public override async Task<OrderResult> RunAsync(WorkflowContext context, Order order)
         {
-            string orderId = context.InstanceId;
-
+            Order updatedOrder;
+            updatedOrder = order with { Status = OrderStatus.Received };
+            
             await context.CallActivityAsync(
                 nameof(SaveOrderActivity),
-                order);
+                updatedOrder);
 
             await context.CallActivityAsync(
                     nameof(NotifyActivity),
-                    new Notification($"Created order for {order.Customer.Name}", order));
+                    new Notification($"Received order {order.OrderId} from {order.Customer.Name}", updatedOrder));
 
             // Determine if there is enough of the item available for purchase by checking the inventory.
             var inventoryRequest = new InventoryRequest(order.PizzasRequested);
@@ -24,17 +25,18 @@ namespace OrderService.Workflows
                 nameof(CheckInventoryActivity),
                 inventoryRequest);
 
-            Order updatedOrder;
+            
             Notification inventoryNotification;
             if (!inventoryResult.IsSufficientInventory)
             {
                 // End the workflow here since we don't have sufficient inventory.
-                updatedOrder = order with { Status = OrderStatus.Cancelled };
-                inventoryNotification = new Notification($"Inventory is insufficient for {order.Customer.Name}", updatedOrder);
+                updatedOrder = updatedOrder with { Status = OrderStatus.CancelledLimitedInventory };
+                inventoryNotification = new Notification($"Inventory is insufficient for {order.Customer.Name}.", updatedOrder);
 
-                return new OrderResult(OrderStatus.Cancelled, order, "Insufficient inventory");
+                return new OrderResult(OrderStatus.CancelledLimitedInventory, order, "Insufficient inventory");
             } else {
-                inventoryNotification = new Notification($"Inventory is sufficient for {order.Customer.Name}", order);
+                updatedOrder = updatedOrder with { Status = OrderStatus.CheckedInventory };
+                inventoryNotification = new Notification($"Inventory is sufficient for {updatedOrder.OrderId}.", updatedOrder);
             }
 
             await context.CallActivityAsync(
@@ -42,19 +44,24 @@ namespace OrderService.Workflows
                     inventoryNotification);
 
             await context.CallActivityAsync(
-                nameof(SendOrderToRestaurantActivity),
-                order);
+                nameof(SendOrderToKitchenActivity),
+                updatedOrder);
+
+            updatedOrder = updatedOrder with { Status = OrderStatus.SentToKitchen };
+            await context.CallActivityAsync(
+                    nameof(NotifyActivity),
+                    new Notification($"Order {updatedOrder.OrderId} has been sent to the kitchen.", updatedOrder));
 
             var orderPreparedResult = await context.WaitForExternalEventAsync<bool>("order-prepared");
 
             if (orderPreparedResult) {
-                updatedOrder = order with { Status = OrderStatus.Completed };
+                updatedOrder = order with { Status = OrderStatus.CompletedPreparation };
                 await context.CallActivityAsync(
                     nameof(NotifyActivity),
-                    new Notification($"Order {orderId} has completed for {updatedOrder.Customer.Name}!", order));
+                    new Notification($"Order {updatedOrder.OrderId} has completed for {updatedOrder.Customer.Name}!", updatedOrder));
             }
             else {
-                updatedOrder = order with { Status = OrderStatus.Cancelled };
+                updatedOrder = updatedOrder with { Status = OrderStatus.Unknown };
             }
 
             return new OrderResult(updatedOrder.Status, updatedOrder);

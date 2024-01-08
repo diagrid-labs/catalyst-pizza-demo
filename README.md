@@ -6,7 +6,7 @@ W[website]
 F[placeOrder function]
 IKV[(Pizza Inventory KV)]
 OKV[(Orders KV)]
-R[Restaurant service]
+R[Kitchen service]
 TW[Twillio]
 W -->|place order| F
 F --> |start workflow|pizza-store

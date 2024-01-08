@@ -28,7 +28,7 @@ builder.Services.AddDaprWorkflow(options =>
     options.RegisterActivity<NotifyActivity>();
     options.RegisterActivity<SaveOrderActivity>();
     options.RegisterActivity<CheckInventoryActivity>();
-    options.RegisterActivity<SendOrderToRestaurantActivity>();
+    options.RegisterActivity<SendOrderToKitchenActivity>();
 });
 
 // Dapr uses a random port for gRPC by default. If we don't know what that port

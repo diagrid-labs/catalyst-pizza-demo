@@ -1,6 +1,6 @@
 openapi: '3.0.2'
 info:
-  title: Restaurant Service
+  title: Kitchen Service
   version: '1.0'
 servers:
   - url: https://api.server.test/v1
@@ -9,8 +9,8 @@ paths:
     post:
       tags:
         - order
-      summary: Instructs the restaurant to prepare the order
-      description: Instructs the restaurant to prepare the order
+      summary: Instructs the kitchen to prepare the order
+      description: Instructs the kitchen to prepare the order
       operationId: prepareOrder
       requestBody:
         content:

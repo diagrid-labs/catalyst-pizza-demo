@@ -22,11 +22,12 @@ public class InventoryController : ControllerBase
     public async Task<IActionResult> GetInventory()
     {
         var pizzas = await _stateManagement.GetPizzasAsync(
-            new PizzaType[] {
+            [
                 PizzaType.Pepperoni,
                 PizzaType.Margherita,
                 PizzaType.Hawaiian,
-                PizzaType.Vegetarian });
+                PizzaType.Vegetarian
+            ]);
 
         if (pizzas == null)
         {
@@ -52,13 +53,13 @@ public class InventoryController : ControllerBase
         _logger.LogInformation("Cleared inventory!");
     }
 
-    private List<PizzaQuantity> GetPizzasWithQuantity(int quantity)
+    private List<OrderItem> GetPizzasWithQuantity(int quantity)
     {
-        var pizzas = new List<PizzaQuantity>() {
-            new PizzaQuantity(PizzaType.Pepperoni, quantity),
-            new PizzaQuantity(PizzaType.Margherita, quantity),
-            new PizzaQuantity(PizzaType.Hawaiian, quantity),
-            new PizzaQuantity(PizzaType.Vegetarian, quantity)
+        var pizzas = new List<OrderItem>() {
+            new(PizzaType.Pepperoni, quantity),
+            new(PizzaType.Margherita, quantity),
+            new(PizzaType.Hawaiian, quantity),
+            new(PizzaType.Vegetarian, quantity)
         };
 
         return pizzas;

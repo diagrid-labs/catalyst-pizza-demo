@@ -1,15 +1,15 @@
 @dapr_url=http://localhost:3502
-@workflow_id={{$guid}}
+@order_id={{$guid}}
 @currentDate={{$datetime iso8601}}
 
 ###
-### Post an Order to the pizza-orders topic
+### Post an order to the pizza-orders topic
 ###
 POST {{dapr_url}}/v1.0/publish/pizza-pubsub/pizza-orders
 Content-Type: application/json
 
 {
-    "OrderId": "{{workflow_id}}",
+    "OrderId": "{{order_id}}",
     "OrderDate": "{{currentDate}}",
     "Customer" : {
         "Name": "Leonardo",
@@ -21,5 +21,5 @@ Content-Type: application/json
             "Quantity": 2
         }
     ],
-    "Status" : "Created"
+    "Status" : "Received"
 }

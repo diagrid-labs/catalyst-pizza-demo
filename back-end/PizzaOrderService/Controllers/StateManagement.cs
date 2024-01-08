@@ -14,50 +14,43 @@ namespace OrderService.Controllers
             _client = client;
         }
 
-        public async Task<List<PizzaQuantity>> GetPizzasAsync(PizzaType[] pizzaTypes)
+        public async Task<List<OrderItem>> GetPizzasAsync(PizzaType[] pizzaTypes)
         {
-            IReadOnlyList<BulkStateItem> bulkStateItems;
-            try
-            {
-                bulkStateItems = await _client.GetBulkStateAsync(
+            var bulkStateItems = await _client.GetBulkStateAsync(
                 storeName,
                 pizzaTypes.Select(p => FormatKey(nameof(PizzaType), p.ToString())).ToList().AsReadOnly(),
                 1);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"ERROR!!! Exception: {ex.Message}");
-                throw;
-            }
 
-            var pizzas = new List<PizzaQuantity>();
+
+            var pizzas = new List<OrderItem>();
             foreach (var item in bulkStateItems)
             {
                 if (!string.IsNullOrEmpty(item.Value))
                 {
-                    Console.WriteLine($"Got item from state store: {item.Value}");
-                    var pizzaQuantity = JsonSerializer.Deserialize<PizzaQuantity>(item.Value, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    if (pizzaQuantity == null)
+                    var orderItem = JsonSerializer.Deserialize<OrderItem>(
+                        item.Value,
+                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    if (orderItem == null)
                     {
                         throw new Exception($"Pizza {item.Key} not found in inventory!");
                     }
-                    pizzas.Add(pizzaQuantity);
+                    pizzas.Add(orderItem);
                 }
                 else {
-                    pizzas.Add(new PizzaQuantity(Enum.Parse<PizzaType>(GetPizzaTypeFromKey(item.Key)), 0));
+                    pizzas.Add(new OrderItem(Enum.Parse<PizzaType>(GetPizzaTypeFromKey(item.Key)), 0));
                 }
             }
 
             return pizzas;
         }
 
-        public async Task SavePizzasAsync(IEnumerable<PizzaQuantity> pizzas)
+        public async Task SavePizzasAsync(IEnumerable<OrderItem> pizzas)
         {
-            var saveStateItems = new List<SaveStateItem<PizzaQuantity>>();
+            var saveStateItems = new List<SaveStateItem<OrderItem>>();
 
             foreach (var pizza in pizzas)
             {
-                saveStateItems.Add(new SaveStateItem<PizzaQuantity>(
+                saveStateItems.Add(new SaveStateItem<OrderItem>(
                     FormatKey(nameof(PizzaType), pizza.PizzaType.ToString()),
                     pizza,
                     null));

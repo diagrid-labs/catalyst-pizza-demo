@@ -10,7 +10,6 @@ namespace OrderService.Activities
 
         public SaveOrderActivity(StateManagement stateManagement)
         {
-            
             _stateManagement = stateManagement;
         }
 
@@ -18,7 +17,7 @@ namespace OrderService.Activities
         {
             await _stateManagement.SaveOrderAsync(order);
 
-            return new OrderResult(OrderStatus.Created, order);
+            return new OrderResult(OrderStatus.Received, order);
         }
     }
 }

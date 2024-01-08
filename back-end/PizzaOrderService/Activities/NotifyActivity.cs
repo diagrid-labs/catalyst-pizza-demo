@@ -1,6 +1,5 @@
 using Dapr.Workflow;
 using IO.Ably;
-using IO.Ably.Rest;
 using Shared.Models;
 
 namespace OrderService.Activities
@@ -8,20 +7,22 @@ namespace OrderService.Activities
     public class NotifyActivity : WorkflowActivity<Notification, object?>
     {
         private readonly ILogger _logger;
-        private readonly IRestChannel _channel;
+        private readonly IRestClient _realtimeClient;
 
         public NotifyActivity(ILoggerFactory loggerFactory, IRestClient realtimeClient)
         {
             _logger = loggerFactory.CreateLogger<NotifyActivity>();
-            _channel = realtimeClient.Channels.Get("pizza-order-notifications");
+            _realtimeClient = realtimeClient;
         }
 
-        public override Task<object?> RunAsync(WorkflowActivityContext context, Notification notification)
+        public override async Task<object?> RunAsync(WorkflowActivityContext context, Notification notification)
         {
             _logger.LogInformation(notification.Message);
-            _channel.Publish("notification", notification);
+            string channelName = $"pizza-notifications-{notification.Order.OrderId}";
+            var _channel = _realtimeClient.Channels.Get(channelName);
+            await _channel.PublishAsync(notification.Order.Status.ToString(), notification);
 
-            return Task.FromResult<object?>(null);
+            return null;
         }
     }
 }

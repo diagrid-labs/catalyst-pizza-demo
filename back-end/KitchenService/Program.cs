@@ -1,4 +1,4 @@
-using RestaurantService;
+using KitchenService;
 using Dapr;
 using Dapr.Client;
 using Shared.Models;
@@ -22,9 +22,10 @@ var stateManagement = new StateManagement(daprClient);
 app.UseHttpsRedirection();
 
 app.MapPost("/prepare", [Topic("pizza-pubsub", "pizza-orders")] async (Order order) => {
-    Console.WriteLine("Restaurant received: " + order.OrderId);
-    Thread.Sleep(2000);
-    var updatedOrder = order with { Status = OrderStatus.Completed };
+    Console.WriteLine("Kitchen received: " + order.OrderId);
+    await stateManagement.UpdatePizzaInventoryAsync(order.PizzasRequested);
+    Thread.Sleep(3000);
+    var updatedOrder = order with { Status = OrderStatus.CompletedPreparation };
     await stateManagement.SaveOrderAsync(updatedOrder);
     await daprClient.PublishEventAsync("pizza-pubsub", "prepared-orders", updatedOrder);
 });

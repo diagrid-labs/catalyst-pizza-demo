@@ -5,10 +5,12 @@ namespace Shared.Models
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum OrderStatus
     {
-        Created = 0,
-        Processing = 1,
-        Completed = 2,
-        Cancelled = 3
+        Received = 0,
+        CheckedInventory = 1,
+        SentToKitchen = 2,
+        CompletedPreparation = 3,
+        CancelledLimitedInventory = 4,
+        Unknown = 5
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

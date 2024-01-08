@@ -17,7 +17,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     realtimeClient: undefined,
     channelInstance: undefined,
     isConnected: false,
-    channelPrefix: "pizza-process",
+    channelPrefix: "pizza-notifications",
     clientId: "",
     orderId: "",
     disableOrdering: false,
@@ -29,7 +29,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       { type:{ name: PizzaType.Hawaiian, image: PizzaHawaii}, amount: 0 },
       { type:{ name: PizzaType.Vegetarian, image: PizzaVegetarian}, amount: 0 },
     ],
-    orderPlacedState: {
+    receivedOrderState: {
       title: "Order Received",
       orderId: "",
       image: OrderImage,
@@ -37,7 +37,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       isDisabled: true,
       isCurrentState: false,
     },
-    inStockState: {
+    checkedInventoryState: {
       title: "Pizzas are in stock",
       orderId: "",
       image: OrderImage,
@@ -80,7 +80,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       this.$state.clientId = clientId;
       this.$state.orderId = order.id;
       this.$state.disableOrdering = true;
-      this.$state.orderPlacedState.isVisible = true;
+      this.$state.receivedOrderState.isVisible = true;
       await this.createRealtimeConnection(clientId, order);
     },
     async createRealtimeConnection(clientId: string, order: Order) {
@@ -93,7 +93,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
           "connected",
           async (message: Types.ConnectionStateChange) => {
             this.isConnected = true;
-            this.attachToChannel(order.id);
+            this.attachToChannel(`${this.channelPrefix}-${order.id}`);
             if (!this.isOrderPlaced) {
               await this.placeOrder(order);
               this.$state.isOrderPlaced = true;
@@ -108,7 +108,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
           this.$state.isConnected = false;
         });
       } else {
-        this.attachToChannel(this.orderId);
+        this.attachToChannel(`${this.channelPrefix}-${this.orderId}`);
       }
     },
 
@@ -178,12 +178,12 @@ export const pizzaProcessStore = defineStore("pizza-process", {
 
     handleOrderPlaced(message: Types.Message) {
       this.$patch({
-        orderPlacedState: {
+        receivedOrderState: {
           orderId: message.data.id,
           isDisabled: false,
           isCurrentState: true,
         },
-        inStockState: {
+        checkedInventoryState: {
           isVisible: true,
         },
       });
@@ -191,12 +191,12 @@ export const pizzaProcessStore = defineStore("pizza-process", {
 
     handleItemsInStock(message: Types.Message) {
       this.$patch({
-        inStockState: {
+        checkedInventoryState: {
           orderId: message.data.id,
           isDisabled: false,
           isCurrentState: true,
         },
-        orderPlacedState: {
+        receivedOrderState: {
           isCurrentState: false,
         },
         notInStockState: {
@@ -212,7 +212,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
           isDisabled: false,
           isCurrentState: true,
         },
-        inStockState: {
+        checkedInventoryState: {
           isCurrentState: false,
         },
         inPreparationState: {
