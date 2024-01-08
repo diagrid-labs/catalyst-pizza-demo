@@ -10,6 +10,7 @@ namespace OrderService.Activities
 
         public SaveOrderActivity(StateManagement stateManagement)
         {
+            
             _stateManagement = stateManagement;
         }
 

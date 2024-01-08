@@ -8,7 +8,7 @@ apps:
     daprHTTPPort: 3500
     command: ["dotnet", "run"]
     appLogDestination: fileAndConsole
-    daprdLogDestination: fileAndConsole
+    daprdLogDestination: file
     logLevel: debug
   - appID: restaurant-service
     appDirPath: RestaurantService
@@ -16,5 +16,5 @@ apps:
     daprHTTPPort: 3502
     command: ["dotnet", "run"]
     appLogDestination: fileAndConsole
-    daprdLogDestination: fileAndConsole
+    daprdLogDestination: file
     logLevel: debug

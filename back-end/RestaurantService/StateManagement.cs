@@ -61,7 +61,7 @@ namespace RestaurantService
 
         public async Task SaveOrderAsync(Order order)
         {
-            Console.WriteLine($"Saving order {order.OrderId}.");
+            Console.WriteLine($"Saving order {order.OrderId} with status {order.Status}.");
             await _client.SaveStateAsync(
                 storeName,
                 FormatKey(nameof(Order), order.OrderId),

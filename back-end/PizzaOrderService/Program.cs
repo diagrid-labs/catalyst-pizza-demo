@@ -6,6 +6,7 @@ using OrderService.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddDaprClient();
 builder.Services.AddSingleton<StateManagement>();
 
 builder.Services.AddDaprWorkflow(options =>

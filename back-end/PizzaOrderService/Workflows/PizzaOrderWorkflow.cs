@@ -52,8 +52,6 @@ namespace OrderService.Workflows
                 updatedOrder = order with { Status = OrderStatus.Cancelled };
             }
 
-            Console.WriteLine($"Completing order {orderId} with status {order.Status} for {order.Customer.Name}.");
-
             return new OrderResult(updatedOrder.Status, updatedOrder);
         }
     }

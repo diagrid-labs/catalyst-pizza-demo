@@ -20,6 +20,10 @@ Content-Type: application/json
         {
             "PizzaType": "Pepperoni",
             "Quantity": 2
+        },
+        {
+            "PizzaType": "Margherita",
+            "Quantity": 1
         }
     ]
 }
