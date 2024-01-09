@@ -1,9 +1,14 @@
+export type Notification = {
+  message: string;
+  order: Order;
+}
+
 export type Order = {
   orderId: string;
   orderDate: Date;
   customer: Customer;
   orderItems: OrderItem[];
-  status: OrderStatus;
+  status?: OrderStatus;
 };
 
 export type Customer = {

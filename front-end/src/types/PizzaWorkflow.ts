@@ -1,6 +1,6 @@
 import type { Types } from "ably";
 import type { WorkflowState } from "./WorkflowState";
-import type { OrderItem } from "./Order";
+import type { OrderItem } from "./Types";
 
 export type PizzaWorkflow = RealtimeState & {
   orderItems: OrderItem[];

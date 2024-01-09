@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { pizzaProcessStore } from "../stores";
-import type { OrderItem } from '@/types/Order';
+import type { OrderItem } from '@/types/Types';
 
 export interface OrderItemInterface {
   state: OrderItem;
@@ -15,7 +15,7 @@ const {
 } = storeToRefs(store);
 
 function addPizza() {
-  store.incrementPizzaCount(props.state.type.name);
+  store.incrementPizzaCount(props.state.pizzaType.name);
 }
 
 </script>
@@ -25,11 +25,11 @@ function addPizza() {
       
       <button @click="addPizza">
         <img
-          v-bind:alt="props.state.type.name"
-          v-bind:title="props.state.type.name"
-          :src="props.state.type.image">
-        {{props.state.type.name}}
-        <div class="amount">{{props.state.amount}}</div>
+          v-bind:alt="props.state.pizzaType.name"
+          v-bind:title="props.state.pizzaType.name"
+          :src="props.state.pizzaType.image">
+        {{props.state.pizzaType.name}}
+        <div class="amount">{{props.state.quantity}}</div>
       </button>
     </div>
 </template>

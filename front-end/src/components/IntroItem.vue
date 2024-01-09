@@ -2,7 +2,7 @@
 import PizzaSelectionItem from "./PizzaSelectionItem.vue";
 import { pizzaProcessStore } from "../stores";
 import { v4 as uuid } from "uuid";
-import type { Order } from "@/types/Order";
+import type { Order } from "@/types/Types";
 import { storeToRefs } from "pinia";
 import type { Types } from "ably/promises";
 
@@ -19,11 +19,13 @@ function createOrder() {
   const today = new Date();
   const orderId = uuid();
   const order: Order = {
-    id: orderId,
-    dateTime: today,
-    customerName: "Ada",
-    customerEmail: "ada@wantspizza.now",
-    orderItems: store.orderItems,
+    orderId: orderId,
+    orderDate: today,
+    customer: {
+      name: "Leonardo",
+      email: "leo@tmnt.shell",
+    },
+    orderItems: store.orderItems
   };
 
   return order;
@@ -47,7 +49,7 @@ function createSimulatedMessage(order: Order) {
 async function simulateOrderPlaced() {
   const order = createOrder();
   const message = createSimulatedMessage(order);
-  store.handleOrderPlaced(message);
+  store.handleOrderReceived(message);
 }
 
 </script>

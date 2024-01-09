@@ -10,7 +10,7 @@ import PizzaPepperoni from "../assets/Pizza1.png";
 import PizzaHawaii from "../assets/Pizza2.png";
 import PizzaVegetarian from "../assets/Pizza3.png";
 import PizzaMargherita from "../assets/Pizza4.png";
-import { type Pizza, PizzaType, type Order } from "@/types/Order";
+import { type Pizza, PizzaType, type Order, type Notification } from "@/types/Types";
 
 export const pizzaProcessStore = defineStore("pizza-process", {
   state: (): PizzaWorkflow => ({

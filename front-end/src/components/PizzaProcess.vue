@@ -6,39 +6,45 @@ import type { WorkflowState } from "@/types/WorkflowState";
 
 const store = pizzaProcessStore();
 const {
-  orderPlacedState: orderReceivedState,
-  inStockState: kitchenInstructionsState,
-  notInStockState: preparationState,
-  inPreparationState: collectionState,
-  completedState: deliveryState,
+  receivedOrderState: receivedOrderState,
+  checkedInventoryState: checkedInventoryState,
+  insufficientInventoryState: insufficientInventoryState,
+  sentToKitchenState: sentToKitchenState,
+  completedPreparationState: completedPreparationState,
+  cancelledLimitedInventoryState: cancelledLimitedInventoryState,
 } = storeToRefs(store);
 </script>
 
 <template>
   <ProgressItem
     class="animate"
-    v-if="(orderReceivedState as WorkflowState).isVisible"
-    :state="(orderReceivedState as WorkflowState)"
+    v-if="(receivedOrderState as WorkflowState).isVisible"
+    :state="(receivedOrderState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
-    v-if="(kitchenInstructionsState as WorkflowState).isVisible"
-    :state="(kitchenInstructionsState as WorkflowState)"
+    v-if="(checkedInventoryState as WorkflowState).isVisible"
+    :state="(checkedInventoryState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
-    v-if="(preparationState as WorkflowState).isVisible"
-    :state="(preparationState as WorkflowState)"
+    v-if="(insufficientInventoryState as WorkflowState).isVisible"
+    :state="(insufficientInventoryState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
-    v-if="(collectionState as WorkflowState).isVisible"
-    :state="(collectionState as WorkflowState)"
+    v-if="(sentToKitchenState as WorkflowState).isVisible"
+    :state="(sentToKitchenState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
-    v-if="(deliveryState as WorkflowState).isVisible"
-    :state="(deliveryState as WorkflowState)"
+    v-if="(completedPreparationState as WorkflowState).isVisible"
+    :state="(completedPreparationState as WorkflowState)"
+  />
+  <ProgressItem
+    class="animate"
+    v-if="(cancelledLimitedInventoryState as WorkflowState).isVisible"
+    :state="(cancelledLimitedInventoryState as WorkflowState)"
   />
 </template>
 
