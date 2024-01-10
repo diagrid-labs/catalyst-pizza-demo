@@ -4,6 +4,7 @@
   "engines": {
     "node": ">=16.0.0"
   },
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -14,7 +15,8 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "ably": "^1.2.30",
+    "@vercel/node": "^3.0.15",
+    "ably": "^1.2.48",
     "pinia": "^2.0.23",
     "uuid": "^9.0.0",
     "vue": "^3.2.40",
