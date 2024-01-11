@@ -1,7 +1,8 @@
 export default async function handler(request, response) {
-    let data = request.body.json();
-    console.log(data);
-    let url = `${process.env.WORKFLOW_URL}?instanceId=${data.orderId}`;
+    let order = request.body;
+    console.log(order);
+    let url = `${process.env.WORKFLOW_URL}`;
+    console.log(url);
     const workflowResponse = await fetch(url, {
         method: "POST",
         mode: "no-cors", // no-cors, *cors, same-origin
@@ -9,9 +10,10 @@ export default async function handler(request, response) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(order),
       });
 
-    console.log(workflowResponse.json());
-    response.status(200);
+    let instanceId = await workflowResponse.json();
+    console.log(`instanceId: ${instanceId}`);
+    response.status(200).json({ orderId: order.OrderId });
 }

@@ -25,12 +25,12 @@ public class WorkflowController : ControllerBase
     public async Task<IResult> StartPizzaWorkflow([FromBody] Order order)
     {
         _logger.LogInformation($"Received message to start pizza workflow with ID {order.OrderId}.");
-        await _daprWorkflowClient.ScheduleNewWorkflowAsync(
+        var instanceId = await _daprWorkflowClient.ScheduleNewWorkflowAsync(
             nameof(PizzaOrderWorkflow),
             order.OrderId,
             order);
 
-        return Results.Ok();
+        return Results.Ok(instanceId);
     }
 
     [HttpPost("orderPrepared")]

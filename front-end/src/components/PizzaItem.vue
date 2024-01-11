@@ -15,7 +15,7 @@ const {
 } = storeToRefs(store);
 
 function addPizza() {
-  store.incrementPizzaCount(props.state.pizzaType.name);
+  store.incrementPizzaCount(props.state.PizzaType);
 }
 
 </script>
@@ -25,11 +25,11 @@ function addPizza() {
       
       <button @click="addPizza">
         <img
-          v-bind:alt="props.state.pizzaType.name"
-          v-bind:title="props.state.pizzaType.name"
-          :src="props.state.pizzaType.image">
-        {{props.state.pizzaType.name}}
-        <div class="amount">{{props.state.quantity}}</div>
+          v-bind:alt="props.state.PizzaType"
+          v-bind:title="props.state.PizzaType"
+          :src="props.state.Image">
+        {{props.state.PizzaType}}
+        <div class="amount">{{props.state.Quantity}}</div>
       </button>
     </div>
 </template>

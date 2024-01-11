@@ -10,7 +10,7 @@ import PizzaPepperoni from "../assets/Pizza1.png";
 import PizzaHawaii from "../assets/Pizza2.png";
 import PizzaVegetarian from "../assets/Pizza3.png";
 import PizzaMargherita from "../assets/Pizza4.png";
-import { type Pizza, PizzaType, type Order, type Notification } from "@/types/Types";
+import { PizzaType, type Order, type OrderItem, type Notification } from "@/types/Types";
 
 export const pizzaProcessStore = defineStore("pizza-process", {
   state: (): PizzaWorkflow => ({
@@ -23,11 +23,11 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     disableOrdering: false,
     isWorkflowComplete: false,
     isOrderPlaced: false,
-    orderItems:[ 
-      { pizzaType: { name: PizzaType.Pepperoni, image: PizzaPepperoni}, quantity: 5 },
-      { pizzaType:{ name: PizzaType.Margherita, image: PizzaMargherita}, quantity: 0 },
-      { pizzaType:{ name: PizzaType.Hawaiian, image: PizzaHawaii}, quantity: 0 },
-      { pizzaType:{ name: PizzaType.Vegetarian, image: PizzaVegetarian}, quantity: 0 },
+    orderItems: [ 
+      { PizzaType: PizzaType.Pepperoni, Image: PizzaPepperoni, Quantity: 0 },
+      { PizzaType: PizzaType.Margherita, Image: PizzaMargherita, Quantity: 0 },
+      { PizzaType: PizzaType.Hawaiian, Image: PizzaHawaii, Quantity: 0 },
+      { PizzaType: PizzaType.Vegetarian, Image: PizzaVegetarian, Quantity: 0 },
     ],
     receivedOrderState: {
       title: "Order Received",
@@ -80,13 +80,13 @@ export const pizzaProcessStore = defineStore("pizza-process", {
   }),
   actions: {
     incrementPizzaCount(pizza: PizzaType) {
-      const pizzaIndex = this.orderItems.findIndex((item) => item.pizzaType.name === pizza);
-      this.orderItems[pizzaIndex].quantity++;
+      const pizzaIndex = this.orderItems.findIndex((item) => item.PizzaType === pizza);
+      this.orderItems[pizzaIndex].Quantity++;
     },
     async start(clientId: string, order: Order) {
       this.$reset();
       this.$state.clientId = clientId;
-      this.$state.orderId = order.orderId;
+      this.$state.orderId = order.OrderId;
       this.$state.disableOrdering = true;
       this.$state.receivedOrderState.isVisible = true;
       await this.createRealtimeConnection(clientId, order);
@@ -94,14 +94,14 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     async createRealtimeConnection(clientId: string, order: Order) {
       if (!this.isConnected) {
         this.realtimeClient = new Realtime.Promise({
-          authUrl: `/api/CreateTokenRequest/${clientId}`,
+          authUrl: `api/getAblyToken?clientId=${clientId}`,
           echoMessages: false,
         });
         this.realtimeClient.connection.on(
           "connected",
           async (message: Types.ConnectionStateChange) => {
             this.isConnected = true;
-            this.attachToChannel(`${this.channelPrefix}-${order.orderId}`);
+            this.attachToChannel(`${this.channelPrefix}-${order.OrderId}`);
             if (!this.isOrderPlaced) {
               await this.placeOrder(order);
               this.$state.isOrderPlaced = true;
@@ -125,7 +125,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     },
 
     async placeOrder(order: Order) {
-      const response = await window.fetch("/api/PlaceOrder", {
+      const response = await window.fetch("/api/placeOrder", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -133,9 +133,8 @@ export const pizzaProcessStore = defineStore("pizza-process", {
         body: JSON.stringify(order),
       });
       if (response.ok) {
-        const payload = await response.json();
-        this.$state.orderId = payload.result;
-        console.log(`Order ID: ${this.orderId}`);
+        const result = await response.json();
+        this.$state.orderId = result.orderId;
       } else {
         this.$state.disableOrdering = false;
         console.log(response.statusText);

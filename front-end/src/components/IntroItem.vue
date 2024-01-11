@@ -12,6 +12,7 @@ const { disableOrdering } = storeToRefs(store);
 async function placeOrder() {
   const clientId = store.clientId === "" ? uuid() : store.clientId;
   const order = createOrder();
+  console.log("Placing order", order);
   store.start(clientId, order);
 }
 
@@ -19,13 +20,13 @@ function createOrder() {
   const today = new Date();
   const orderId = uuid();
   const order: Order = {
-    orderId: orderId,
-    orderDate: today,
-    customer: {
-      name: "Leonardo",
-      email: "leo@tmnt.shell",
+    OrderId: orderId,
+    OrderDate: today,
+    Customer: {
+      Name: "Leonardo",
+      Email: "leo@tmnt.shell",
     },
-    orderItems: store.orderItems
+    OrderItems: store.orderItems
   };
 
   return order;
