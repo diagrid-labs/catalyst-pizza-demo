@@ -10,7 +10,7 @@ end
 
 subgraph Web services
 	KS[Kitchen service]
-	WF[Pizza Workflow Service]
+	WF[Pizza Order Service]
 end
 
 subgraph Vercel
@@ -22,14 +22,15 @@ end
 RTS[Realtime service]
 
 W -->|place order| PF
-W --> |get token| RF
+W --> |get auth token| RF
 RF ---->|get token| RTS
 PF --> |start workflow|WF
-WF-->PS
-WF-->KV
-PS-->KS
+WF-->|send order to kitchen|PS
+WF-->|check inventory|KV
+KS-->|update inventory|KV
+PS-->|receive order|KS
 WF---->|notification|RTS
-KS-->|ready|PS
-PS-->|raise event|WF
-RTS ---->|notification| W
+KS-->|order prepared|PS
+PS-->|raise order prepared event|WF
+RTS ---->|website notification| W
 ```
