@@ -1,6 +1,32 @@
+@app_url=http://localhost:5064
 @dapr_url=http://localhost:3500
 @workflow_id={{$guid}}
 @currentDate={{$datetime iso8601}}
+
+### 
+### Start the workflow from the web api
+###
+POST {{app_url}}/workflow/orderReceived
+Content-Type: application/json
+
+{
+    "OrderId": "{{workflow_id}}",
+    "OrderDate": "{{currentDate}}",
+    "Customer" : {
+        "Name": "Leonardo",
+        "Email": "leonardo@tmnt.shell"
+    },
+    "OrderItems": [
+        {
+            "PizzaType": "Pepperoni",
+            "Quantity": 2
+        },
+        {
+            "PizzaType": "Margherita",
+            "Quantity": 1
+        }
+    ]
+}
 
 ###
 ### Start the PizzaWorkflow
@@ -16,7 +42,7 @@ Content-Type: application/json
         "Name": "Leonardo",
         "Email": "leonardo@tmnt.shell"
     },
-    "PizzasRequested": [
+    "OrderItems": [
         {
             "PizzaType": "Pepperoni",
             "Quantity": 2

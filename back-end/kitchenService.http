@@ -15,7 +15,7 @@ Content-Type: application/json
         "Name": "Leonardo",
         "Email": "leonardo@tmnt.shell"
     },
-    "PizzasRequested": [
+    "OrderItems": [
         {
             "PizzaType": "Pepperoni",
             "Quantity": 2
