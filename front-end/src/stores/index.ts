@@ -17,7 +17,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     realtimeClient: undefined,
     channelInstance: undefined,
     isConnected: false,
-    channelPrefix: "pizza-notifications",
+    channelPrefix: "pizza-notifications:",
     clientId: "",
     orderId: "",
     disableOrdering: false,
@@ -30,52 +30,52 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       { PizzaType: PizzaType.Vegetarian, Image: PizzaVegetarian, Quantity: 0 },
     ],
     receivedOrderState: {
-      title: "Order Received",
-      orderId: "",
-      image: OrderImage,
-      isVisible: false,
-      isDisabled: true,
-      isCurrentState: false,
+      Title: "Order Received",
+      OrderId: "",
+      Image: OrderImage,
+      IsVisible: false,
+      IsDisabled: true,
+      IsCurrentState: false,
     },
     checkedInventoryState: {
-      title: "Pizzas are in stock",
-      orderId: "",
-      image: OrderImage,
-      isVisible: false,
-      isDisabled: true,
-      isCurrentState: false,
+      Title: "Pizzas are in stock",
+      OrderId: "",
+      Image: OrderImage,
+      IsVisible: false,
+      IsDisabled: true,
+      IsCurrentState: false,
     },
     insufficientInventoryState: {
-      title: "Pizzas are not in stock",
-      orderId: "",
-      image: OrderImage,
-      isVisible: false,
-      isDisabled: true,
-      isCurrentState: false,
+      Title: "Pizzas are not in stock",
+      OrderId: "",
+      Image: OrderImage,
+      IsVisible: false,
+      IsDisabled: true,
+      IsCurrentState: false,
     },
     sentToKitchenState: {
-      title: "Preparing your order",
-      orderId: "",
-      image: PizzaInOvenImage,
-      isVisible: false,
-      isDisabled: true,
-      isCurrentState: false,
+      Title: "Preparing your order",
+      OrderId: "",
+      Image: PizzaInOvenImage,
+      IsVisible: false,
+      IsDisabled: true,
+      IsCurrentState: false,
     },
     completedPreparationState: {
-      title: "Order is complete and can be collected.",
-      orderId: "",
-      image: PizzaBoxImage,
-      isVisible: false,
-      isDisabled: true,
-      isCurrentState: false,
+      Title: "Order is complete and can be collected.",
+      OrderId: "",
+      Image: PizzaBoxImage,
+      IsVisible: false,
+      IsDisabled: true,
+      IsCurrentState: false,
     },
     cancelledLimitedInventoryState: {
-      title: "Order cancelled due to limited inventory",
-      orderId: "",
-      image: OrderImage,
-      isVisible: false,
-      isDisabled: true,
-      isCurrentState: false,
+      Title: "Order cancelled due to limited inventory",
+      OrderId: "",
+      Image: OrderImage,
+      IsVisible: false,
+      IsDisabled: true,
+      IsCurrentState: false,
     },
   }),
   actions: {
@@ -88,10 +88,11 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       this.$state.clientId = clientId;
       this.$state.orderId = order.OrderId;
       this.$state.disableOrdering = true;
-      this.$state.receivedOrderState.isVisible = true;
+      this.$state.receivedOrderState.IsVisible = true;
       await this.createRealtimeConnection(clientId, order);
     },
     async createRealtimeConnection(clientId: string, order: Order) {
+      const channelName = `${this.channelPrefix}${order.OrderId}`;
       if (!this.isConnected) {
         this.realtimeClient = new Realtime.Promise({
           authUrl: `api/getAblyToken?clientId=${clientId}`,
@@ -101,7 +102,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
           "connected",
           async (message: Types.ConnectionStateChange) => {
             this.isConnected = true;
-            this.attachToChannel(`${this.channelPrefix}-${order.OrderId}`);
+            this.attachToChannel(channelName);
             if (!this.isOrderPlaced) {
               await this.placeOrder(order);
               this.$state.isOrderPlaced = true;
@@ -116,7 +117,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
           this.$state.isConnected = false;
         });
       } else {
-        this.attachToChannel(`${this.channelPrefix}-${this.orderId}`);
+        this.attachToChannel(channelName);
       }
     },
 
@@ -141,8 +142,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       }
     },
 
-    attachToChannel(orderId: string) {
-      const channelName = `pizza-workflow:${orderId}`;
+    attachToChannel(channelName: string) {
       this.$state.channelInstance = this.realtimeClient?.channels.get(
         channelName,
         { params: { rewind: "2m" } }
@@ -184,14 +184,17 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     },
 
     handleOrderReceived(message: Types.Message) {
+      console.log('handleOrderReceived');
+      console.log(message);
       this.$patch({
         receivedOrderState: {
-          orderId: message.data.order.orderId,
-          isDisabled: false,
-          isCurrentState: true,
+          Title: message.data.Message,
+          OrderId: message.data.Order.OrderId,
+          IsDisabled: false,
+          IsCurrentState: true,
         },
         checkedInventoryState: {
-          isVisible: true,
+          IsVisible: true,
         },
       });
     },
@@ -199,15 +202,16 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     handleSufficientInventory(message: Types.Message) {
       this.$patch({
         checkedInventoryState: {
-          orderId: message.data.order.orderId,
-          isDisabled: false,
-          isCurrentState: true,
+          Title: message.data.Message,
+          OrderId: message.data.Order.OrderId,
+          IsDisabled: false,
+          IsCurrentState: true,
         },
         receivedOrderState: {
-          isCurrentState: false,
+          IsCurrentState: false,
         },
         insufficientInventoryState: {
-          isVisible: true,
+          IsVisible: true,
         },
       });
     },
@@ -215,15 +219,16 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     handleInsufficientInventory(message: Types.Message) {
       this.$patch({
         insufficientInventoryState: {
-          orderId: message.data.order.orderId,
-          isDisabled: false,
-          isCurrentState: true,
+          Title: message.data.Message,
+          OrderId: message.data.Order.OrderId,
+          IsDisabled: false,
+          IsCurrentState: true,
         },
         checkedInventoryState: {
-          isCurrentState: false,
+          IsCurrentState: false,
         },
         sentToKitchenState: {
-          isVisible: true,
+          IsVisible: true,
         },
       });
     },
@@ -231,15 +236,16 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     handleSentToKitchen(message: Types.Message) {
       this.$patch({
         sentToKitchenState: {
-          orderId: message.data.id,
-          isDisabled: false,
-          isCurrentState: true,
+          Title: message.data.Message,
+          OrderId: message.data.Order.OrderId,
+          IsDisabled: false,
+          IsCurrentState: true,
         },
         insufficientInventoryState: {
-          isCurrentState: false,
+          IsCurrentState: false,
         },
         completedPreparationState: {
-          isVisible: true,
+          IsVisible: true,
         },
       });
     },
@@ -247,12 +253,13 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     handleOrderCompleted(message: Types.Message) {
       this.$patch({
         completedPreparationState: {
-          orderId: message.data.id,
-          isDisabled: false,
-          isCurrentState: true,
+          Title: message.data.Message,
+          OrderId: message.data.Order.OrderId,
+          IsDisabled: false,
+          IsCurrentState: true,
         },
         sentToKitchenState: {
-          isCurrentState: false,
+          IsCurrentState: false,
         }
       });
     },

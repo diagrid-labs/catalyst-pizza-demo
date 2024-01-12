@@ -7,10 +7,10 @@ export interface WorkflowStateInterface {
 const props = defineProps<WorkflowStateInterface>();
 
 function getImgTitle(state: WorkflowState) {
-  if (state.isDisabled) {
+  if (state.IsDisabled) {
     return "Waiting...";
   } else {
-    return state.title;
+    return state.Title;
   }
 }
 </script>
@@ -20,7 +20,7 @@ function getImgTitle(state: WorkflowState) {
     <div class="green-dot">
       <img
         v-bind:class="{
-          disabled: props.state.isDisabled,
+          disabled: props.state.IsDisabled,
           transition: true,
         }"
         :src="GreenDot"
@@ -29,19 +29,19 @@ function getImgTitle(state: WorkflowState) {
     </div>
     <div class="details">
       <img
-        v-bind:alt="props.state.title"
+        v-bind:alt="props.state.Title"
         v-bind:title="getImgTitle(props.state)"
         v-bind:class="{
-          disabled: props.state.isDisabled,
+          disabled: props.state.IsDisabled,
           transition: true,
         }"
-        :src="props.state.image"
+        :src="props.state.Image"
       />
-      <p v-bind:class="{ disabled: props.state.isDisabled }">
+      <p v-bind:class="{ disabled: props.state.IsDisabled }">
         {{
-          props.state.isDisabled
+          props.state.IsDisabled
             ? "Waiting for your order..."
-            : `${props.state.title} (${props.state.orderId.split("-")[1]})`
+            : `${props.state.Title}`
         }}
       </p>
     </div>

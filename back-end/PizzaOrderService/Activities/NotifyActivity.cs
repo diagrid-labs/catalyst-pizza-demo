@@ -18,7 +18,7 @@ namespace OrderService.Activities
         public override async Task<object?> RunAsync(WorkflowActivityContext context, Notification notification)
         {
             _logger.LogInformation(notification.Message);
-            string channelName = $"pizza-notifications-{notification.Order.OrderId}";
+            string channelName = $"pizza-notifications:{notification.Order.OrderId}";
             var _channel = _realtimeClient.Channels.Get(channelName);
             await _channel.PublishAsync(notification.Order.Status.ToString(), notification);
 

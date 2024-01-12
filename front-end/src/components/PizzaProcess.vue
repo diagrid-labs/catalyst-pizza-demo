@@ -18,32 +18,32 @@ const {
 <template>
   <ProgressItem
     class="animate"
-    v-if="(receivedOrderState as WorkflowState).isVisible"
+    v-if="(receivedOrderState as WorkflowState).IsVisible"
     :state="(receivedOrderState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
-    v-if="(checkedInventoryState as WorkflowState).isVisible"
+    v-if="(checkedInventoryState as WorkflowState).IsVisible"
     :state="(checkedInventoryState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
-    v-if="(insufficientInventoryState as WorkflowState).isVisible"
+    v-if="(insufficientInventoryState as WorkflowState).IsVisible"
     :state="(insufficientInventoryState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
-    v-if="(sentToKitchenState as WorkflowState).isVisible"
+    v-if="(sentToKitchenState as WorkflowState).IsVisible"
     :state="(sentToKitchenState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
-    v-if="(completedPreparationState as WorkflowState).isVisible"
+    v-if="(completedPreparationState as WorkflowState).IsVisible"
     :state="(completedPreparationState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
-    v-if="(cancelledLimitedInventoryState as WorkflowState).isVisible"
+    v-if="(cancelledLimitedInventoryState as WorkflowState).IsVisible"
     :state="(cancelledLimitedInventoryState as WorkflowState)"
   />
 </template>

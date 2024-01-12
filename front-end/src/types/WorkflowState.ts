@@ -1,8 +1,8 @@
 export type WorkflowState = {
-  title: string;
-  orderId: string;
-  image: string;
-  isVisible: boolean;
-  isDisabled: boolean;
-  isCurrentState: boolean;
+  Title: string;
+  OrderId: string;
+  Image: string;
+  IsVisible: boolean;
+  IsDisabled: boolean;
+  IsCurrentState: boolean;
 };
