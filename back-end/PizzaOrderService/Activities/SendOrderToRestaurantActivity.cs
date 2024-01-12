@@ -18,6 +18,10 @@ namespace OrderService.Activities
         public override async Task<object?> RunAsync(WorkflowActivityContext context, Order order)
         {
             _logger.LogInformation($"Sending order {order.OrderId} to the kitchen.");
+            
+            // Simulate a delay in communicating with the kitchen.
+            Thread.Sleep(2000);
+            
             await _daprClient.PublishEventAsync("pizza-pubsub", "pizza-orders", order);
 
             return null;

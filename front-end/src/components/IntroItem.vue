@@ -2,7 +2,7 @@
 import PizzaSelectionItem from "./PizzaSelectionItem.vue";
 import { pizzaProcessStore } from "../stores";
 import { v4 as uuid } from "uuid";
-import type { Order } from "@/types/Types";
+import type { Order, Customer } from "@/types/Types";
 import { storeToRefs } from "pinia";
 import type { Types } from "ably/promises";
 
@@ -22,35 +22,21 @@ function createOrder() {
   const order: Order = {
     OrderId: orderId,
     OrderDate: today,
-    Customer: {
-      Name: "Leonardo",
-      Email: "leo@tmnt.shell",
-    },
+    Customer: getRandomTmntCrew(),
     OrderItems: store.orderItems
   };
 
   return order;
 }
 
-function createSimulatedMessage(order: Order) {
-  const message = {
-    clientId: "",
-    connectionId: "",
-    data: order,
-    encoding: "",
-    extras: "",
-    id: "",
-    name: "order-placed",
-    timestamp: 1,
-  } as Types.Message;
-
-  return message;
-}
-
-async function simulateOrderPlaced() {
-  const order = createOrder();
-  const message = createSimulatedMessage(order);
-  store.handleOrderReceived(message);
+function getRandomTmntCrew() : Customer {
+  let names: string[] = ["Leonardo", "Donatello", "Raphael", "Michelangelo", "April", "Splinter"];
+  let randomName = names[Math.floor(Math.random() * names.length)];
+  
+  return {
+    Name: randomName,
+    Email: `${randomName}@tmnt.shell`,
+  };
 }
 
 </script>
@@ -88,11 +74,6 @@ async function simulateOrderPlaced() {
     <div class="flex-center">
       <button @click="placeOrder" :disabled="disableOrdering">
         Place order
-      </button>
-    </div>
-    <div class="flex-center">
-      <button @click="simulateOrderPlaced">
-        Simulate order placed
       </button>
     </div>
     

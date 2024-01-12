@@ -4,7 +4,9 @@ import type { Types } from "ably";
 import { Realtime } from "ably/promises";
 import type { PizzaWorkflow } from "@/types/PizzaWorkflow";
 import OrderImage from "../assets/Order.png";
-import PizzaInOvenImage from "../assets/PizzaInOven.png";
+import InStockImage from "../assets/Inventory1.png";
+import NotInStockImage from "../assets/Inventory2.png";
+import OvenImage from "../assets/Oven.png";
 import PizzaBoxImage from "../assets/PizzaBox.png";
 import PizzaPepperoni from "../assets/Pizza1.png";
 import PizzaHawaii from "../assets/Pizza2.png";
@@ -20,7 +22,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     channelPrefix: "pizza-notifications:",
     clientId: "",
     orderId: "",
-    disableOrdering: false,
+    disableOrdering: true,
     isWorkflowComplete: false,
     isOrderPlaced: false,
     orderItems: [ 
@@ -30,7 +32,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       { PizzaType: PizzaType.Vegetarian, Image: PizzaVegetarian, Quantity: 0 },
     ],
     receivedOrderState: {
-      Title: "Order Received",
+      Title: "",
       OrderId: "",
       Image: OrderImage,
       IsVisible: false,
@@ -38,41 +40,41 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       IsCurrentState: false,
     },
     checkedInventoryState: {
-      Title: "Pizzas are in stock",
+      Title: "",
       OrderId: "",
-      Image: OrderImage,
+      Image: InStockImage,
       IsVisible: false,
       IsDisabled: true,
       IsCurrentState: false,
     },
     insufficientInventoryState: {
-      Title: "Pizzas are not in stock",
+      Title: "",
       OrderId: "",
-      Image: OrderImage,
+      Image: NotInStockImage,
       IsVisible: false,
       IsDisabled: true,
       IsCurrentState: false,
     },
     sentToKitchenState: {
-      Title: "Preparing your order",
+      Title: "",
       OrderId: "",
-      Image: PizzaInOvenImage,
+      Image: OvenImage,
       IsVisible: false,
       IsDisabled: true,
       IsCurrentState: false,
     },
     completedPreparationState: {
-      Title: "Order is complete and can be collected.",
+      Title: "",
       OrderId: "",
       Image: PizzaBoxImage,
       IsVisible: false,
       IsDisabled: true,
       IsCurrentState: false,
     },
-    cancelledLimitedInventoryState: {
-      Title: "Order cancelled due to limited inventory",
+    unknownState: {
+      Title: "Oops we don't know what happened!",
       OrderId: "",
-      Image: OrderImage,
+      Image: NotInStockImage,
       IsVisible: false,
       IsDisabled: true,
       IsCurrentState: false,
@@ -184,8 +186,6 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     },
 
     handleOrderReceived(message: Types.Message) {
-      console.log('handleOrderReceived');
-      console.log(message);
       this.$patch({
         receivedOrderState: {
           Title: message.data.Message,
@@ -210,7 +210,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
         receivedOrderState: {
           IsCurrentState: false,
         },
-        insufficientInventoryState: {
+        sentToKitchenState: {
           IsVisible: true,
         },
       });
@@ -241,7 +241,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
           IsDisabled: false,
           IsCurrentState: true,
         },
-        insufficientInventoryState: {
+        checkedInventoryState: {
           IsCurrentState: false,
         },
         completedPreparationState: {
@@ -260,7 +260,8 @@ export const pizzaProcessStore = defineStore("pizza-process", {
         },
         sentToKitchenState: {
           IsCurrentState: false,
-        }
+        },
+        disableOrdering: false,
       });
     },
   },

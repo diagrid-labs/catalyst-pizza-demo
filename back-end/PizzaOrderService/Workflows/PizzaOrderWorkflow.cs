@@ -17,7 +17,7 @@ namespace OrderService.Workflows
 
             await context.CallActivityAsync(
                     nameof(NotifyActivity),
-                    new Notification($"Received order {order.OrderId} from {order.Customer.Name}", updatedOrder));
+                    new Notification($"Received order {order.ShortId} from {order.Customer.Name}.", updatedOrder));
 
             // Determine if there is enough of the item available for purchase by checking the inventory.
             var inventoryRequest = new InventoryRequest(order.OrderItems);
@@ -31,12 +31,12 @@ namespace OrderService.Workflows
             {
                 // End the workflow here since we don't have sufficient inventory.
                 updatedOrder = updatedOrder with { Status = OrderStatus.CancelledLimitedInventory };
-                inventoryNotification = new Notification($"Inventory is insufficient for {order.Customer.Name}.", updatedOrder);
+                inventoryNotification = new Notification($"Inventory is insufficient for {updatedOrder.ShortId}.", updatedOrder);
 
                 return new OrderResult(OrderStatus.CancelledLimitedInventory, order, "Insufficient inventory");
             } else {
                 updatedOrder = updatedOrder with { Status = OrderStatus.CheckedInventory };
-                inventoryNotification = new Notification($"Inventory is sufficient for {updatedOrder.OrderId}.", updatedOrder);
+                inventoryNotification = new Notification($"Inventory is sufficient for {updatedOrder.ShortId}.", updatedOrder);
             }
 
             await context.CallActivityAsync(
@@ -50,7 +50,7 @@ namespace OrderService.Workflows
             updatedOrder = updatedOrder with { Status = OrderStatus.SentToKitchen };
             await context.CallActivityAsync(
                     nameof(NotifyActivity),
-                    new Notification($"Order {updatedOrder.OrderId} has been sent to the kitchen.", updatedOrder));
+                    new Notification($"Order {updatedOrder.ShortId} has been sent to the kitchen.", updatedOrder));
 
             var orderPreparedResult = await context.WaitForExternalEventAsync<bool>("order-prepared");
 
@@ -58,7 +58,7 @@ namespace OrderService.Workflows
                 updatedOrder = order with { Status = OrderStatus.CompletedPreparation };
                 await context.CallActivityAsync(
                     nameof(NotifyActivity),
-                    new Notification($"Order {updatedOrder.OrderId} has completed for {updatedOrder.Customer.Name}!", updatedOrder));
+                    new Notification($"Order {updatedOrder.ShortId} is completed for {updatedOrder.Customer.Name}!", updatedOrder));
             }
             else {
                 updatedOrder = updatedOrder with { Status = OrderStatus.Unknown };

@@ -15,6 +15,7 @@ const {
 } = storeToRefs(store);
 
 function addPizza() {
+  store.disableOrdering = false;
   store.incrementPizzaCount(props.state.PizzaType);
 }
 

@@ -40,7 +40,7 @@ function getImgTitle(state: WorkflowState) {
       <p v-bind:class="{ disabled: props.state.IsDisabled }">
         {{
           props.state.IsDisabled
-            ? "Waiting for your order..."
+            ? "Waiting for update..."
             : `${props.state.Title}`
         }}
       </p>

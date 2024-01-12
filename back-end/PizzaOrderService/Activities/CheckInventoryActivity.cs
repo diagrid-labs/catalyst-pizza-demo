@@ -20,6 +20,9 @@ namespace OrderService.Activities
             var pizzasToCheck = req.PizzasRequested.Select(p => p.PizzaType).ToArray();
             _logger.LogInformation($"Checking inventory for {string.Join(',', pizzasToCheck)} pizzas.");
             
+            // Simulate a delay in checking inventory.
+            Thread.Sleep(2000);
+
             var pizzasInStock = await _stateManagement.GetPizzasAsync(
                 req.PizzasRequested.Select(p => p.PizzaType)
                 .ToArray());

@@ -11,7 +11,7 @@ const {
   insufficientInventoryState: insufficientInventoryState,
   sentToKitchenState: sentToKitchenState,
   completedPreparationState: completedPreparationState,
-  cancelledLimitedInventoryState: cancelledLimitedInventoryState,
+  unknownState: unknownState,
 } = storeToRefs(store);
 </script>
 
@@ -43,8 +43,8 @@ const {
   />
   <ProgressItem
     class="animate"
-    v-if="(cancelledLimitedInventoryState as WorkflowState).IsVisible"
-    :state="(cancelledLimitedInventoryState as WorkflowState)"
+    v-if="(unknownState as WorkflowState).IsVisible"
+    :state="(unknownState as WorkflowState)"
   />
 </template>
 
