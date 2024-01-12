@@ -10,7 +10,7 @@
     <div class="flex-list">
       <ul>
         <li>
-          <a href="https://github.com/diagrid-labs/diagrid-cloud-demo"
+          <a href="https://github.com/diagrid-labs/catalyst-pizza-demo"
             >GitHub Repo</a
           >
           (the star of our desserts ⭐)
@@ -18,7 +18,7 @@
         <li>
           <a
             href="https://ably.com/blog/visualize-azure-serverless-workflow-progress-in-realtime-with-pubsub?utm_campaign=GLB-2210-serverless-workflow-visualizer&utm_content=demo-serverless-workflow-visualizer&utm_source=ably-dev&utm_medium=demo&src=GLB-2210-serverless-workflow-visualizer-demo"
-            >Diagrid Cloud Docs</a
+            >Diagrid Catalyst Docs</a
           >
           (our most read menu item 📖)
         </li>

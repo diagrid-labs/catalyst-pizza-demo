@@ -4,8 +4,14 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-
   font-weight: normal;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 0.5rem;
+  
+}
+
+body {
+  background-image: url("Bgpizzas_transparant.png");
 }
 
 a {
@@ -30,6 +36,6 @@ a {
   #app {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    padding: 3rem 3rem;
   }
 }

@@ -4,7 +4,7 @@ import { pizzaProcessStore } from "../stores";
 import { v4 as uuid } from "uuid";
 import type { Order, Customer } from "@/types/Types";
 import { storeToRefs } from "pinia";
-import type { Types } from "ably/promises";
+import Tmnt from "../assets/tmnt.gif";
 
 const store = pizzaProcessStore();
 const { disableOrdering } = storeToRefs(store);
@@ -43,6 +43,7 @@ function getRandomTmntCrew() : Customer {
 
 <template>
   <div class="greetings">
+    <img :src="Tmnt" height="50" />
     <h1>
       Diagrid Pizza Store
     </h1>

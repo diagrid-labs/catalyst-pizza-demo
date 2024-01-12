@@ -2,6 +2,7 @@
 import IntroItem from "./components/IntroItem.vue";
 import DessertMenu from "./components/DessertMenu.vue";
 import PizzaProcess from "./components/PizzaProcess.vue";
+import Bgpizza from "./assets/Bgpizzas.png";
 </script>
 
 <template>
