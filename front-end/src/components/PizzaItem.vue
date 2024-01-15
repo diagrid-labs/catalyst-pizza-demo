@@ -10,9 +10,7 @@ export interface OrderItemInterface {
 const props = defineProps<OrderItemInterface>();
 
 const store = pizzaProcessStore();
-const {
-  // add store properties here
-} = storeToRefs(store);
+const { disableAddPizza } = storeToRefs(store);
 
 function addPizza() {
   store.disableOrdering = false;
@@ -24,7 +22,7 @@ function addPizza() {
 <template>
     <div class="pizza-item">
       
-      <button @click="addPizza">
+      <button @click="addPizza" :disabled="disableAddPizza">
         <img
           v-bind:alt="props.state.PizzaType"
           v-bind:title="props.state.PizzaType"
@@ -71,4 +69,10 @@ button:hover:enabled {
   box-shadow: 0px 0px 10px var(--vt-c-yellow-dark);
   transition: all 0.1s ease-out;
 }
+
+button:disabled {
+  border-color: var(--vt-c-divider-dark-2);
+  background-color: var(--vt-c-text-dark-2);
+}
+
 </style>

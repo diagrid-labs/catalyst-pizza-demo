@@ -31,12 +31,12 @@ namespace OrderService.Workflows
             {
                 // End the workflow here since we don't have sufficient inventory.
                 updatedOrder = updatedOrder with { Status = OrderStatus.CancelledLimitedInventory };
-                inventoryNotification = new Notification($"Inventory is insufficient for {updatedOrder.ShortId}.", updatedOrder);
+                inventoryNotification = new Notification($"Inventory is insufficient for order {updatedOrder.ShortId}.", updatedOrder);
 
                 return new OrderResult(OrderStatus.CancelledLimitedInventory, order, "Insufficient inventory");
             } else {
                 updatedOrder = updatedOrder with { Status = OrderStatus.CheckedInventory };
-                inventoryNotification = new Notification($"Inventory is sufficient for {updatedOrder.ShortId}.", updatedOrder);
+                inventoryNotification = new Notification($"Inventory is sufficient for order {updatedOrder.ShortId}.", updatedOrder);
             }
 
             await context.CallActivityAsync(

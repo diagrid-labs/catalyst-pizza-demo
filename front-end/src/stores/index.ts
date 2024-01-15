@@ -23,6 +23,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     clientId: "",
     orderId: "",
     disableOrdering: true,
+    disableAddPizza: false,
     isWorkflowComplete: false,
     isOrderPlaced: false,
     orderItems: [ 
@@ -89,6 +90,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       this.$reset();
       this.$state.clientId = clientId;
       this.$state.orderId = order.OrderId;
+      this.$state.disableAddPizza = true;
       this.$state.disableOrdering = true;
       this.$state.receivedOrderState.IsVisible = true;
       await this.createRealtimeConnection(clientId, order);
@@ -139,7 +141,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
         const result = await response.json();
         this.$state.orderId = result.orderId;
       } else {
-        this.$state.disableOrdering = false;
+        this.$state.disableAddPizza = false;
         console.log(response.statusText);
       }
     },
@@ -230,6 +232,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
         sentToKitchenState: {
           IsVisible: true,
         },
+        disableAddPizza: false,
       });
     },
 
@@ -261,7 +264,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
         sentToKitchenState: {
           IsCurrentState: false,
         },
-        disableOrdering: false,
+        disableAddPizza: false,
       });
     },
   },
