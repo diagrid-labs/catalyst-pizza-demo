@@ -7,6 +7,7 @@
 
 .dapr
 secrets.json
+!back-end/KitchenService/secrets.json
 
 # User-specific files
 *.rsuser
