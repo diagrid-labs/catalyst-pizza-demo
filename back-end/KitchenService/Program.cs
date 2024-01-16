@@ -2,7 +2,6 @@ using KitchenService;
 using Dapr;
 using Dapr.Client;
 using Shared.Models;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -16,7 +15,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-var daprClient = new DaprClientBuilder().Build();
+var daprHttpEndpoint = Environment.GetEnvironmentVariable("DAPR_HTTP_ENDPOINT");
+var daprGrpcEndpoint = Environment.GetEnvironmentVariable("DAPR_GRPC_ENDPOINT");
+var daprApiToken = Environment.GetEnvironmentVariable("DAPR_API_TOKEN");
+var daprClient = new DaprClientBuilder()
+    .UseGrpcEndpoint(daprGrpcEndpoint)
+    .UseHttpEndpoint(daprHttpEndpoint)
+    .UseDaprApiToken(daprApiToken)
+    .Build();
 var stateManagement = new StateManagement(daprClient);
 
 app.UseHttpsRedirection();

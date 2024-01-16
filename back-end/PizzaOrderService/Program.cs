@@ -6,25 +6,21 @@ using IO.Ably;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var httpClient = new HttpClient {
-    BaseAddress = new Uri("http://localhost:3500/v1.0/")
-};
-var response = await httpClient.GetAsync("secrets/localsecretstore/AblyApiKey");
-var secrets = await response.Content.ReadFromJsonAsync<Secrets>();
-builder.Services.AddSingleton<IRestClient>(new AblyRest(secrets?.AblyApiKey));
+var ablyApiKey = Environment.GetEnvironmentVariable("ABLY_API_KEY");
+builder.Services.AddSingleton<IRestClient>(new AblyRest(ablyApiKey));
 
 builder.Services.AddControllers();
-builder.Services.AddDaprClient();
+builder.Services.AddDaprClient(options => {
+    options.UseDaprApiToken(Environment.GetEnvironmentVariable("DAPR_API_TOKEN"));
+    options.UseGrpcEndpoint(Environment.GetEnvironmentVariable("DAPR_GRPC_ENDPOINT"));
+    options.UseHttpEndpoint(Environment.GetEnvironmentVariable("DAPR_HTTP_ENDPOINT")
+});
 builder.Services.AddDaprWorkflowClient();
 builder.Services.AddSingleton<StateManagement>();
 
 builder.Services.AddDaprWorkflow(options =>
 {
-    // Note that it's also possible to register a lambda function as the workflow
-    // or activity implementation instead of a class.
     options.RegisterWorkflow<PizzaOrderWorkflow>();
-
-    // These are the activities that get invoked by the workflow(s).
     options.RegisterActivity<NotifyActivity>();
     options.RegisterActivity<SaveOrderActivity>();
     options.RegisterActivity<CheckInventoryActivity>();
@@ -38,7 +34,6 @@ if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DAPR_GRPC_PORT")))
     Environment.SetEnvironmentVariable("DAPR_GRPC_PORT", "50001");
 }
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

@@ -50,12 +50,13 @@ The repo contains two variations:
 1. The `local-dapr` branch runs the .NET services locally and uses Dapr in [self-hosted mode](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-overview/) using the Dapr CLI with multi-app-run.
 2. Work in progress: The 'main' branch runs the .NET services on Google Cloud Run and uses a managed version of the Dapr API provided by [Diagrid Catalyst](https://www.diagrid.io/catalyst).
 
-## Running the `local-dapr` variation locally
+## Running the `main` variation locally
 
 ### Prerequisites
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
+- [Catalyst account]()
+- [Daigrid CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
 - [Ably account (free)](https://www.ably.com/signup)
 - [Vercel account (hobby)](https://vercel.com/signup) and the [Vercel CLI](https://vercel.com/docs/cli)
 
@@ -70,7 +71,63 @@ The repo contains two variations:
    - `ABLY_API_KEY` - paste the Ably API key obtained from the Ably portal.
    - `WORKFLOW_URL` - `http://localhost:5064/workflow/orderReceived`.
 5. In the locally cloned repo, rename [back-end\PizzaOrderService\secrets.json.example](back-end\PizzaOrderService\secrets.json.example) to `secrets.json`.
-6. Paste the Ably API key in the `AblyApiKey` value in the `secrets.json` file.
+6. Set the Ably API key as an environment variable:
+
+   `setx ABLY_API_KEY <ably API key>`.
+
+### Catalyst
+
+1. Log into [Diagrid Catalyst](https://catalyst.diagrid.io/) and create a new Catalyst project: `catalyst-pizza-project`.
+2. Create a new App ID for the *PizzaOrderService*: `pizzaorderservice`.
+3. Create a new App ID for the *KitchenService*: `kitchenservice`.
+4. Using the terminal  run diagrid login and follow the instructions to login to Diagrid.
+5. Run `diagrid dev scaffold` to the local dev environment. This creates a yaml file like this:
+
+	```yaml
+	project: catalyst-pizza-project
+	apps:
+	- appId: kitchenservice
+	appPort: 0
+	env:
+		DAPR_API_TOKEN: diagrid://<dapr_api_token>
+		DAPR_APP_ID: kitchenservice
+		DAPR_GRPC_ENDPOINT: https://<grpc_endpoint>
+		DAPR_HTTP_ENDPOINT: https://<http_endpoint>
+	workDir: kitchenservice
+	command: []
+	- appId: pizzaorderservice
+	appPort: 0
+	env:
+		DAPR_API_TOKEN: diagrid://<dapr_api_token>
+		DAPR_APP_ID: pizzaorderservice
+		DAPR_GRPC_ENDPOINT: https://<grpc_endpoint>
+		DAPR_HTTP_ENDPOINT: https://<http_endpoint>
+	workDir: pizzaorderservice
+	command: []
+	appLogDestination: ""
+	```
+
+6. Update the `command` arguments to be `["dotnet", "run"]` for both apps.
+7. Add a ABLY_API_KEY environment variable for the pizzaorderservoce app and set the value to the Ably API key obtained from the Ably portal.
+
+
+8. Copy the Dapr endpoints and API token for the *PizzaOrderService* and set environment variables locally:
+    1. `setx DAPR_HTTP_ENDPOINT <http endpoint>`
+    2. `setx DAPR_GRPC_ENDPOINT <grpc endpoint>`
+    3. `setx DAPR_API_TOKEN_PS <pizzaorderservice api token>`
+9.  Copy the API token for the *KitchenService* and set this environment variable locally:
+    1. `setx DAPR_API_TOKEN_KS <kitchenservice api token>`
+10. Create a Diagrid pub/sub topic that both services can use:
+   1. Go to Pub/Sub Subscriptions.
+   2. Select Create Subscription and use the following settings:
+	  1. Subscription name: `pizzasubscription`
+	  2. Pub/Sub connection: `pubsub`
+	  3. Scopes: `kitchenservice, pizzaorderservice`
+	  4. Topic: `pizza-orders`
+	  5. Dead letter topic: *leave empty*
+	  6. Default route: `/prepare`
+   3. Select *Create Subscription*.
+   4. 
 
 ### Running the solution
 

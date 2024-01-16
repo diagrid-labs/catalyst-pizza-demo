@@ -3,11 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
-# Dapr files & local secrets
+# Diagrid files
 
-.dapr
-secrets.json
-!back-end/KitchenService/secrets.json
+.diagrid
+*catalyst-pizza-project.yaml
+
 
 # User-specific files
 *.rsuser
