@@ -14,7 +14,7 @@ const {
     <div class="flex-row-pizza" >
         <PizzaItem :state=orderItems[0] />
         <PizzaItem :state=orderItems[1] />
-        <PizzaItem :state=orderItems[2] />
+        <PizzaItem :state=orderItems[2] :class="orderItems[2].PizzaType" />
         <PizzaItem :state=orderItems[3] />
     </div>
 </template>
