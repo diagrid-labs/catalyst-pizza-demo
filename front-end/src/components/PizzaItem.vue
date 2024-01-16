@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { pizzaProcessStore } from "../stores";
-import type { OrderItem } from '@/types/Types';
+import { PizzaType, type OrderItem } from '@/types/Types';
 
 export interface OrderItemInterface {
   state: OrderItem;
@@ -22,7 +22,7 @@ function addPizza() {
 <template>
     <div class="pizza-item">
       
-      <button @click="addPizza" :disabled="disableAddPizza">
+      <button @click="addPizza" :disabled="disableAddPizza || props.state.PizzaType===PizzaType.Hawaiian">
         <img
           v-bind:alt="props.state.PizzaType"
           v-bind:title="props.state.PizzaType"
@@ -38,6 +38,10 @@ function addPizza() {
     margin: 0.5em;
     display: flex;
     flex-direction: column;
+}
+
+.Hawaiian > button {
+   cursor: not-allowed;
 }
 
 img {
@@ -73,6 +77,12 @@ button:hover:enabled {
 button:disabled {
   border-color: var(--vt-c-divider-dark-2);
   background-color: var(--vt-c-text-dark-2);
+}
+
+.Hawaiian > button:disabled {
+  background-color: var(--vt-c-yellow-dark);
+  border-color: var(--vt-c-yellow-dark);
+  color: var(--color-text);
 }
 
 </style>

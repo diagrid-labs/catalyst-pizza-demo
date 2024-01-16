@@ -20,11 +20,8 @@ builder.Services.AddSingleton<StateManagement>();
 
 builder.Services.AddDaprWorkflow(options =>
 {
-    // Note that it's also possible to register a lambda function as the workflow
-    // or activity implementation instead of a class.
     options.RegisterWorkflow<PizzaOrderWorkflow>();
 
-    // These are the activities that get invoked by the workflow(s).
     options.RegisterActivity<NotifyActivity>();
     options.RegisterActivity<SaveOrderActivity>();
     options.RegisterActivity<CheckInventoryActivity>();
@@ -38,7 +35,6 @@ if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DAPR_GRPC_PORT")))
     Environment.SetEnvironmentVariable("DAPR_GRPC_PORT", "50001");
 }
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
