@@ -2,6 +2,7 @@
 import { storeToRefs } from "pinia";
 import { pizzaProcessStore } from "../stores";
 import { PizzaType, type OrderItem } from '@/types/Types';
+import type { ButtonHTMLAttributes } from "vue";
 
 export interface OrderItemInterface {
   state: OrderItem;
@@ -17,12 +18,20 @@ function addPizza() {
   store.incrementPizzaCount(props.state.PizzaType);
 }
 
+function logMessage(event: MouseEvent) {
+  var el = event.target as HTMLInputElement;
+  if (el.disabled) {
+    const messages = ['Pizza with pineapple?! Seriously?!', 'Noooooooooooo', '🍍🚫']
+    console.log(messages[Math.floor(Math.random() * messages.length)]);
+  }
+}
+
 </script>
 
 <template>
-    <div class="pizza-item">
+    <div class="pizza-item" @click="temp">
       
-      <button @click="addPizza" :disabled="disableAddPizza || props.state.PizzaType===PizzaType.Hawaiian">
+      <button @click="addPizza" :disabled="disableAddPizza || props.state.PizzaType===PizzaType.Hawaiian" @mouseover="logMessage">
         <img
           v-bind:alt="props.state.PizzaType"
           v-bind:title="props.state.PizzaType"
