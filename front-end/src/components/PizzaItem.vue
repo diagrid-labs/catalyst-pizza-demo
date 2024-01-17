@@ -29,8 +29,7 @@ function logMessage(event: MouseEvent) {
 </script>
 
 <template>
-    <div class="pizza-item" @click="temp">
-      
+    <div class="pizza-item">
       <button @click="addPizza" :disabled="disableAddPizza || props.state.PizzaType===PizzaType.Hawaiian" @mouseover="logMessage">
         <img
           v-bind:alt="props.state.PizzaType"
