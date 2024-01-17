@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddDaprClient(options => {
     options.UseDaprApiToken(Environment.GetEnvironmentVariable("DAPR_API_TOKEN"));
     options.UseGrpcEndpoint(Environment.GetEnvironmentVariable("DAPR_GRPC_ENDPOINT"));
-    options.UseHttpEndpoint(Environment.GetEnvironmentVariable("DAPR_HTTP_ENDPOINT")
+    options.UseHttpEndpoint(Environment.GetEnvironmentVariable("DAPR_HTTP_ENDPOINT"));
 });
 builder.Services.AddDaprWorkflowClient();
 builder.Services.AddSingleton<StateManagement>();
