@@ -21,7 +21,7 @@ public class WorkflowController : ControllerBase
     }
 
     [HttpPost("orderReceived")]
-    [Topic("pizza-pubsub", "received-orders")]
+    [Topic("pubsub", "received-orders")]
     public async Task<IResult> StartPizzaWorkflow([FromBody] Order order)
     {
         _logger.LogInformation($"Received message to start pizza workflow with ID {order.OrderId}.");
@@ -34,7 +34,7 @@ public class WorkflowController : ControllerBase
     }
 
     [HttpPost("orderPrepared")]
-    [Topic("pizza-pubsub", "prepared-orders")]
+    [Topic("pubsub", "prepared-orders")]
     public async Task<IResult> RaiseOrderPreparedEvent([FromBody] Order order)
     {
         var instanceId = order.OrderId;

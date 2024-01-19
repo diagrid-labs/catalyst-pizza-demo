@@ -5,7 +5,7 @@
 ###
 ### Post an order to the pizza-orders topic
 ###
-POST {{dapr_url}}/v1.0/publish/pizza-pubsub/pizza-orders
+POST {{dapr_url}}/v1.0/publish/pubsub/pizza-orders
 Content-Type: application/json
 
 {

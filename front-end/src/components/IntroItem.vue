@@ -42,7 +42,7 @@ function getRandomTmntCrew() : Customer {
 </script>
 
 <template>
-  <div class="greetings">
+  <div class="intro">
     <img :src="Tmnt" height="50" />
     <h1>
       Diagrid Pizza Store
@@ -120,8 +120,8 @@ button:disabled {
   background-color: var(--vt-c-text-dark-2);
 }
 
-.greetings h1,
-.greetings h3 {
+.intro h1,
+.intro h3 {
   text-align: center;
 }
 
@@ -141,8 +141,8 @@ button:disabled {
 }
 
 @media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
+  .content h1,
+  .content h3 {
     text-align: left;
   }
 

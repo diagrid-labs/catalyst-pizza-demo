@@ -7,7 +7,7 @@ namespace KitchenService
     public class StateManagement
     {
         private readonly DaprClient _client;
-        private static readonly string storeName = "pizza-statestore";
+        private static readonly string storeName = "kvstore";
 
         public StateManagement(DaprClient client)
         {
@@ -71,15 +71,13 @@ namespace KitchenService
                 var pizzaInStore = pizzasInStore.First(p => p.PizzaType == pizza.PizzaType);
                 var updatedQuantity = pizzaInStore.Quantity - pizza.Quantity;
                 var updatedItem = pizzaInStore with { Quantity = updatedQuantity };
-                saveStateItems.Add(new SaveStateItem<OrderItem>(
-                    FormatKey(nameof(PizzaType), pizza.PizzaType.ToString()),
-                    updatedItem,
-                    null));
+                var stateKey = FormatKey(nameof(PizzaType), pizza.PizzaType.ToString());
+
+                await _client.SaveStateAsync(
+                    storeName,
+                    stateKey,
+                    updatedItem);
             };
-            
-            await _client.SaveBulkStateAsync(
-                storeName,
-                saveStateItems.AsReadOnly());
         }
 
         public async Task SaveOrderAsync(Order order)

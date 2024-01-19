@@ -83,14 +83,13 @@ button:hover:enabled {
 }
 
 button:disabled {
-  border-color: var(--vt-c-divider-dark-2);
-  background-color: var(--vt-c-text-dark-2);
+  cursor: not-allowed;
 }
 
 .Hawaiian > button:disabled {
-  background-color: var(--vt-c-yellow-dark);
-  border-color: var(--vt-c-yellow-dark);
-  color: var(--color-text);
+  /* background-color: var(--vt-c-yellow-dark);
+  border-color: var(--vt-c-yellow-dark); */
+  /* color: var(--color-text); */
 }
 
 </style>

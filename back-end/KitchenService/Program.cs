@@ -27,13 +27,13 @@ var stateManagement = new StateManagement(daprClient);
 
 app.UseHttpsRedirection();
 
-app.MapPost("/prepare", [Topic("pizza-pubsub", "pizza-orders")] async (Order order) => {
+app.MapPost("/prepare", [Topic("pubsub", "pizza-orders")] async (Order order) => {
     Console.WriteLine("Kitchen received: " + order.OrderId);
     await stateManagement.UpdatePizzaInventoryAsync(order.OrderItems);
     Thread.Sleep(3000);
     var updatedOrder = order with { Status = OrderStatus.CompletedPreparation };
     await stateManagement.SaveOrderAsync(updatedOrder);
-    await daprClient.PublishEventAsync("pizza-pubsub", "prepared-orders", updatedOrder);
+    await daprClient.PublishEventAsync("pubsub", "prepared-orders", updatedOrder);
 });
 
 app.Run();

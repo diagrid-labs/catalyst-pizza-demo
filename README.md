@@ -47,15 +47,15 @@ RTS ---->|website notification| W
 
 The repo contains two variations:
 
-1. The `local-dapr` branch runs the .NET services locally and uses Dapr in [self-hosted mode](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-overview/) using the Dapr CLI with multi-app-run.
-2. Work in progress: The 'main' branch runs the .NET services on Google Cloud Run and uses a managed version of the Dapr API provided by [Diagrid Catalyst](https://www.diagrid.io/catalyst).
+1. The [`local-dapr` branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/local-dapr) runs the .NET services locally and uses Dapr in [self-hosted mode](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-overview/) using the Dapr CLI with multi-app-run.
+2. Work in progress: The ['main' branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/main) runs the .NET services locally and uses a managed version of the Dapr API provided by [Diagrid Catalyst](https://www.diagrid.io/catalyst).
 
 ## Running the `main` variation locally
 
 ### Prerequisites
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [Catalyst account]()
+- [Diagrid Catalyst account](https://catalyst.diagrid.io/)
 - [Daigrid CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
 - [Ably account (free)](https://www.ably.com/signup)
 - [Vercel account (hobby)](https://vercel.com/signup) and the [Vercel CLI](https://vercel.com/docs/cli)

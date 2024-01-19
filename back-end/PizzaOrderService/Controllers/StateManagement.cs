@@ -7,7 +7,7 @@ namespace OrderService.Controllers
     public class StateManagement
     {
         private readonly DaprClient _client;
-        private static readonly string storeName = "pizza-statestore";
+        private static readonly string storeName = "kvstore";
 
         public StateManagement(DaprClient client)
         {
@@ -50,23 +50,22 @@ namespace OrderService.Controllers
 
             foreach (var pizza in pizzas)
             {
-                saveStateItems.Add(new SaveStateItem<OrderItem>(
-                    FormatKey(nameof(PizzaType), pizza.PizzaType.ToString()),
-                    pizza,
-                    null));
+                var stateKey = FormatKey(nameof(PizzaType), pizza.PizzaType.ToString());
+                Console.WriteLine($"Saving state with key: {stateKey}");
+                await _client.SaveStateAsync(
+                    storeName,
+                    stateKey,
+                    pizza);
             };
-
-            await _client.SaveBulkStateAsync(
-                storeName,
-                saveStateItems.AsReadOnly());
         }
 
         public async Task SaveOrderAsync(Order order)
         {
-            Console.WriteLine($"Saving order {order.OrderId} with status {order.Status}.");
+            var stateKey = FormatKey(nameof(Order), order.OrderId);
+            Console.WriteLine($"Saving order {order.OrderId} with status {order.Status} and key {stateKey}.");
             await _client.SaveStateAsync(
                 storeName,
-                FormatKey(nameof(Order), order.OrderId),
+                stateKey,
                 order);
         }
         private static string FormatKey(string typeName, string key)

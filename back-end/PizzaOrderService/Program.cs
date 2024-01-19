@@ -3,21 +3,29 @@ using OrderService.Workflows;
 using OrderService.Activities;
 using OrderService.Controllers;
 using IO.Ably;
+using Dapr.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var ablyApiKey = Environment.GetEnvironmentVariable("ABLY_API_KEY");
 builder.Services.AddSingleton<IRestClient>(new AblyRest(ablyApiKey));
 
+var apiToken = Environment.GetEnvironmentVariable("DAPR_API_TOKEN");
+Console.WriteLine($"DAPR_API_TOKEN: {apiToken}");
+var grpcEndpoint = Environment.GetEnvironmentVariable("DAPR_GRPC_ENDPOINT");
+Console.WriteLine($"DAPR_GRPC_ENDPOINT: {grpcEndpoint}");
+var httpEndpoint = Environment.GetEnvironmentVariable("DAPR_HTTP_ENDPOINT");
+Console.WriteLine($"DAPR_HTTP_ENDPOINT: {httpEndpoint}");
+
 builder.Services.AddControllers();
 builder.Services.AddDaprClient(options => {
-    options.UseDaprApiToken(Environment.GetEnvironmentVariable("DAPR_API_TOKEN"));
-    options.UseGrpcEndpoint(Environment.GetEnvironmentVariable("DAPR_GRPC_ENDPOINT"));
-    options.UseHttpEndpoint(Environment.GetEnvironmentVariable("DAPR_HTTP_ENDPOINT"));
+    options.UseDaprApiToken(apiToken);
+    options.UseGrpcEndpoint(grpcEndpoint);
+    options.UseHttpEndpoint(httpEndpoint);
 });
+
 builder.Services.AddDaprWorkflowClient();
 builder.Services.AddSingleton<StateManagement>();
-
 builder.Services.AddDaprWorkflow(options =>
 {
     options.RegisterWorkflow<PizzaOrderWorkflow>();
@@ -54,9 +62,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-
-class Secrets
-{
-    public string? AblyApiKey { get; set; }
-}

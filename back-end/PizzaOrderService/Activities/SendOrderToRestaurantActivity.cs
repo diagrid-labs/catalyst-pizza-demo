@@ -22,7 +22,7 @@ namespace OrderService.Activities
             // Simulate a delay in communicating with the kitchen.
             Thread.Sleep(2000);
             
-            await _daprClient.PublishEventAsync("pizza-pubsub", "pizza-orders", order);
+            await _daprClient.PublishEventAsync("pubsub", "pizza-orders", order);
 
             return null;
         }
