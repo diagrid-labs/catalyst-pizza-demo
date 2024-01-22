@@ -6,6 +6,8 @@ import type { PizzaWorkflow } from "@/types/PizzaWorkflow";
 import OrderImage from "../assets/Order.png";
 import InStockImage from "../assets/Inventory1.png";
 import NotInStockImage from "../assets/Inventory2.png";
+import InventoryCabinetFull from "../assets/InventoryCabinetFull.png";
+import InventoryCabinetHalfEmpty from "../assets/InventoryCabinetHalfEmpty.png";
 import OvenImage from "../assets/Oven.png";
 import PizzaBoxImage from "../assets/PizzaBox.png";
 import PizzaPepperoni from "../assets/Pizza1.png";
@@ -40,7 +42,15 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       IsDisabled: true,
       IsCurrentState: false,
     },
-    checkedInventoryState: {
+    checkingInventoryState: {
+      Title: "",
+      OrderId: "",
+      Image: InventoryCabinetHalfEmpty,
+      IsVisible: false,
+      IsDisabled: true,
+      IsCurrentState: false,
+    },
+    sufficientInventoryState: {
       Title: "",
       OrderId: "",
       Image: InStockImage,
@@ -59,7 +69,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     restockedInventoryState: {
       Title: "",
       OrderId: "",
-      Image: NotInStockImage,
+      Image: InventoryCabinetFull,
       IsVisible: false,
       IsDisabled: true,
       IsCurrentState: false,
@@ -83,7 +93,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
     unknownState: {
       Title: "Oops we don't know what happened!",
       OrderId: "",
-      Image: NotInStockImage,
+      Image: "",
       IsVisible: false,
       IsDisabled: true,
       IsCurrentState: false,
@@ -170,7 +180,13 @@ export const pizzaProcessStore = defineStore("pizza-process", {
         }
       );
       this.channelInstance?.subscribe(
-        "CheckedInventory",
+        "CheckingInventory",
+        (message: Types.Message) => {
+          this.handleCheckingInventory(message);
+        }
+      );
+      this.channelInstance?.subscribe(
+        "SufficientInventory",
         (message: Types.Message) => {
           this.handleSufficientInventory(message);
         }
@@ -209,7 +225,24 @@ export const pizzaProcessStore = defineStore("pizza-process", {
           IsDisabled: false,
           IsCurrentState: true,
         },
-        checkedInventoryState: {
+        checkingInventoryState: {
+          IsVisible: true,
+        },
+      });
+    },
+
+    handleCheckingInventory(message: Types.Message) {
+      this.$patch({
+        checkingInventoryState: {
+          Title: message.data.Message,
+          OrderId: message.data.Order.OrderId,
+          IsDisabled: false,
+          IsCurrentState: true,
+        },
+        receivedOrderState: {
+          IsCurrentState: false,
+        },
+        sufficientInventoryState: {
           IsVisible: true,
         },
       });
@@ -217,13 +250,14 @@ export const pizzaProcessStore = defineStore("pizza-process", {
 
     handleSufficientInventory(message: Types.Message) {
       this.$patch({
-        checkedInventoryState: {
+        sufficientInventoryState: {
           Title: message.data.Message,
           OrderId: message.data.Order.OrderId,
           IsDisabled: false,
           IsCurrentState: true,
+          IsVisible: true,
         },
-        receivedOrderState: {
+        checkingInventoryState: {
           IsCurrentState: false,
         },
         sentToKitchenState: {
@@ -239,6 +273,10 @@ export const pizzaProcessStore = defineStore("pizza-process", {
           OrderId: message.data.Order.OrderId,
           IsDisabled: false,
           IsCurrentState: true,
+          IsVisible: true,
+        },
+        checkingInventoryState: {
+          IsCurrentState: false,
         },
         restockedInventoryState: {
           IsVisible: true,
@@ -257,7 +295,7 @@ export const pizzaProcessStore = defineStore("pizza-process", {
         insufficientInventoryState: {
           IsCurrentState: false,
         },
-        sentToKitchenState: {
+        sufficientInventoryState: {
           IsVisible: true,
         },
       });
@@ -271,7 +309,10 @@ export const pizzaProcessStore = defineStore("pizza-process", {
           IsDisabled: false,
           IsCurrentState: true,
         },
-        checkedInventoryState: {
+        checkingInventoryState: {
+          IsCurrentState: false,
+        },
+        restockedInventoryState: {
           IsCurrentState: false,
         },
         completedPreparationState: {

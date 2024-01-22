@@ -17,6 +17,10 @@ namespace OrderService.Activities
         public override async Task<object?> RunAsync(WorkflowActivityContext context, object? input)
         {
             _logger.LogInformation($"Restocking inventory.");
+            
+            // Simulate a delay in checking inventory.
+            Thread.Sleep(2000);
+            
             await _httpClient.PostAsync($"/inventory/restock", null);
 
             return null;

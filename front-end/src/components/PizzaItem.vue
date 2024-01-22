@@ -2,7 +2,6 @@
 import { storeToRefs } from "pinia";
 import { pizzaProcessStore } from "../stores";
 import { PizzaType, type OrderItem } from '@/types/Types';
-import type { ButtonHTMLAttributes } from "vue";
 
 export interface OrderItemInterface {
   state: OrderItem;

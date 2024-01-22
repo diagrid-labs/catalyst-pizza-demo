@@ -23,7 +23,7 @@ function createOrder() {
     OrderId: orderId,
     OrderDate: today,
     Customer: getRandomTmntCrew(),
-    OrderItems: store.orderItems
+    OrderItems: store.orderItems.filter((item) => item.Quantity > 0),
   };
 
   return order;

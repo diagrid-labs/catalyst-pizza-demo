@@ -6,12 +6,13 @@ namespace Shared.Models
     public enum OrderStatus
     {
         Received = 0,
-        CheckedInventory = 1,
-        SentToKitchen = 2,
-        CompletedPreparation = 3,
-        InsufficientInventory = 4,
-        Error = 5,
-        RestockedInventory = 6
+        CheckingInventory = 1,
+        SufficientInventory = 2,
+        InsufficientInventory = 3,
+        RestockedInventory = 4,
+        SentToKitchen = 5,
+        CompletedPreparation = 6,
+        Error = 7,
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

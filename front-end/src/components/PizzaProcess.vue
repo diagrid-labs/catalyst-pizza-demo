@@ -7,9 +7,10 @@ import type { WorkflowState } from "@/types/WorkflowState";
 const store = pizzaProcessStore();
 const {
   receivedOrderState: receivedOrderState,
-  checkedInventoryState: checkedInventoryState,
-  restockedInventoryState: restockedInventoryState,
+  checkingInventoryState: checkingInventoryState,
   insufficientInventoryState: insufficientInventoryState,
+  restockedInventoryState: restockedInventoryState,
+  sufficientInventoryState: sufficientInventoryState,
   sentToKitchenState: sentToKitchenState,
   completedPreparationState: completedPreparationState,
   unknownState: unknownState,
@@ -23,6 +24,11 @@ const {
     :state="(receivedOrderState as WorkflowState)"
   />
   <ProgressItem
+    class="animate"
+    v-if="(checkingInventoryState as WorkflowState).IsVisible"
+    :state="(checkingInventoryState as WorkflowState)"
+  />
+  <ProgressItem
   class="animate"
   v-if="(insufficientInventoryState as WorkflowState).IsVisible"
   :state="(insufficientInventoryState as WorkflowState)"
@@ -33,9 +39,9 @@ const {
   :state="(restockedInventoryState as WorkflowState)"
   />
   <ProgressItem
-    class="animate"
-    v-if="(checkedInventoryState as WorkflowState).IsVisible"
-    :state="(checkedInventoryState as WorkflowState)"
+  class="animate"
+  v-if="(sufficientInventoryState as WorkflowState).IsVisible"
+  :state="(sufficientInventoryState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
@@ -56,9 +62,9 @@ const {
 
 <style scoped>
 .animate {
-  animation-duration: 0.5s;
+  animation-duration: 0.3s;
   animation-name: animate-fade;
-  animation-delay: 0.5s;
+  animation-delay: 0.3s;
   animation-fill-mode: backwards;
 }
 

@@ -73,7 +73,7 @@ function getImgTitle(state: WorkflowState) {
 }
 
 .details > img {
-  width: 150px;
+  width: 130px;
   border: 0;
   height: auto;
 }

@@ -20,7 +20,7 @@ namespace OrderService.Activities
             _logger.LogInformation($"Sending order {order.OrderId} to the kitchen.");
             
             // Simulate a delay in communicating with the kitchen.
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             
             await _daprClient.PublishEventAsync("pubsub", "pizza-orders", order);
 

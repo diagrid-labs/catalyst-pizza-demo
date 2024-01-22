@@ -8,16 +8,21 @@ namespace OrderService.Workflows
     {
         public override async Task<OrderResult> RunAsync(WorkflowContext context, Order order)
         {
-            Order updatedOrder;
-            updatedOrder = order with { Status = OrderStatus.Received };
+            var updatedOrder = order with { Status = OrderStatus.Received };
             
+            await context.CallActivityAsync(
+                    nameof(NotifyActivity),
+                    new Notification($"Received order {order.ShortId} from {order.Customer.Name}.", updatedOrder));
+
             await context.CallActivityAsync(
                 nameof(SaveOrderActivity),
                 updatedOrder);
 
-            await context.CallActivityAsync(
+            updatedOrder = order with { Status = OrderStatus.CheckingInventory };
+            var checkInventoryNotification = new Notification($"Checking inventory for order {updatedOrder.ShortId}.", updatedOrder);
+                await context.CallActivityAsync(
                     nameof(NotifyActivity),
-                    new Notification($"Received order {order.ShortId} from {order.Customer.Name}.", updatedOrder));
+                    checkInventoryNotification);
 
             // Determine if there is enough of the item available for purchase by checking the inventory.
             var inventoryRequest = new InventoryRequest(order.OrderItems);
@@ -44,7 +49,7 @@ namespace OrderService.Workflows
                     restockedInventoryNotification);
             } 
 
-            updatedOrder = updatedOrder with { Status = OrderStatus.CheckedInventory };
+            updatedOrder = updatedOrder with { Status = OrderStatus.SufficientInventory };
             var inventoryNotification = new Notification($"Inventory is sufficient for order {updatedOrder.ShortId}.", updatedOrder);
             await context.CallActivityAsync(
                 nameof(NotifyActivity),
