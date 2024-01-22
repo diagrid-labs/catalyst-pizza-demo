@@ -15,15 +15,28 @@ jobs:
             uses: actions/setup-dotnet@v3
             with:
                 dotnet-version: 8.0.x
-          - name: Restore dependencies
+          - name: Restore PizzaOrderService dependencies
             run: dotnet restore back-end/PizzaOrderService/PizzaOrderService.csproj
-          - name: Build service
+          - name: Build PizzaOrderService service
             run: dotnet build back-end/PizzaOrderService/PizzaOrderService.csproj --no-restore
-          - name: Publish service
+          - name: Publish PizzaOrderService service
             run: dotnet publish back-end/PizzaOrderService/PizzaOrderService.csproj --output ./publish
           - name: Deploy to Azure Web App
             uses: azure/webapps-deploy@v2
             with:
                 app-name: catalyst-pizza-wa
-                publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+                publish-profile: ${{ secrets.AZURE_WEBAPP_PIZZA_PUBLISH_PROFILE }}
                 package: ./publish
+
+          - name: Restore KitchenService dependencies
+            run: dotnet restore back-end/KitchenService/KitchenService.csproj
+          - name: Build KitchenService service
+            run: dotnet build back-end/KitchenService/KitchenService.csproj --no-restore
+          - name: Publish KitchenService service
+            run: dotnet publish back-end/KitchenService/KitchenService.csproj --output ./publish
+          - name: Deploy to Azure Web App
+            uses: azure/webapps-deploy@v2
+            with:
+              app-name: catalyst-kitchen-wa
+              publish-profile: ${{ secrets.AZURE_WEBAPP_KITCHEN_PUBLISH_PROFILE }}
+              package: ./publish
