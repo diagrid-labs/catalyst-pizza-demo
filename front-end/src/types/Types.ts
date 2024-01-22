@@ -32,8 +32,9 @@ export enum PizzaType {
 export enum OrderStatus {
   Received = "Received",
   CheckedInventory = "CheckedInventory",
+  RestockedInventory = "RestockedInventory",
   SentToKitchen = "SentToKitchen",
   CompletedPreparation = "CompletedPreparation",
-  CancelledLimitedInventory = "CancelledLimitedInventory",
-  Unknown = "Unknown",
+  InsufficientInventory = "InsufficientInventory",
+  Error = "Error",
 }

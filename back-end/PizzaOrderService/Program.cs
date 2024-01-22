@@ -11,13 +11,19 @@ var ablyApiKey = Environment.GetEnvironmentVariable("ABLY_API_KEY");
 builder.Services.AddSingleton<IRestClient>(new AblyRest(ablyApiKey));
 
 var apiToken = Environment.GetEnvironmentVariable("DAPR_API_TOKEN");
-Console.WriteLine($"DAPR_API_TOKEN: {apiToken}");
 var grpcEndpoint = Environment.GetEnvironmentVariable("DAPR_GRPC_ENDPOINT");
-Console.WriteLine($"DAPR_GRPC_ENDPOINT: {grpcEndpoint}");
 var httpEndpoint = Environment.GetEnvironmentVariable("DAPR_HTTP_ENDPOINT");
-Console.WriteLine($"DAPR_HTTP_ENDPOINT: {httpEndpoint}");
+var appId = Environment.GetEnvironmentVariable("DAPR_APP_ID");
 
 builder.Services.AddControllers();
+builder.Services.AddHttpClient(
+    "daprEndpoint", 
+    client => {
+        client.BaseAddress = new Uri(httpEndpoint);
+        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        client.DefaultRequestHeaders.Add("dapr-app-id", appId);
+        client.DefaultRequestHeaders.Add("dapr-api-token", apiToken);
+    });
 builder.Services.AddDaprClient(options => {
     options.UseDaprApiToken(apiToken);
     options.UseGrpcEndpoint(grpcEndpoint);
@@ -33,6 +39,7 @@ builder.Services.AddDaprWorkflow(options =>
     options.RegisterActivity<SaveOrderActivity>();
     options.RegisterActivity<CheckInventoryActivity>();
     options.RegisterActivity<SendOrderToKitchenActivity>();
+    options.RegisterActivity<RestockInventory>();
 });
 
 // Dapr uses a random port for gRPC by default. If we don't know what that port

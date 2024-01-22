@@ -25,23 +25,30 @@ namespace OrderService.Workflows
                 nameof(CheckInventoryActivity),
                 inventoryRequest);
 
-            
-            Notification inventoryNotification;
             if (!inventoryResult.IsSufficientInventory)
             {
-                // End the workflow here since we don't have sufficient inventory.
-                updatedOrder = updatedOrder with { Status = OrderStatus.CancelledLimitedInventory };
-                inventoryNotification = new Notification($"Inventory is insufficient for order {updatedOrder.ShortId}.", updatedOrder);
-
-                return new OrderResult(OrderStatus.CancelledLimitedInventory, order, "Insufficient inventory");
-            } else {
-                updatedOrder = updatedOrder with { Status = OrderStatus.CheckedInventory };
-                inventoryNotification = new Notification($"Inventory is sufficient for order {updatedOrder.ShortId}.", updatedOrder);
-            }
-
-            await context.CallActivityAsync(
+                updatedOrder = updatedOrder with { Status = OrderStatus.InsufficientInventory };
+                var insufficientInventoryNotification = new Notification($"Inventory is insufficient for order {updatedOrder.ShortId}.", updatedOrder);
+                await context.CallActivityAsync(
                     nameof(NotifyActivity),
-                    inventoryNotification);
+                    insufficientInventoryNotification);
+
+                await context.CallActivityAsync(
+                    nameof(RestockInventory),
+                    null);
+                
+                updatedOrder = updatedOrder with { Status = OrderStatus.RestockedInventory };
+                var restockedInventoryNotification = new Notification($"Inventory is restocked.", updatedOrder);
+                await context.CallActivityAsync(
+                    nameof(NotifyActivity),
+                    restockedInventoryNotification);
+            } 
+
+            updatedOrder = updatedOrder with { Status = OrderStatus.CheckedInventory };
+            var inventoryNotification = new Notification($"Inventory is sufficient for order {updatedOrder.ShortId}.", updatedOrder);
+            await context.CallActivityAsync(
+                nameof(NotifyActivity),
+                inventoryNotification);
 
             await context.CallActivityAsync(
                 nameof(SendOrderToKitchenActivity),
@@ -61,7 +68,7 @@ namespace OrderService.Workflows
                     new Notification($"Order {updatedOrder.ShortId} is completed for {updatedOrder.Customer.Name}!", updatedOrder));
             }
             else {
-                updatedOrder = updatedOrder with { Status = OrderStatus.Unknown };
+                updatedOrder = updatedOrder with { Status = OrderStatus.Error };
             }
 
             return new OrderResult(updatedOrder.Status, updatedOrder);

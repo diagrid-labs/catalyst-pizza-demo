@@ -56,6 +56,14 @@ export const pizzaProcessStore = defineStore("pizza-process", {
       IsDisabled: true,
       IsCurrentState: false,
     },
+    restockedInventoryState: {
+      Title: "",
+      OrderId: "",
+      Image: NotInStockImage,
+      IsVisible: false,
+      IsDisabled: true,
+      IsCurrentState: false,
+    },
     sentToKitchenState: {
       Title: "",
       OrderId: "",
@@ -168,7 +176,13 @@ export const pizzaProcessStore = defineStore("pizza-process", {
         }
       );
       this.channelInstance?.subscribe(
-        "CancelledLimitedInventory",
+        "RestockedInventory",
+        (message: Types.Message) => {
+          this.handleRestockedInventory(message);
+        }
+      );
+      this.channelInstance?.subscribe(
+        "InsufficientInventory",
         (message: Types.Message) => {
           this.handleInsufficientInventory(message);
         }
@@ -226,13 +240,26 @@ export const pizzaProcessStore = defineStore("pizza-process", {
           IsDisabled: false,
           IsCurrentState: true,
         },
-        checkedInventoryState: {
+        restockedInventoryState: {
+          IsVisible: true,
+        },
+      });
+    },
+
+    handleRestockedInventory(message: Types.Message) {
+      this.$patch({
+        restockedInventoryState: {
+          Title: message.data.Message,
+          OrderId: message.data.Order.OrderId,
+          IsDisabled: false,
+          IsCurrentState: true,
+        },
+        insufficientInventoryState: {
           IsCurrentState: false,
         },
         sentToKitchenState: {
           IsVisible: true,
         },
-        disableAddPizza: false,
       });
     },
 

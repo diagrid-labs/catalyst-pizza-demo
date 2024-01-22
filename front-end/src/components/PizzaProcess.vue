@@ -8,6 +8,7 @@ const store = pizzaProcessStore();
 const {
   receivedOrderState: receivedOrderState,
   checkedInventoryState: checkedInventoryState,
+  restockedInventoryState: restockedInventoryState,
   insufficientInventoryState: insufficientInventoryState,
   sentToKitchenState: sentToKitchenState,
   completedPreparationState: completedPreparationState,
@@ -22,14 +23,19 @@ const {
     :state="(receivedOrderState as WorkflowState)"
   />
   <ProgressItem
-    class="animate"
-    v-if="(checkedInventoryState as WorkflowState).IsVisible"
-    :state="(checkedInventoryState as WorkflowState)"
+  class="animate"
+  v-if="(insufficientInventoryState as WorkflowState).IsVisible"
+  :state="(insufficientInventoryState as WorkflowState)"
+  />
+  <ProgressItem
+  class="animate"
+  v-if="(restockedInventoryState as WorkflowState).IsVisible"
+  :state="(restockedInventoryState as WorkflowState)"
   />
   <ProgressItem
     class="animate"
-    v-if="(insufficientInventoryState as WorkflowState).IsVisible"
-    :state="(insufficientInventoryState as WorkflowState)"
+    v-if="(checkedInventoryState as WorkflowState).IsVisible"
+    :state="(checkedInventoryState as WorkflowState)"
   />
   <ProgressItem
     class="animate"

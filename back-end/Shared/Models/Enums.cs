@@ -9,8 +9,9 @@ namespace Shared.Models
         CheckedInventory = 1,
         SentToKitchen = 2,
         CompletedPreparation = 3,
-        CancelledLimitedInventory = 4,
-        Unknown = 5
+        InsufficientInventory = 4,
+        Error = 5,
+        RestockedInventory = 6
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

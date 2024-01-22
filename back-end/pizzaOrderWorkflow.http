@@ -1,5 +1,5 @@
 @app_url=http://localhost:5064
-@dapr_url=http://localhost:3500
+@dapr_url= {{DAPR_HTTP_ENDPOINT}}
 @workflow_id={{$guid}}
 @currentDate={{$datetime iso8601}}
 
@@ -33,6 +33,7 @@ Content-Type: application/json
 ###
 // @name wfrequest
 POST {{dapr_url}}/v1.0-beta1/workflows/dapr/PizzaOrderWorkflow/start?instanceID={{workflow_id}}
+dapr-api-token: {{DAPR_API_TOKEN}}
 Content-Type: application/json
 
 {
@@ -57,12 +58,14 @@ Content-Type: application/json
 ### Get the status of the workflow
 @wfresponse={{wfrequest.response.body.instanceID}}
 GET {{dapr_url}}/v1.0-beta1/workflows/dapr/{{wfresponse}}
+dapr-api-token: {{DAPR_API_TOKEN}}
 
 ###
 ### Raise an event
 ### 
 @event_name=order-prepared
 POST {{dapr_url}}/v1.0-beta1/workflows/dapr/{{wfresponse}}/raiseEvent/{{event_name}}
+dapr-api-token: {{DAPR_API_TOKEN}}
 Content-Type: application/text
 
 true
