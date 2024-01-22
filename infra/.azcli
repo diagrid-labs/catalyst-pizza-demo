@@ -1,0 +1,9 @@
+# Create a resource group
+az group create --name catalyst-pizza-rg --location westeurope
+
+# Create an App Service plan
+az appservice plan create --name catalyst-pizza-asp --resource-group catalyst-pizza-rg --sku F1 --is-linux
+
+# Create a Web App
+az webapp create --name catalyst-pizza-wa --resource-group catalyst-pizza-rg --plan catalyst-pizza-asp --runtime "DOTNETCORE:8.0"
+
