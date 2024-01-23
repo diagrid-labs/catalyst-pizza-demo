@@ -23,8 +23,15 @@ function createOrder() {
     OrderId: orderId,
     OrderDate: today,
     Customer: getRandomTmntCrew(),
-    OrderItems: store.orderItems.filter((item) => item.Quantity > 0),
-  };
+    OrderItems: store.orderItems
+      .filter((item) => item.Quantity > 0)
+      .map((item) => {
+        return {
+          PizzaType: item.PizzaType,
+          Quantity: item.Quantity,
+        };
+      }),
+    };
 
   return order;
 }

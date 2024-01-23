@@ -19,7 +19,7 @@ export type Customer = {
 export type OrderItem = {
   PizzaType: PizzaType;
   Quantity: number;
-  Image: string;
+  Image?: string;
 };
 
 export enum PizzaType {

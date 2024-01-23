@@ -17,7 +17,7 @@
         </li>
         <li>
           <a
-            href="https://ably.com/blog/visualize-azure-serverless-workflow-progress-in-realtime-with-pubsub?utm_campaign=GLB-2210-serverless-workflow-visualizer&utm_content=demo-serverless-workflow-visualizer&utm_source=ably-dev&utm_medium=demo&src=GLB-2210-serverless-workflow-visualizer-demo"
+            href="https://docs.diagrid.io/catalyst"
             >Diagrid Catalyst Docs</a
           >
           (our most read menu item 📖)
