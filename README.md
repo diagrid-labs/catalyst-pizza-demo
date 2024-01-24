@@ -54,7 +54,7 @@ The repo contains two variations:
 1. The [`local-dapr` branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/local-dapr) runs the .NET services locally and uses Dapr in [self-hosted mode](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-overview/) using the Dapr CLI with multi-app-run.
 2. The ['main' branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/main) runs the .NET services locally and uses a managed version of the Dapr API provided by [Diagrid Catalyst](https://www.diagrid.io/catalyst).
 
-## Running the `main` variation locally
+## Running the Diagrid Catalyst variation locally
 
 ### Prerequisites
 
@@ -156,11 +156,11 @@ The repo contains two variations:
 	```
 
 1. Update the `appPort` for the *kitchenservice* to `5066`
-2. Update the `appPort` for the *pizzaorderservice* to `5064`.
-3. Update the `command` arguments to `["dotnet", "run"]` for both apps.
-4.  Update the `workDir` argument to point to `back-end/KitchenService` and `back-end/PizzaOrderService` respectively.
-5.  Update the `appLogDestination` to `console`.
-6.  Add an `ABLY_API_KEY` environment variable for the *pizzaorderservice* app and set the value to the Ably API key obtained from the Ably portal.
+1. Update the `appPort` for the *pizzaorderservice* to `5064`.
+1. Update the `command` arguments to `["dotnet", "run"]` for both apps.
+1.  Update the `workDir` argument to point to `back-end/KitchenService` and `back-end/PizzaOrderService` respectively.
+1.  Update the `appLogDestination` to `console`.
+1.  Add an `ABLY_API_KEY` environment variable for the *pizzaorderservice* app and set the value to the Ably API key obtained from the Ably portal.
 
 ### Running the solution
 
@@ -171,7 +171,7 @@ The repo contains two variations:
    dotnet build dotnet build ./back-end/PizzaOrderService
    dotnet build dotnet build ./back-end/KitchenService
    ```
-1. Run `diagrid dev start -f .\dev-catalyst-pizza-project.yaml` to start the `PizzaOrderService` and the `KitchenService`.
+1. Run `diagrid dev start` to start the `PizzaOrderService` and the `KitchenService`.
 1. Open another terminal in the *front-end* folder of the repository.
 1. To restore the npm packages run:
 
@@ -179,9 +179,9 @@ The repo contains two variations:
    npm install
    ```
 
-1. Run `vercel dev` to start the website and the serverless functions (`getAblyToken` and `placeOrder`) locally.
+1. Back in the root of the repository run `vercel dev` to start the website and the serverless functions (`getAblyToken` and `placeOrder`) locally.
 1. Navigate to the URL provided by the Vercel CLI to view the website.
-5. Select some pizzas, place an order, and watch the progress of the workflow in realtime.
+1. Select some pizzas, place an order, and watch the progress of the workflow in realtime.
 
 ![tmnt](/images/tmnt.gif)
 
