@@ -71,11 +71,61 @@ The repo contains two variations:
 
 ### Catalyst
 
-1. Log into [Diagrid Catalyst](https://catalyst.diagrid.io/) and create a new Catalyst project: `catalyst-pizza-project`.
-2. Create a new App ID for the *PizzaOrderService*: `pizzaorderservice`.
-3. Create a new App ID for the *KitchenService*: `kitchenservice`.
-4. Using the terminal run `diagrid login` and follow the instructions to login to Diagrid.
-5. Run `diagrid dev scaffold` to create a new local dev environment file . This creates a yaml file, named *dev-\<PROJECT NAME\>.yaml* with the following content:
+1. Open a terminal in the root of the repository and use the Diagrid CLI to login to Diagrid:
+
+   ```bash
+   diagrid login
+   ```
+
+1. Create a new Catalyst project named `catalyst-pizza-project` and use the Diagrid managed PubSub broker & KV store, and enable the managed workflow API:
+
+	```bash
+	diagrid proejct create catalyst-pizza-project --deploy-managed-pubsub --deploy-managed-kv --enable-managed-workflow --wait
+	```
+
+1. To set this project as the default in the CLI run:
+
+	```bash
+	diagrid project use catalyst-pizza-project
+	```
+
+1. Create a new App ID for the *PizzaOrderService*:
+
+	```bash
+	diagrid appid create pizzaorderservice
+	```
+ 
+1. Create a new App ID for the *KitchenService*:
+
+	```bash
+	diagrid appid create kitchenservice
+	```
+
+1. before continuing check the App IDs to make sure they have been created:
+
+	```bash
+	diagrid appid list
+	```
+
+1. Create a pub/sub subscription for the *KitchenService* to receive messages from the *PizzaOrderService*:
+
+	```bash
+	diagrid subscription create pizzaorderssub --connection pubsub --topic pizza-orders --route /prepare --scopes kitchenservice
+	```
+
+1. Create a pub/sub subscription for the *PizzaOrderService* to receive messages from the *KitchenService*:
+
+	```bash
+	diagrid subscription create preparedorderssub --connection pubsub --topic prepared-orders --route /workflow/orderPrepared --scopes pizzaorderservice
+	```
+
+1. Verify that creation of the subscriptions is completed:
+
+	```bash
+	diagrid subscription list
+	```
+
+1. Run `diagrid dev scaffold` to create a new local dev environment file . This creates a yaml file, named *dev-\<PROJECT NAME\>.yaml* with the following content:
 
 	```yaml
 	project: catalyst-pizza-project
@@ -101,41 +151,33 @@ The repo contains two variations:
 	appLogDestination: ""
 	```
 
-6. Update the `command` arguments to be `["dotnet", "run"]` for both apps.
-7. Update the `workDir` argument to point to `back-end/KitchenService` and `back-end/PizzaOrderService` respectively.
-8. Update the `appLogDestination` to be `console`.
-9. Add an `ABLY_API_KEY` environment variable for the pizzaorderservoce app and set the value to the Ably API key obtained from the Ably portal.
-10. Create a Diagrid pub/sub topic that both services can use:
-   1. Go to Pub/Sub Subscriptions.
-   2. Select Create Subscription and use the following settings:
-	  1. Subscription name: `pizzasubscription`
-	  2. Pub/Sub connection: `pubsub`
-	  3. Scopes: `kitchenservice, pizzaorderservice`
-	  4. Topic: `pizza-orders`
-	  5. Dead letter topic: *leave empty*
-	  6. Default route: `/prepare`
-   3. Select *Create Subscription*.
+1. Update the `appPort` for the *kitchenservice* to `5066`
+2. Update the `appPort` for the *pizzaorderservice* to `5064`.
+3. Update the `command` arguments to `["dotnet", "run"]` for both apps.
+4.  Update the `workDir` argument to point to `back-end/KitchenService` and `back-end/PizzaOrderService` respectively.
+5.  Update the `appLogDestination` to `console`.
+6.  Add an `ABLY_API_KEY` environment variable for the *pizzaorderservice* app and set the value to the Ably API key obtained from the Ably portal.
 
 ### Running the solution
 
-1. Open a terminal and navigate to the root of the repository.
-2. Run `diagrid dev start -f .\dev-catalyst-pizza-project.yaml` to start the `PizzaOrderService` and the `KitchenService`.
-3. Make an POST request to the PizzaOrderService to restock the inventory with 20 pizzas for each of the 4 types of pizza:
+1. Open a terminal in the root of the repository.
+1. To restore and build the dotnet project run:
 
-   ```http
-   POST http://localhost:5064/inventory/restock
+   ```bash
+   dotnet build dotnet build ./back-end/PizzaOrderService
+   dotnet build dotnet build ./back-end/KitchenService
+   ```
+1. Run `diagrid dev start -f .\dev-catalyst-pizza-project.yaml` to start the `PizzaOrderService` and the `KitchenService`.
+1. Open another terminal in the *front-end* folder of the repository.
+1. To restore the npm packages run:
+
+   ```bash
+   npm install
    ```
 
-   - You can verify the inventory by making a GET request to the inventory endpoint:
-
-   ```http
-   GET http://localhost:5064/inventory
-   ```
-
-4. Open another terminal and navigate to the root folder of the repo.
-5. Run `vercel dev` to start the website and the serverless functions (`getAblyToken` and `placeOrder`) locally.
-6. Navigate to the URL provided by the Vercel CLI to view the website.
-7. Select some pizzas, place an order, and watch the progress of the workflow in realtime.
+1. Run `vercel dev` to start the website and the serverless functions (`getAblyToken` and `placeOrder`) locally.
+1. Navigate to the URL provided by the Vercel CLI to view the website.
+5. Select some pizzas, place an order, and watch the progress of the workflow in realtime.
 
 ![tmnt](/images/tmnt.gif)
 
