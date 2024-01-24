@@ -35,14 +35,18 @@ W -->|place order| PF
 W --> |get auth token| RF
 RF ---->|get token| RTS
 PF --> |start workflow|WF
-WF-->|send order to kitchen|PS
+WF-.->|send order to kitchen|PS
+WF-->|restock inventory|KV
 WF-->|check inventory|KV
 KS-->|update inventory|KV
-PS-->|receive order|KS
+PS-.->|receive order|KS
 WF---->|notification|RTS
-KS-->|order prepared|PS
-PS-->|raise order prepared event|WF
-RTS ---->|website notification| W
+KS-.->|order prepared|PS
+PS-.->|raise order prepared event|WF
+RTS -.->|notification| W
+
+
+
 ```
 
 The repo contains two variations:
