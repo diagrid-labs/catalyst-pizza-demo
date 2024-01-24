@@ -1,6 +1,6 @@
 # Pizza Workflow Demo
 
-![catalyst pizza app](/images/catalyst-pizza-app.png)
+![catalyst pizza workflow](/images/catalyst-pizza-workflow.gif)
 
 This repository contains a solution that demonstrates how to use combine Dapr APIs for workflow,  pub/sub, and state management to build a distributed pizza ordering system.
 
@@ -44,9 +44,6 @@ WF---->|notification|RTS
 KS-.->|order prepared|PS
 PS-.->|raise order prepared event|WF
 RTS -.->|notification| W
-
-
-
 ```
 
 The repo contains two variations:
