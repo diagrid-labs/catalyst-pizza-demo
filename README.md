@@ -2,71 +2,48 @@
 
 ![catalyst pizza workflow](/images/catalyst-pizza-workflow.gif)
 
-This repository contains a solution that demonstrates how to use combine Dapr APIs for workflow,  pub/sub, and state management to build a distributed pizza ordering system.
+This repository contains a solution that demonstrates how to use the serverless Dapr APIs for workflow, service invocation, pub/sub, and state management to build a distributed pizza ordering system.
 
 The solution includes:
 
 - [Vercel](https://vercel.com); to host the website (based on Vue) and two serverless functions (JavaScript).
-- Two [Dapr](http://dapr.io) services written in .NET, _Pizza Order Service_ and _Kitchen Service_.
-- [Ably](https://ably.com/); to provide realtime communication between the website and backend Pizza Order   Service.
+- Two [Dapr](http://dapr.io) web services written in .NET, *PizzaOrderService* and *KitchenService*.
+- [Ably](https://ably.com/); to provide realtime communication between the *PizzaOrderService* and the website.
+- A key/value store to manage inventory (managed by Diagrid).
+- A pub/sub message broker to communicate between the *PizzaOrderService* and the *KitchenService* (managed by Diagrid).
+- [Diagrid Catalyst](https://www.diagrid.io/catalyst); the serverless glue between services and resources powered by Dapr.
 
-```mermaid
-graph TD
+![Pizza Store Architecture](/images/pizza-store-architecture-v2.png)
 
-subgraph State & Messaging
-	KV[(KV store)]
-	PS[PubSub]
-end
+The *PizzOrderService* contains a Dapr workflow that orchestrates the activities for checking the inventory and communicating with the *KitchenService*.
 
-subgraph Web services
-	KS[Kitchen service]
-	WF[Pizza Order Service]
-end
+![Workflow](/images/pizza-store-workflow-v1.png)
 
-subgraph Vercel
-	W[website]
-	PF[placeOrder function]
-	RF[getRealtimeToken function]
-end
+> *The workflow also contains activities for sending realtime messages to the website, these have been omitted from the workflow diagram to increase the readability.*
 
-RTS[Realtime service]
+This repository contains two variations:
 
-W -->|place order| PF
-W --> |get auth token| RF
-RF ---->|get token| RTS
-PF --> |start workflow|WF
-WF-.->|send order to kitchen|PS
-WF-->|restock inventory|KV
-WF-->|check inventory|KV
-KS-->|update inventory|KV
-PS-.->|receive order|KS
-WF---->|notification|RTS
-KS-.->|order prepared|PS
-PS-.->|raise order prepared event|WF
-RTS -.->|notification| W
-```
-
-The repo contains two variations:
-
-1. The [`local-dapr` branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/local-dapr) runs the .NET services locally and uses Dapr in [self-hosted mode](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-overview/) using the Dapr CLI with multi-app-run.
-2. The ['main' branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/main) runs the .NET services locally and uses a managed version of the Dapr API provided by [Diagrid Catalyst](https://www.diagrid.io/catalyst).
+1. The [`local-dapr` branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/local-dapr) uses Dapr in [self-hosted mode](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-overview/) using the Dapr CLI with multi-app-run. It uses a local Redis instance for state management, pub/sub, and workflow.
+2. The ['main' branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/main) uses a managed version of the Dapr API provided by [Diagrid Catalyst](https://www.diagrid.io/catalyst). It also uses the Diagrid managed key/value store (for state management and workflow), and pub/sub message broker.
 
 ## Running the Diagrid Catalyst variation locally
 
 ### Prerequisites
 
 - [Diagrid Catalyst account](https://catalyst.diagrid.io/) and the [Diagrid CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
-- [Ably account (free)](https://www.ably.com/signup)
 - [Vercel account (hobby)](https://vercel.com/signup) and the [Vercel CLI](https://vercel.com/docs/cli)
+- [Ably account (free)](https://www.ably.com/signup)
+- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- [Node 18](https://nodejs.org/en/download/)
 
 ### Setup
 
 1. [Fork](https://github.com/diagrid-labs/catalyst-pizza-demo/fork) this repo and clone it locally.
-2. Using the [Ably portal](https://ably.com/accounts/): copy the [root API key](https://ably.com/docs/ids-and-keys#api-key) from the default Ably app.
-3. Create a new Vercel project and import the forked repo.
+1. Using the [Ably portal](https://ably.com/accounts/): copy the [root API key](https://ably.com/docs/ids-and-keys#api-key) from the default Ably app.
+1. In the Vercel dashboard: create a new Vercel project and import the forked repo.
    - Vercel should pickup the correct build & development default settings (based on Vite).
    - The root directory for the project should be `front-end`.
-4. Go to the *Settings* tab for the Vercel project and add two environment variables:
+1. Go to the *Settings* tab for the Vercel project and add two environment variables:
    - `ABLY_API_KEY` - paste the Ably API key obtained from the Ably portal.
    - `WORKFLOW_URL` - `http://localhost:5064/workflow/orderReceived`.
 
@@ -81,7 +58,7 @@ The repo contains two variations:
 1. Create a new Catalyst project named `catalyst-pizza-project` and use the Diagrid managed PubSub broker & KV store, and enable the managed workflow API:
 
 	```bash
-	diagrid proejct create catalyst-pizza-project --deploy-managed-pubsub --deploy-managed-kv --enable-managed-workflow --wait
+	diagrid project create catalyst-pizza-project --deploy-managed-pubsub --deploy-managed-kv --enable-managed-workflow --wait
 	```
 
 1. To set this project as the default in the CLI run:
