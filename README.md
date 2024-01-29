@@ -36,6 +36,14 @@ This repository contains two variations:
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Node 18](https://nodejs.org/en/download/)
 
+> This repository contains a devcontainer configuration that has the following preinstalled:
+> - .NET 8
+> - Node LTS
+> - Vercel CLI
+> - Diagrid CLI
+
+> You can use this devcontainer [locally in VSCode](https://code.visualstudio.com/docs/devcontainers/containers) (requires [Docker Desktop](https://www.docker.com/products/docker-desktop/)) or directly in [GitHub Codespaces](https://github.com/features/codespaces).
+
 ### Setup
 
 1. [Fork](https://github.com/diagrid-labs/catalyst-pizza-demo/fork) this repo and clone it locally.
