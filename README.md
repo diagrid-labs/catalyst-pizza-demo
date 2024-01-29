@@ -23,8 +23,8 @@ The *PizzOrderService* contains a Dapr workflow that orchestrates the activities
 
 This repository contains two variations:
 
-1. The [`local-dapr` branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/local-dapr) uses Dapr in [self-hosted mode](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-overview/) using the Dapr CLI with multi-app-run. It uses a local Redis instance for state management, pub/sub, and workflow.
-2. The ['main' branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/main) uses a managed version of the Dapr API provided by [Diagrid Catalyst](https://www.diagrid.io/catalyst). It also uses the Diagrid managed key/value store (for state management and workflow), and pub/sub message broker.
+1. The [`local-dapr` branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/local-dapr) uses Dapr in [self-hosted mode](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-overview/) using the Dapr CLI with multi-app-run for the two .NET services. It uses a local Redis instance for state management, pub/sub, and workflow.
+2. The ['main' branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/main) uses a managed version of the Dapr API provided by [Diagrid Catalyst](https://www.diagrid.io/catalyst). The Diagrid CLI is used to run the .NET services. It also uses the Diagrid managed key/value store (for state management and workflow), and pub/sub message broker.
 
 ## Running the Diagrid Catalyst variation locally
 
@@ -33,7 +33,7 @@ This repository contains two variations:
 - [Diagrid Catalyst account](https://catalyst.diagrid.io/) and the [Diagrid CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
 - [Vercel account (hobby)](https://vercel.com/signup) and the [Vercel CLI](https://vercel.com/docs/cli)
 - [Ably account (free)](https://www.ably.com/signup)
-- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Node 18](https://nodejs.org/en/download/)
 
 ### Setup
