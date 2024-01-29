@@ -44,16 +44,22 @@ This repository contains two variations:
 
 > You can use this devcontainer [locally in VSCode](https://code.visualstudio.com/docs/devcontainers/containers) (requires [Docker Desktop](https://www.docker.com/products/docker-desktop/)) or directly in [GitHub Codespaces](https://github.com/features/codespaces). The `npm install` and `dotnet build` commands described in this README can be skipped if the devcontainer is used.
 
-### Setup
+### GitHub
+
+All the code for the website, serverless functions and back-end services is available in the [catalyst-pizza-demo](https://github.com/diagrid-labs/catalyst-pizza-demo) GitHub repository.
 
 1. [Fork](https://github.com/diagrid-labs/catalyst-pizza-demo/fork) this repo and clone it locally or use GitHub Codespaces.
 
 #### Ably
 
+Ably is used as the serverless realtime messaging component. There is a default Ably app when you sign up for an account that can be used for this demo. Alternatively, you can create a new Ably app.
+
 1. Log into the [Ably portal](https://ably.com/accounts/).
-1. Using the Ably portal: copy the [Root API key](https://ably.com/docs/ids-and-keys#api-key) from the default Ably app.
+1. Using the Ably portal: copy the [Root API key](https://ably.com/docs/ids-and-keys#api-key) from the Ably app. This will be copied later as an environment variable for both Vercel and Diagrid.
 
 #### Vercel
+
+The Vue-based [front-end](/front-end/src) and two [JavaScript functions](/front-end/api) are hosted on Vercel. The Vercel CLI is used to configure and run these resources locally.
 
 1. Open a terminal in the root of the repository login with the Vercel CLI:
 
@@ -61,13 +67,13 @@ This repository contains two variations:
    vercel login
    ```
 
-2. Go to the `front-end` folder and run:
+1. Go to the `front-end` folder and run:
 
    ```bash
    npm install
    ```
 
-3. Go back to the root of the repository and setup the Vercel project by running:
+1. Go back to the root of the repository and setup the Vercel project by running:
 
    ```bash
    vercel
@@ -75,7 +81,7 @@ This repository contains two variations:
 
     Follow the CLI prompts, and select the following options:
     - Setup and deploy: `Y`
-    - Scope: `<account name>`
+    - Scope: `<your account name>`
     - Link to existing project: `N`
     - What's your project's name? `catalyst-pizza-project`
     - In which directory is your code located? `./front-end`
@@ -89,12 +95,12 @@ This repository contains two variations:
     - Variable name: `ABLY_API_KEY`
     - Variable value: *Use the Ably API key obtained from the Ably portal earlier*
     - Select `Development` as the environment.
-2. Another environment variable is used in the *placeOrder* function to send a request to the *PizzaOrderService*. Add the *WORKFLOW_URL* variable by running `vercel env add`:
+1. Another environment variable is used in the *placeOrder* function to send a request to the *PizzaOrderService* that will start the workflow. Add the *WORKFLOW_URL* variable by running `vercel env add`:
     - Variable name: `WORKFLOW_URL`
     - Variable value: `http://localhost:5064/workflow/orderReceived`
     - Select `Development` as the environment.
-3. Run `vercel pull` to pull the configuration from Vercel to your local environment.
-4. Run `vercel build` to build the website and the serverless functions.
+1. Run `vercel pull` to pull the configuration from Vercel to your local environment.
+1. Run `vercel build` to build the website and the serverless functions.
 
 #### Diagrid Catalyst
 
