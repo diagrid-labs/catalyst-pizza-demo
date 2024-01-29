@@ -36,11 +36,7 @@ This repository contains two variations:
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Node 18](https://nodejs.org/en/download/)
 
-> This repository contains a devcontainer configuration that has the following preinstalled:
-> - .NET 8
-> - Node LTS
-> - Vercel CLI
-> - Diagrid CLI
+> This repository contains a devcontainer configuration that has the following preinstalled: .NET 8, Node LTS, Vercel CLI, Diagrid CLI.
 
 > You can use this devcontainer [locally in VSCode](https://code.visualstudio.com/docs/devcontainers/containers) (requires [Docker Desktop](https://www.docker.com/products/docker-desktop/)) or directly in [GitHub Codespaces](https://github.com/features/codespaces). The `npm install` and `dotnet build` commands described in this README can be skipped if the devcontainer is used.
 
@@ -103,6 +99,10 @@ The Vue-based [front-end](/front-end/src) and two [JavaScript functions](/front-
 1. Run `vercel build` to build the website and the serverless functions.
 
 #### Diagrid Catalyst
+
+Diagrid Catalyst is Dapr-as-a-Service which enables developers to use the Dapr APIs like workflow, pub/sub messaging, service invocation, and state management from anywhere. Diagrid also has managed resources for state management, pub/sub messaging, and workflow.
+
+ The Diagrid CLI is used to configure the resources and run the .NET services locally.
 
 1. Open another terminal in the root of the repository and use the Diagrid CLI to login to Diagrid:
 
