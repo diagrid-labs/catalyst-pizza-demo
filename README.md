@@ -96,7 +96,7 @@ This repository contains two variations:
 3. Run `vercel pull` to pull the configuration from Vercel to your local environment.
 4. Run `vercel build` to build the website and the serverless functions.
 
-#### Catalyst
+#### Diagrid Catalyst
 
 1. Open another terminal in the root of the repository and use the Diagrid CLI to login to Diagrid:
 
@@ -104,7 +104,7 @@ This repository contains two variations:
    diagrid login
    ```
 
-1. Create a new Catalyst project named `catalyst-pizza-project` and use the Diagrid managed PubSub broker & KV store, and enable the managed workflow API:
+1. Create a new Catalyst project named `catalyst-pizza-project` and use the Diagrid managed pub/sub broker & KV store, and enable the managed workflow API:
 
     ```bash
     diagrid project create catalyst-pizza-project --deploy-managed-pubsub --deploy-managed-kv --enable-managed-workflow --wait
@@ -188,7 +188,7 @@ This repository contains two variations:
 
 **Update the key/value store to allow state sharing**
 
-The two .NET services both use the same data in the key/value store to manage inventory and orders. Since this is not the default usage of state stores and services in Dapr, an attribute need to be set to enable this. The default behavior is that a key is prefixed with the app ID of the service that is using it. In this case however the `keyPrefix` is set to `name` to make sure both services use the same keys.
+The two .NET services both use the same data in the key/value store to manage inventory and orders. Since this is not the default usage of state stores and services when using Dapr, an attribute needs to be set to enable this. The default behavior is that a key is prefixed with the app ID of the service that is using it. In this case, however, the `keyPrefix` is set to `name` to make sure both services use the same keys.
 
 1. Run the following command to update the managed key/value store:
 
@@ -201,7 +201,7 @@ The two .NET services both use the same data in the key/value store to manage in
 ### Running the solution
 
 1. Open a terminal in the root of the repository.
-1. To restore and build the dotnet project run:
+1. To restore and build the dotnet projects run:
 
    ```bash
    dotnet build ./back-end/PizzaOrderService
@@ -209,7 +209,7 @@ The two .NET services both use the same data in the key/value store to manage in
    ```
 
 1. Run `diagrid dev start` to start the `PizzaOrderService` and the `KitchenService`.
-1. Back in the root of the repository run `vercel dev` to start the website and the serverless functions locally.
+1. Using another terminal in the root of the repository run `vercel dev` to start the website and the serverless functions locally.
 1. Navigate to the URL provided by the Vercel CLI to view the website.
 1. Select some pizzas, place an order, and watch the progress of the workflow in realtime.
 
