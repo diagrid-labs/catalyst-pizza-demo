@@ -30,19 +30,17 @@ This repository contains two variations:
 
 ### Prerequisites
 
-- [Diagrid Catalyst account](https://catalyst.diagrid.io/) and the [Diagrid CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
+- [Diagrid Catalyst account](https://catalyst.diagrid.io/) and the [Diagrid CLI](https://docs.diagrid.io/catalyst/references/cli-reference/intro)
 - [Vercel account (hobby)](https://vercel.com/signup) and the [Vercel CLI](https://vercel.com/docs/cli)
 - [Ably account (free)](https://www.ably.com/signup)
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Node 18](https://nodejs.org/en/download/)
 
-> This repository contains a devcontainer configuration that has the following preinstalled: .NET 8, Node LTS, Vercel CLI, Diagrid CLI.
+> All the code for the website, serverless functions and back-end services is available in the [catalyst-pizza-demo](https://github.com/diagrid-labs/catalyst-pizza-demo) GitHub repository.> This repository contains a devcontainer configuration that has the following preinstalled: .NET 8, Node LTS, Vercel CLI, Diagrid CLI.
 
 > You can use this devcontainer [locally in VSCode](https://code.visualstudio.com/docs/devcontainers/containers) (requires [Docker Desktop](https://www.docker.com/products/docker-desktop/)) or directly in [GitHub Codespaces](https://github.com/features/codespaces). The `npm install` and `dotnet build` commands described in this README can be skipped if the devcontainer is used.
 
 ### GitHub
-
-All the code for the website, serverless functions and back-end services is available in the [catalyst-pizza-demo](https://github.com/diagrid-labs/catalyst-pizza-demo) GitHub repository.
 
 1. [Fork](https://github.com/diagrid-labs/catalyst-pizza-demo/fork) this repo and clone it locally or use GitHub Codespaces.
 
@@ -100,9 +98,9 @@ The Vue-based [front-end](/front-end/src) and two [JavaScript functions](/front-
 
 #### Diagrid Catalyst
 
-Diagrid Catalyst is Dapr-as-a-Service which enables developers to use the Dapr APIs like workflow, pub/sub messaging, service invocation, and state management from anywhere. Diagrid also has managed resources for state management, pub/sub messaging, and workflow.
+Diagrid Catalyst provides serverless Dapr that enables developers to use the Dapr APIs like workflow, pub/sub messaging, service invocation, and state management from anywhere. Diagrid also has managed resources for state management, pub/sub messaging, and workflow, which are all used in this solution.
 
- The Diagrid CLI is used to configure the resources and run the .NET services locally.
+ The [Diagrid CLI](https://docs.diagrid.io/catalyst/references/cli-reference/intro) is used to configure the resources and run the .NET services locally.
 
 1. Open another terminal in the root of the repository and use the Diagrid CLI to login to Diagrid:
 
