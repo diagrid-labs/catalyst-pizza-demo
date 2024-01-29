@@ -96,7 +96,7 @@ This repository contains two variations:
 3. Run `vercel env pull` to pull the environment variables from Vercel to your local environment.
 4. Run `vercel build` to build the website and the serverless functions.
 
-### Catalyst
+#### Catalyst
 
 1. Open another terminal in the root of the repository and use the Diagrid CLI to login to Diagrid:
 
@@ -185,6 +185,18 @@ This repository contains two variations:
 1. Update the `appLogDestination` to `console`.
 1. Add an `ABLY_API_KEY` environment variable for the *pizzaorderservice* app and set the value to the Ably API key obtained from the Ably portal.
 1. Save the changes to the file.
+
+**Update the key/value store to allow state sharing**
+
+The two .NET services both use the same data in the key/value store to manage inventory and orders. Since this is not the default usage of state stores and services in Dapr, an attribute need to be set to enable this. The default behavior is that a key is prefixed with the app ID of the service that is using it. In this case however the `keyPrefix` is set to `name` to make sure both services use the same keys.
+
+1. Run the following command to update the managed key/value store:
+
+    ```bash
+    diagrid connection apply -f ./infra/kv.yaml
+    ```
+
+    This will upload the `kv.yaml` file to Diagrid and update the configuration of the *kvstore* connection so `keyPrefix` is set to `name`.
 
 ### Running the solution
 
