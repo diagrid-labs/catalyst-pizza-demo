@@ -198,10 +198,42 @@ The two .NET services both use the same data in the key/value store to manage in
 
     This will upload the `kv.yaml` file to Diagrid and update the configuration of the *kvstore* connection so `keyPrefix` is set to `name`.
 
+### Inspect the DaprClient configuration
+
+The two .NET services use the Dapr .NET client SDK for workflow, and pub/sub messaging. The `DaprClient` is configured to use the endpoints provided by Diagrid Catalyst in the *[Program.cs](back-end\PizzaOrderService\Program.cs)* file:
+
+```csharp
+var apiToken = Environment.GetEnvironmentVariable("DAPR_API_TOKEN");
+var grpcEndpoint = Environment.GetEnvironmentVariable("DAPR_GRPC_ENDPOINT");
+var httpEndpoint = Environment.GetEnvironmentVariable("DAPR_HTTP_ENDPOINT");
+
+builder.Services.AddDaprClient(options => {
+    options.UseDaprApiToken(apiToken);
+    options.UseGrpcEndpoint(grpcEndpoint);
+    options.UseHttpEndpoint(httpEndpoint);
+});
+```
+
+To use service invocation with the HTTP API, the `HttpClient` is configured with the `DAPR_APP_ID` and `DAPR_API_TOKEN` environment variables:
+
+```csharp
+var appId = Environment.GetEnvironmentVariable("DAPR_APP_ID");
+var apiToken = Environment.GetEnvironmentVariable("DAPR_API_TOKEN");
+
+builder.Services.AddHttpClient(
+    "daprEndpoint", 
+    client => {
+        client.BaseAddress = new Uri(httpEndpoint);
+        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        client.DefaultRequestHeaders.Add("dapr-app-id", appId);
+        client.DefaultRequestHeaders.Add("dapr-api-token", apiToken);
+    });
+```
+
 ### Running the solution
 
 1. Open a terminal in the root of the repository.
-1. To restore and build the dotnet projects run:
+1. To restore and build the .NET projects run:
 
    ```bash
    dotnet build ./back-end/PizzaOrderService
