@@ -11,6 +11,10 @@
 secrets.json
 !back-end/KitchenService/secrets.json
 
+# Vercel
+.vercel
+.env*.local
+
 # User-specific files
 *.rsuser
 *.suo

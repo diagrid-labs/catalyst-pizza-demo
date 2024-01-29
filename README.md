@@ -39,17 +39,58 @@ This repository contains two variations:
 ### Setup
 
 1. [Fork](https://github.com/diagrid-labs/catalyst-pizza-demo/fork) this repo and clone it locally.
-1. Using the [Ably portal](https://ably.com/accounts/): copy the [root API key](https://ably.com/docs/ids-and-keys#api-key) from the default Ably app.
-1. In the Vercel dashboard: create a new Vercel project and import the forked repo.
-   - Vercel should pickup the correct build & development default settings (based on Vite).
-   - The root directory for the project should be `front-end`.
-1. Go to the *Settings* tab for the Vercel project and add two environment variables:
-   - `ABLY_API_KEY` - paste the Ably API key obtained from the Ably portal.
-   - `WORKFLOW_URL` - `http://localhost:5064/workflow/orderReceived`.
+
+#### Ably
+
+1. Log into the [Ably portal](https://ably.com/accounts/).
+1. Using the Ably portal: copy the [Root API key](https://ably.com/docs/ids-and-keys#api-key) from the default Ably app.
+
+#### Vercel
+
+1. Open a terminal in the root of the repository login with the Vercel CLI:
+
+   ```bash
+   vercel login
+   ```
+
+2. Go to the `front-end` folder and run:
+
+   ```bash
+   npm install
+   ```
+
+3. Go back to the root of the repository and setup the Vercel project by running:
+
+   ```bash
+   vercel
+   ```
+
+    Follow the CLI prompts, and select the following options:
+    - Setup and deploy: `Y`
+    - Scope: `<account name>`
+    - Link to existing project: `N`
+    - What's your project's name? `catalyst-pizza-project`
+    - In which directory is your code located? `./front-end`
+    - Want to modify these settings? [y/N] `y`
+    - Build Command: `vite build`
+    - Development Command: `vite`
+    - Output Directory: `dist`
+    - Wait for the depployment to complete.
+
+1. An environment variable is used in the *getAblyToken* function to generate a token for the website to communicate with the Ably realtime service. Add the *Ably API token* variable by running `vercel env add`:
+    - Variable name: `ABLY_API_KEY`
+    - Variable value: *Use the Ably API key obtained from the Ably portal earlier*
+    - Select `Development` as the environment.
+2. Another environment variable is used in the *placeOrder* function to send a request to the *PizzaOrderService*. Add the *WORKFLOW_URL* variable by running `vercel env add`:
+    - Variable name: `WORKFLOW_URL`
+    - Variable value: `http://localhost:5064/workflow/orderReceived`
+    - Select `Development` as the environment.
+3. Run `vercel env pull` to pull the environment variables from Vercel to your local environment.
+4. Run `vercel build` to build the website and the serverless functions.
 
 ### Catalyst
 
-1. Open a terminal in the root of the repository and use the Diagrid CLI to login to Diagrid:
+1. Open another terminal in the root of the repository and use the Diagrid CLI to login to Diagrid:
 
    ```bash
    diagrid login
@@ -57,27 +98,27 @@ This repository contains two variations:
 
 1. Create a new Catalyst project named `catalyst-pizza-project` and use the Diagrid managed PubSub broker & KV store, and enable the managed workflow API:
 
-	```bash
-	diagrid project create catalyst-pizza-project --deploy-managed-pubsub --deploy-managed-kv --enable-managed-workflow --wait
-	```
+    ```bash
+    diagrid project create catalyst-pizza-project --deploy-managed-pubsub --deploy-managed-kv --enable-managed-workflow --wait
+    ```
 
 1. To set this project as the default in the CLI run:
 
-	```bash
-	diagrid project use catalyst-pizza-project
-	```
+    ```bash
+    diagrid project use catalyst-pizza-project
+    ```
 
 1. Create a new App ID for the *PizzaOrderService*:
 
-	```bash
-	diagrid appid create pizzaorderservice
-	```
- 
+    ```bash
+    diagrid appid create pizzaorderservice
+    ```
+
 1. Create a new App ID for the *KitchenService*:
 
-	```bash
-	diagrid appid create kitchenservice
-	```
+    ```bash
+    diagrid appid create kitchenservice
+    ```
 
 1. before continuing check the App IDs to make sure they have been created:
 
@@ -132,9 +173,10 @@ This repository contains two variations:
 1. Update the `appPort` for the *kitchenservice* to `5066`
 1. Update the `appPort` for the *pizzaorderservice* to `5064`.
 1. Update the `command` arguments to `["dotnet", "run"]` for both apps.
-1.  Update the `workDir` argument to point to `back-end/KitchenService` and `back-end/PizzaOrderService` respectively.
-1.  Update the `appLogDestination` to `console`.
-1.  Add an `ABLY_API_KEY` environment variable for the *pizzaorderservice* app and set the value to the Ably API key obtained from the Ably portal.
+1. Update the `workDir` argument to point to `back-end/KitchenService` and `back-end/PizzaOrderService` respectively.
+1. Update the `appLogDestination` to `console`.
+1. Add an `ABLY_API_KEY` environment variable for the *pizzaorderservice* app and set the value to the Ably API key obtained from the Ably portal.
+1. Save the changes to the file.
 
 ### Running the solution
 
@@ -142,18 +184,12 @@ This repository contains two variations:
 1. To restore and build the dotnet project run:
 
    ```bash
-   dotnet build dotnet build ./back-end/PizzaOrderService
-   dotnet build dotnet build ./back-end/KitchenService
+   dotnet build ./back-end/PizzaOrderService
+   dotnet build ./back-end/KitchenService
    ```
+
 1. Run `diagrid dev start` to start the `PizzaOrderService` and the `KitchenService`.
-1. Open another terminal in the *front-end* folder of the repository.
-1. To restore the npm packages run:
-
-   ```bash
-   npm install
-   ```
-
-1. Back in the root of the repository run `vercel dev` to start the website and the serverless functions (`getAblyToken` and `placeOrder`) locally.
+1. Back in the root of the repository run `vercel dev` to start the website and the serverless functions locally.
 1. Navigate to the URL provided by the Vercel CLI to view the website.
 1. Select some pizzas, place an order, and watch the progress of the workflow in realtime.
 
