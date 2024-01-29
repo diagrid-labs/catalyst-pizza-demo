@@ -19,7 +19,7 @@ The *PizzOrderService* contains a Dapr workflow that orchestrates the activities
 
 ![Workflow](/images/pizza-store-workflow-v1.png)
 
-> *The workflow also contains activities for sending realtime messages to the website, these have been omitted from the workflow diagram to increase the readability.*
+> *The workflow also contains activities for sending realtime messages to the website, these have been omitted from the workflow diagram to keep it concise.*
 
 This repository contains two variations:
 
