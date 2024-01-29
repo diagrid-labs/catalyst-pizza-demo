@@ -15,7 +15,7 @@ The solution includes:
 
 ![Pizza Store Architecture](/images/pizza-store-architecture-v2.png)
 
-The *PizzOrderService* contains a Dapr workflow that orchestrates the activities for checking the inventory and communicating with the *KitchenService*.
+The *PizzaOrderService* contains a Dapr workflow that orchestrates the activities for checking the inventory and communicating with the *KitchenService*.
 
 ![Workflow](/images/pizza-store-workflow-v1.png)
 
@@ -46,7 +46,7 @@ This repository contains two variations:
 
 ### Setup
 
-1. [Fork](https://github.com/diagrid-labs/catalyst-pizza-demo/fork) this repo and clone it locally.
+1. [Fork](https://github.com/diagrid-labs/catalyst-pizza-demo/fork) this repo and clone it locally or use GitHub Codespaces.
 
 #### Ably
 
@@ -83,7 +83,7 @@ This repository contains two variations:
     - Build Command: `vite build`
     - Development Command: `vite`
     - Output Directory: `dist`
-    - Wait for the depployment to complete.
+    - Wait for the deployment to complete.
 
 1. An environment variable is used in the *getAblyToken* function to generate a token for the website to communicate with the Ably realtime service. Add the *Ably API token* variable by running `vercel env add`:
     - Variable name: `ABLY_API_KEY`
@@ -93,7 +93,7 @@ This repository contains two variations:
     - Variable name: `WORKFLOW_URL`
     - Variable value: `http://localhost:5064/workflow/orderReceived`
     - Select `Development` as the environment.
-3. Run `vercel env pull` to pull the environment variables from Vercel to your local environment.
+3. Run `vercel pull` to pull the configuration from Vercel to your local environment.
 4. Run `vercel build` to build the website and the serverless functions.
 
 #### Catalyst
