@@ -252,15 +252,20 @@ You can use the API explorer in the Catalyst web UI to interact with the support
 
 1. Open the browser devtools console of the browser that is running the demo (a pizza order must be started or completed).
 1. The order is logged to the console as a JSON object. Copy the `OrderId` property value.
-![Order](/images/console-order.png)
+
+    ![Order](/images/console-order.png)
+
 1. Navigate to the [Catalyst web UI](https://catalyst.diagrid.io). Ensure you're in the `catalyst-pizza-project` project.
-2. Select *App IDs* in and click on the [*API explorer*]([catalyst-pizza-project](https://catalyst.diagrid.io/app-ids/api-explorer/state-api/)) tab.
-3. Select the `State API`.
-4. Select the `pizzaorderservice` as the app ID.
-5. Select `GET` as the API operation.
-6. Select `kvstore` as the state connection.
-7. Enter `Order-<ORDER-ID>` as the key, where you substitute `<ORDER-ID>` with the value copied from the devtools console.
-8. Click *Send*. The reponse should show the state of the order item.
+
+    ![API explorer](/images/catalyst-api-explorer.png)
+
+4. Select *App IDs* in and click on the [*API explorer*]([catalyst-pizza-project](https://catalyst.diagrid.io/app-ids/api-explorer/state-api/)) tab.
+   - Select the `State API`.
+   - Select the `pizzaorderservice` as the app ID.
+   - Select `GET` as the API operation.
+   - Select `kvstore` as the state connection.
+   - Enter `Order-<ORDER-ID>` as the key, where you substitute `<ORDER-ID>` with the value copied from the devtools console.
+5. Click *Send*. The reponse should show the state of the order item.
 
 ## More information
 
