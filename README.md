@@ -244,8 +244,6 @@ builder.Services.AddHttpClient(
 1. Navigate to the URL provided by the Vercel CLI to view the website.
 1. Select some pizzas, place an order, and watch the progress of the workflow in realtime.
 
-![tmnt](/images/tmnt.gif)
-
 ### Use the Catalyst API explorer
 
 You can use the API explorer in the Catalyst web UI to interact with the supported Dapr APIs. If you want to retrieve the order item from the key./value store that has just been processed follow these steps:
@@ -266,6 +264,8 @@ You can use the API explorer in the Catalyst web UI to interact with the support
    - Select `kvstore` as the state connection.
    - Enter `Order-<ORDER-ID>` as the key, where you substitute `<ORDER-ID>` with the value copied from the devtools console.
 5. Click *Send*. The reponse should show the state of the order item.
+
+![tmnt](/images/tmnt.gif)
 
 ## More information
 
