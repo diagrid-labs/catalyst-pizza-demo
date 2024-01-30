@@ -21,22 +21,17 @@ The *PizzaOrderService* contains a Dapr workflow that orchestrates the activitie
 
 > *The workflow also contains activities for sending realtime messages to the website, these have been omitted from the workflow diagram to keep it concise.*
 
-This repository contains two variations:
-
-1. The [`local-dapr` branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/local-dapr) uses Dapr in [self-hosted mode](https://docs.dapr.io/operations/hosting/self-hosted/self-hosted-overview/) using the Dapr CLI with multi-app-run for the two .NET services. It uses a local Redis instance for state management, pub/sub, and workflow.
-2. The ['main' branch](https://github.com/diagrid-labs/catalyst-pizza-demo/tree/main) uses a managed version of the Dapr API provided by [Diagrid Catalyst](https://www.diagrid.io/catalyst). The Diagrid CLI is used to run the .NET services. It also uses the Diagrid managed key/value store (for state management and workflow), and pub/sub message broker.
-
 ## Running the Diagrid Catalyst variation locally
 
 ### Prerequisites
 
-- [Diagrid Catalyst account](https://catalyst.diagrid.io/) and the [Diagrid CLI](https://docs.diagrid.io/catalyst/references/cli-reference/intro)
+- [Diagrid Catalyst](https://www.diagrid.io/catalyst) account ([sign up](https://pages.diagrid.io/catalyst-early-access-waitlist) for private beta access) and the [Diagrid CLI](https://docs.diagrid.io/catalyst/references/cli-reference/intro)
 - [Vercel account (hobby)](https://vercel.com/signup) and the [Vercel CLI](https://vercel.com/docs/cli)
 - [Ably account (free)](https://www.ably.com/signup)
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Node 18](https://nodejs.org/en/download/)
 
-> All the code for the website, serverless functions and back-end services is available in the [catalyst-pizza-demo](https://github.com/diagrid-labs/catalyst-pizza-demo) GitHub repository.> This repository contains a devcontainer configuration that has the following preinstalled: .NET 8, Node LTS, Vercel CLI, Diagrid CLI.
+> All the code for the website, serverless functions and back-end services is available in this [catalyst-pizza-demo](https://github.com/diagrid-labs/catalyst-pizza-demo) GitHub repository. The repository also contains a devcontainer configuration that has the following preinstalled: .NET 8, Node LTS, Vercel CLI, Diagrid CLI.
 
 > You can use this devcontainer [locally in VSCode](https://code.visualstudio.com/docs/devcontainers/containers) (requires [Docker Desktop](https://www.docker.com/products/docker-desktop/)) or directly in [GitHub Codespaces](https://github.com/features/codespaces). The `npm install` and `dotnet build` commands described in this README can be skipped if the devcontainer is used.
 
