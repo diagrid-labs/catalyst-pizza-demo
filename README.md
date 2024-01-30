@@ -262,8 +262,8 @@ You can use the API explorer in the Catalyst web UI to interact with the support
    - Select the `pizzaorderservice` as the app ID.
    - Select `GET` as the API operation.
    - Select `kvstore` as the state connection.
-   - Enter `Order-<ORDER-ID>` as the key, where you substitute `<ORDER-ID>` with the value copied from the devtools console.
-5. Click *Send*. The reponse should show the state of the order item.
+   - Enter `Order-<ORDER-ID>` as the key, where `<ORDER-ID>` is substituted with the value copied from the devtools console.
+5. Click *Send*. The response should show the state of the order item.
 
 ![tmnt](/images/tmnt.gif)
 
