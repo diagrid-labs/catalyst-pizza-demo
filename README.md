@@ -246,7 +246,7 @@ builder.Services.AddHttpClient(
 
 ### Use the Catalyst API explorer
 
-You can use the API explorer in the Catalyst web UI to interact with the supported Dapr APIs. If you want to retrieve the order item from the key./value store that has just been processed follow these steps:
+You can use the API explorer in the Catalyst web UI to interact with the managed Dapr APIs. If you want to retrieve the order item from the key./value store that has just been processed follow these steps:
 
 1. Open the browser devtools console of the browser that is running the demo (a pizza order must be started or completed).
 1. The order is logged to the console as a JSON object. Copy the `OrderId` property value.
@@ -268,6 +268,8 @@ You can use the API explorer in the Catalyst web UI to interact with the support
 ![tmnt](/images/tmnt.gif)
 
 ## More information
+
+You’ve now used Diagrid Catalyst to use serverless Dapr APIs for workflow, pub/sub messaging, service invocation, and state management. The ability to use these APIs from anywhere, without the overhead of managing Kubernetes clusters, brings great flexibility to developers on any platform to build distributed applications. This demo used the Diagrid managed resources for key/value storage and pub/sub messaging, but you can swap these out for other cloud-based resources, similarly as switching Dapr OSS components.
 
 Any questions or comments about this sample? Join the [Diagrid Community on Discourse](https://community.diagrid.io/invites/fAUrdyBbie) and post a message the *Catalyst* category.
 Have you made something with Catalyst? Post a message in the *Built with Catalyst* category, we love to see your creations!
