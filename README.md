@@ -246,6 +246,22 @@ builder.Services.AddHttpClient(
 
 ![tmnt](/images/tmnt.gif)
 
+### Use the Catalyst API explorer
+
+You can use the API explorer in the Catalyst web UI to interact with the supported Dapr APIs. If you want to retrieve the order item from the key./value store that has just been processed follow these steps:
+
+1. Open the browser devtools console of the browser that is running the demo (a pizza order must be started or completed).
+1. The order is logged to the console as a JSON object. Copy the `OrderId` property value.
+![Order](/images/console-order.png)
+1. Navigate to the [Catalyst web UI](https://catalyst.diagrid.io). Ensure you're in the `catalyst-pizza-project` project.
+2. Select *App IDs* in and click on the [*API explorer*]([catalyst-pizza-project](https://catalyst.diagrid.io/app-ids/api-explorer/state-api/)) tab.
+3. Select the `State API`.
+4. Select the `pizzaorderservice` as the app ID.
+5. Select `GET` as the API operation.
+6. Select `kvstore` as the state connection.
+7. Enter `Order-<ORDER-ID>` as the key, where you substitute `<ORDER-ID>` with the value copied from the devtools console.
+8. Click *Send*. The reponse should show the state of the order item.
+
 ## More information
 
 Any questions or comments about this sample? Join the [Diagrid Community on Discourse](https://community.diagrid.io/invites/fAUrdyBbie) and post a message the *Catalyst* category.
