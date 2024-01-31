@@ -260,7 +260,7 @@ You can use the API explorer in the Catalyst web UI to interact with the managed
    - Select `GET` as the API operation.
    - Select `kvstore` as the state connection.
    - Enter `Order-<ORDER-ID>` as the key, where `<ORDER-ID>` is substituted with the value copied from the devtools console.
-5. Click *Send*. The response should contain the state of the order item with the `"status": "CompletedPreparation"`.
+5. Click *Send*. The response should contain the state of the order item with `"status": "CompletedPreparation"`.
 
 ![tmnt](/images/tmnt.gif)
 
