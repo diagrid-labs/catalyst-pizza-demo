@@ -67,10 +67,10 @@ function getRandomTmntCrew() : Customer {
           <a
             href="https://docs.dapr.io/reference/api/workflow_api/"
           >
-            Dapr Workflow API
+            Dapr Workflows
           </a>.
-          The <code>PizzaOrder</code> workflow calls 3 activity functions in sequence:
-           <code>SaveOrder</code>, <code>CheckInventory</code>, and <code>SendOrderToKitchen</code>. 
+          The <code>PizzaOrder</code> workflow calls the following activity functions in sequence:
+           <code>SaveOrder</code>, <code>CheckInventory</code>, <code>RestockInventory</code> (in case the inventory is insufficient), and <code>SendOrderToKitchen</code>. 
           It then waits for the <code>order-prepared</code> event that is sent from the <code>KitchenService</code>.
           After each workflow step, the <code>Notify</code> activity is called, that publishes a message via
           websockets, which is received by this website, so you can see how far the workflow has progressed in real-time.

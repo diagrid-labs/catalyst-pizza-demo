@@ -24,10 +24,10 @@
         </li>
         <li>
           <a href="https://www.youtube.com/@diagridio">Diagrid YouTube</a>
-          (please eat with your thumbs up 👍)
+          (subscribe for frequent servings 📺)
         </li>
         <li>
-          <a href="http://bit.ly/dapr-discord">Dapr Discord</a>
+          <a href="https://community.diagrid.io/invites/fAUrdyBbie">Diagrid Community</a>
           (ideal for sharing 👥)
         </li>
         <li>
