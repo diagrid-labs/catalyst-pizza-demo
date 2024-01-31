@@ -74,10 +74,7 @@ The Vue-based [front-end](/front-end/src) and two [JavaScript functions](/front-
     - Link to existing project: `N`
     - What's your project's name? `catalyst-pizza-project`
     - In which directory is your code located? `./front-end`
-    - Want to modify these settings? [y/N] `y`
-    - Build Command: `vite build`
-    - Development Command: `vite`
-    - Output Directory: `dist`
+    - Want to modify these settings? [y/N] `n`
     - Wait for the deployment to complete.
 
 1. An environment variable is used in the *getAblyToken* function to generate a token for the website to communicate with the Ably realtime service. Add the *Ably API token* variable by running `vercel env add`:
