@@ -8,4 +8,5 @@ npm install
 cd ..
 npm i -g vercel
 curl -o- https://downloads.diagrid.io/cli/install-catalyst.sh | bash
-sudo mv ./diagrid /usr/local/bin 
+sudo mv ./diagrid /usr/local/bin
+diagrid update --approve
