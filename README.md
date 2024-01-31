@@ -124,7 +124,7 @@ Diagrid Catalyst provides serverless Dapr APIs that enables developers to quickl
     diagrid appid create kitchenservice
     ```
 
-1. before continuing check the App IDs to make sure they have been created:
+1. Before continuing, check the App IDs to make sure they have been created:
 
 	```bash
 	diagrid appid list
@@ -189,10 +189,10 @@ The two .NET services both use the same data in the key/value store to manage in
 1. Run the following command to update the managed key/value store:
 
     ```bash
-    diagrid connection apply -f ./infra/kv.yaml
+    diagrid connection apply -f ./infra/kv.yml
     ```
 
-    This will upload the `kv.yaml` file to Diagrid and update the configuration of the *kvstore* connection so `keyPrefix` is set to `name`.
+    This will upload the `kv.yml` file to Diagrid and update the configuration of the *kvstore* connection so `keyPrefix` is set to `name`.
 
 ### Inspect the DaprClient configuration
 
