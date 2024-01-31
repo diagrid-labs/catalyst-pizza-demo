@@ -2,7 +2,7 @@
 
 ![catalyst pizza workflow](/images/catalyst-pizza-workflow.gif)
 
-This repository contains a solution that demonstrates how to use the serverless Dapr APIs for workflow, service invocation, pub/sub, and state management to build a distributed pizza ordering system.
+This repository contains a solution that demonstrates how to use the Diagrid Catalyst serverless Dapr APIs for workflow, service invocation, pub/sub, and state management to build a distributed pizza ordering system.
 
 The solution includes:
 
@@ -11,7 +11,7 @@ The solution includes:
 - [Ably](https://ably.com/); to provide realtime communication between the *PizzaOrderService* and the website.
 - A key/value store to manage inventory (managed by Diagrid).
 - A pub/sub message broker to communicate between the *PizzaOrderService* and the *KitchenService* (managed by Diagrid).
-- [Diagrid Catalyst](https://www.diagrid.io/catalyst); the serverless glue between services and resources powered by Dapr.
+- [Diagrid Catalyst](https://www.diagrid.io/catalyst) that offers serverless APIs for communication, state, and workflow powered by Dapr.
 
 ![Pizza Store Architecture](/images/pizza-store-architecture-v2.png)
 
@@ -93,7 +93,7 @@ The Vue-based [front-end](/front-end/src) and two [JavaScript functions](/front-
 
 #### Diagrid Catalyst
 
-Diagrid Catalyst provides serverless Dapr that enables developers to use the Dapr APIs like workflow, pub/sub messaging, service invocation, and state management from anywhere. Diagrid also has managed resources for state management, pub/sub messaging, and workflow, which are all used in this solution.
+Diagrid Catalyst provides serverless Dapr APIs that enables developers to quickly build distributed applications with workflow, pub/sub messaging, service invocation, and state management capabilities. Diagrid also provides managed infrastructure for storing data in a key/value store, pub/sub messaging, and workflow, which are all used in this solution.
 
  The [Diagrid CLI](https://docs.diagrid.io/catalyst/references/cli-reference/intro) is used to configure the resources and run the .NET services locally.
 
@@ -267,9 +267,8 @@ You can use the API explorer in the Catalyst web UI to interact with the managed
 
 ![tmnt](/images/tmnt.gif)
 
-## More information
+## What's Next?
 
-You’ve now used Diagrid Catalyst to use serverless Dapr APIs for workflow, pub/sub messaging, service invocation, and state management. The ability to use these APIs from anywhere, without the overhead of managing Kubernetes clusters, brings great flexibility to developers on any platform to build distributed applications. This demo used the Diagrid managed resources for key/value storage and pub/sub messaging, but you can swap these out for other cloud-based resources, similarly as switching Dapr OSS components.
+Congratulations! You’ve now used the Diagrid Catalyst serverless Dapr APIs for workflow, pub/sub messaging, service invocation, and state management. The ability to use these APIs from anywhere, without the overhead of managing Kubernetes clusters, brings great flexibility to developers on any platform to build distributed applications. The Dapr applications used in this demo can be hosted on any cloud. The demo uses the Diagrid managed infrastructure for key/value storage and pub/sub messaging, but these can be swapped out for other cloud-based resources, similarly to switching open-source Dapr components. You can extend this demo with an alternative pub/sub broker or state store by configuring other [infrastructure connections](https://docs.diagrid.io/catalyst/concepts/connections).
 
-Any questions or comments about this sample? Join the [Diagrid Community on Discourse](https://community.diagrid.io/invites/fAUrdyBbie) and post a message the *Catalyst* category.
-Have you made something with Catalyst? Post a message in the *Built with Catalyst* category, we love to see your creations!
+Any questions or comments about this demo? Join the [Diagrid Community on Discourse](https://community.diagrid.io/invites/fAUrdyBbie) and post a message in the *Catalyst* category. Have you made something with Catalyst? Post a message in the *Built with Catalyst* category, we love to see your creations!
