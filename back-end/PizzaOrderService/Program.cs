@@ -30,8 +30,8 @@ builder.Services.AddDaprClient(options => {
     options.UseHttpEndpoint(httpEndpoint);
 });
 
-builder.Services.AddDaprWorkflowClient();
 builder.Services.AddSingleton<StateManagement>();
+builder.Services.AddDaprWorkflowClient();
 builder.Services.AddDaprWorkflow(options =>
 {
     options.RegisterWorkflow<PizzaOrderWorkflow>();

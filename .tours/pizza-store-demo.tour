@@ -1,0 +1,129 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Pizza Store Demo",
+  "steps": [
+    {
+      "title": "Introduction",
+      "description": "## Introduction\r\n\r\nThis repository contains a solution that demonstrates how to use the Diagrid Catalyst serverless Dapr APIs for workflow, service invocation, pub/sub, and state management to build a distributed pizza ordering system.\r\n\r\nThe solution includes:\r\n\r\n- [Vercel](https://vercel.com); to host the website (based on Vue) and two serverless functions (JavaScript).\r\n- Two [Dapr](http://dapr.io) web services written in .NET, *PizzaOrderService* and *KitchenService*.\r\n- [Ably](https://ably.com/); to provide realtime communication between the *PizzaOrderService* and the website.\r\n- A key/value store to manage inventory (managed by Diagrid).\r\n- A pub/sub message broker to communicate between the *PizzaOrderService* and the *KitchenService* (managed by Diagrid).\r\n- [Diagrid Catalyst](https://www.diagrid.io/catalyst) that offers serverless APIs for communication, state, and workflow powered by Dapr.\r\n\r\n![Pizza Store Architecture](./images/pizza-store-architecture-v2.png)",
+      "selection": {
+        "start": {
+          "line": 14,
+          "character": 1
+        },
+        "end": {
+          "line": 14,
+          "character": 70
+        }
+      }
+    },
+    {
+      "title": "Prerequisites",
+      "description": "## Prerequisites\r\n\r\nThe following services, tools, and frameworks are required for this demo:\r\n\r\n- [Diagrid Catalyst](https://www.diagrid.io/catalyst) account ([sign up](https://pages.diagrid.io/catalyst-early-access-waitlist) for private beta access) and the [Diagrid CLI](https://docs.diagrid.io/catalyst/references/cli-reference/intro)\r\n- [Vercel account (hobby)](https://vercel.com/signup) and the [Vercel CLI](https://vercel.com/docs/cli)\r\n- [Ably account (free)](https://www.ably.com/signup)\r\n- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)\r\n- [Node 18](https://nodejs.org/en/download/)\r\n\r\n> All the code for the website, serverless functions and back-end services is available in this [catalyst-pizza-demo](https://github.com/diagrid-labs/catalyst-pizza-demo) GitHub repository. The repository also contains a devcontainer configuration that has the following preinstalled: .NET 8, Node LTS, Vercel CLI, Diagrid CLI.\r\n\r\n> You can use this devcontainer [locally in VSCode](https://code.visualstudio.com/docs/devcontainers/containers) (requires [Docker Desktop](https://www.docker.com/products/docker-desktop/)) or directly in [GitHub Codespaces](https://github.com/features/codespaces). The `npm install` and `dotnet build` commands described in this README can be skipped if the devcontainer is used."
+    },
+    {
+      "directory": "front-end",
+      "description": "## front-end\r\n\r\nThe `front-end` folder contains the Vue website (`src` folder) and two JavsScript functions (`api` folder)."
+    },
+    {
+      "file": "front-end/src/components/IntroItem.vue",
+      "description": "## IntroItem.vue placeOrder()",
+      "line": 12
+    },
+    {
+      "file": "front-end/src/stores/index.ts",
+      "description": "## Store start()",
+      "line": 107
+    },
+    {
+      "file": "front-end/api/getAblyToken.js",
+      "description": "## getAblyToken.js",
+      "line": 1
+    },
+    {
+      "file": "front-end/api/placeOrder.js",
+      "description": "## placeOrder.js",
+      "line": 1
+    },
+    {
+      "directory": "back-end",
+      "description": "## back-end\r\n\r\nThe `back-end` folder contains the two .NET services: `PizzaOrderService` and `KitchenService`, both are using a shared library located in the `Shared` folder that contain the domain models."
+    },
+    {
+      "directory": "back-end/PizzaOrderService",
+      "description": "## PizzaOrderService\r\n\r\nThe `PizzaOrderSerice` contains a workflow to orchestrate activities, and it contains two controllers, one to manage the inventory and one to manage the workflow."
+    },
+    {
+      "file": "back-end/PizzaOrderService/PizzaOrderService.csproj",
+      "description": "## PizzaOrderService.csproj",
+      "line": 1
+    },
+    {
+      "file": "back-end/PizzaOrderService/Program.cs",
+      "description": "## Program.cs",
+      "line": 1
+    },
+    {
+      "file": "back-end/PizzaOrderService/Controllers/WorkflowController.cs",
+      "description": "## WorkflowController - orderReceived\r\n\r\nThis method uses the `daprWorkflowClient` to schedule a new instance of the `PizzaOrderWorkflow`.",
+      "line": 23
+    },
+    {
+      "file": "back-end/PizzaOrderService/Workflows/PizzaOrderWorkflow.cs",
+      "description": "## PizzaOrderWorkflow",
+      "line": 7
+    },
+    {
+      "file": "back-end/PizzaOrderService/Activities/NotifyActivity.cs",
+      "description": "## NotifyActivity",
+      "line": 7
+    },
+    {
+      "file": "back-end/PizzaOrderService/Activities/SaveOrderActivity.cs",
+      "description": "## SaveOrderActivity",
+      "line": 7
+    },
+    {
+      "file": "back-end/PizzaOrderService/Activities/CheckInventoryActivity.cs",
+      "description": "## CheckInventoryActivity",
+      "line": 7
+    },
+    {
+      "file": "back-end/PizzaOrderService/Activities/RestockInventoryActivity.cs",
+      "description": "## RestockInventoryActivity",
+      "line": 6
+    },
+    {
+      "file": "back-end/PizzaOrderService/Controllers/InventoryController.cs",
+      "description": "## InventoryController - restock",
+      "line": 40
+    },
+    {
+      "file": "back-end/PizzaOrderService/Activities/SendOrderToKitchenActivity.cs",
+      "description": "## SendOrderToKitchenActivity",
+      "line": 7
+    },
+    {
+      "file": "back-end/PizzaOrderService/Workflows/PizzaOrderWorkflow.cs",
+      "description": "## WaitForExternalEventAsync",
+      "line": 67
+    },
+    {
+      "file": "back-end/KitchenService/Program.cs",
+      "description": "## KitchenService - prepare",
+      "line": 30
+    },
+    {
+      "file": "back-end/PizzaOrderService/Controllers/WorkflowController.cs",
+      "description": "## PizzaOrderService - orderPrepared",
+      "line": 36
+    },
+    {
+      "title": "Diagrid setup",
+      "description": "## Diagrid setup\r\n\r\nNow let's configure the services in Diagrid Catalyst.\r\n\r\n![Pizza Store Architecture](./images/pizza-store-architecture-v2.png)\r\n\r\n The [Diagrid CLI](https://docs.diagrid.io/catalyst/references/cli-reference/intro) is used to configure the resources and run the .NET services locally.\r\n\r\n1. Open another terminal in the root of the repository and use the Diagrid CLI to login to Diagrid:\r\n\r\n>> diagrid login\r\n\r\n2. Create a new Catalyst project named `catalyst-pizza-project` and use the Diagrid managed pub/sub broker & KV store, and enable the managed workflow API:\r\n\r\n>> diagrid project create catalyst-pizza-project --deploy-managed-pubsub --deploy-managed-kv --enable-managed-workflow --wait\r\n\r\n3. To set this project as the default in the CLI run:\r\n\r\n>> diagrid project use catalyst-pizza-project\r\n \r\n4. Create a new App ID for the *PizzaOrderService*:\r\n\r\n>> diagrid appid create pizzaorderservice\r\n\r\n5. Create a new App ID for the *KitchenService*:\r\n\r\n>> diagrid appid create kitchenservice\r\n\r\n6. Before continuing, check the App IDs to make sure they have been created:\r\n\r\n>> diagrid appid list\r\n\r\n7. Create a pub/sub subscription for the *KitchenService* to receive messages from the *PizzaOrderService*:\r\n\r\n>> diagrid subscription create pizzaorderssub --connection pubsub --topic pizza-orders --route /prepare --scopes kitchenservice\r\n\r\n8. Create a pub/sub subscription for the *PizzaOrderService* to receive messages from the *KitchenService*:\r\n\r\n>> diagrid subscription create preparedorderssub --connection pubsub --topic prepared-orders --route /workflow/orderPrepared --scopes pizzaorderservice\r\n\r\n9. Verify that creation of the subscriptions is completed:\r\n\r\n>> diagrid subscription list\r\n\r\n10. Run `diagrid dev scaffold` to create a new local dev environment file . \r\n\r\n>> diagrid dev scaffold\r\n\r\nThis creates a yaml file, named *dev-\\<PROJECT NAME\\>.yaml* with the following content:\r\n\r\n```yaml\r\nproject: catalyst-pizza-project\r\napps:\r\n- appId: kitchenservice\r\nappPort: 0\r\nenv:\r\n\tDAPR_API_TOKEN: diagrid://<dapr_api_token>\r\n\tDAPR_APP_ID: kitchenservice\r\n\tDAPR_GRPC_ENDPOINT: https://<grpc_endpoint>\r\n\tDAPR_HTTP_ENDPOINT: https://<http_endpoint>\r\nworkDir: kitchenservice\r\ncommand: []\r\n- appId: pizzaorderservice\r\nappPort: 0\r\nenv:\r\n\tDAPR_API_TOKEN: diagrid://<dapr_api_token>\r\n\tDAPR_APP_ID: pizzaorderservice\r\n\tDAPR_GRPC_ENDPOINT: https://<grpc_endpoint>\r\n\tDAPR_HTTP_ENDPOINT: https://<http_endpoint>\r\nworkDir: pizzaorderservice\r\ncommand: []\r\nappLogDestination: \"\"\r\n```\r\n\r\n12. Update the `appPort` for the *kitchenservice* to `5066`\r\n13. Update the `appPort` for the *pizzaorderservice* to `5064`.\r\n14. Update the `command` arguments to `[\"dotnet\", \"run\"]` for both apps.\r\n15. Update the `workDir` argument to point to `back-end/KitchenService` and `back-end/PizzaOrderService` respectively.\r\n16. Update the `appLogDestination` to `console`.\r\n17. Add an `ABLY_API_KEY` environment variable for the *pizzaorderservice* app and set the value to the Ably API key obtained from the Ably portal.\r\n18. Save the changes to the file.\r\n\r\n**Update the key/value store to allow state sharing**\r\n\r\nThe two .NET services both use the same data in the key/value store to manage inventory and orders. Since this is not the default usage of state stores and services when using Dapr, an attribute needs to be set to enable this. The default behavior is that a key is prefixed with the app ID of the service that is using it. In this case, however, the `keyPrefix` is set to `name` to make sure both services use the same keys.\r\n\r\n1. Run the following command to update the managed key/value store:\r\n\r\n>> diagrid connection apply -f ./infra/kv.yml\r\n\r\nThis will upload the `kv.yml` file to Diagrid and update the configuration of the *kvstore* connection so `keyPrefix` is set to `name`.\r\n"
+    },
+    {
+      "title": "Run the demo",
+      "description": "## Run the demo\r\n\r\n1. Open a terminal in the root of the repository.\r\n2. To restore and build the .NET projects run:\r\n\r\n>> dotnet build ./back-end/PizzaOrderService\r\n\r\n>> dotnet build ./back-end/KitchenService\r\n\r\n3. Run `diagrid dev start` to start the `PizzaOrderService` and the `KitchenService`:\r\n\r\n>> diagrid dev start\r\n\r\n4. Using another terminal in the root of the repository run `vercel dev` to start the website and the serverless functions locally:\r\n\r\n>> vercel dev\r\n\r\n5. Navigate to the URL provided by the Vercel CLI to view the website.\r\n6. Select some pizzas, place an order, and watch the progress of the workflow in realtime."
+    }
+  ]
+}
