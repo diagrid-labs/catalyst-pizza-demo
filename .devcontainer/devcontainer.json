@@ -19,6 +19,7 @@
 			"extensions": [
 				"ms-dotnettools.csharp",
 				"humao.rest-client",
+				"vsls-contrib.codetour",
 				"Vue.volar",
 				"Vue.vscode-typescript-vue-plugin"
 
