@@ -4,6 +4,8 @@
 
 This repository contains a solution that demonstrates how to use the Diagrid Catalyst serverless Dapr APIs for workflow, service invocation, pub/sub, and state management to build a distributed pizza ordering system.
 
+> 📖 Read the [blog post](https://www.diagrid.io/blog/build-a-distributed-pizza-store-in-net-with-serverless-dapr-apis) for more context.
+
 The solution includes:
 
 - [Vercel](https://vercel.com); to host the website (based on Vue) and two serverless functions (JavaScript).
