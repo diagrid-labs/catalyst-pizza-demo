@@ -9,4 +9,19 @@ updates:
  - package-ecosystem: "devcontainers"
    directory: "/"
    schedule:
-     interval: weekly
+     interval: "weekly"
+
+ - package-ecosystem: "nuget"
+   directory: "/back-end/PizzaOrderService"
+   schedule:
+     interval: "weekly"
+
+ - package-ecosystem: "nuget"
+   directory: "/back-end/KitchenService"
+   schedule:
+     interval: "weekly"
+
+ - package-ecosystem: "npm"
+   directory: "/front-end"
+   schedule:
+     interval: "weekly"
