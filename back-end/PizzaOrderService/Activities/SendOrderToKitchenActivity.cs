@@ -6,8 +6,10 @@ namespace OrderService.Activities
 {
     public class SendOrderToKitchenActivity : WorkflowActivity<Order, object?>
     {
-        readonly ILogger _logger;
-        readonly DaprClient _daprClient;
+        private readonly ILogger _logger;
+        private readonly DaprClient _daprClient;
+        private static readonly string PubSubName = "pubsub";
+        private static readonly string TopicName = "pizza-orders";
 
         public SendOrderToKitchenActivity(ILoggerFactory loggerFactory, DaprClient daprClient)
         {
@@ -22,7 +24,7 @@ namespace OrderService.Activities
             // Simulate a delay in communicating with the kitchen.
             Thread.Sleep(1000);
             
-            await _daprClient.PublishEventAsync("pubsub", "pizza-orders", order);
+            await _daprClient.PublishEventAsync(PubSubName, TopicName, order);
 
             return null;
         }
