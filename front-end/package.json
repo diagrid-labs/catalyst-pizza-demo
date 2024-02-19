@@ -19,7 +19,7 @@
     "ably": "^1.2.48",
     "pinia": "^2.0.23",
     "uuid": "^9.0.0",
-    "vue": "^3.2.40",
+    "vue": "^3.4.19",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
