@@ -4,6 +4,8 @@ on:
     push:
         branches:
             - main
+    pull_request:
+        types: [opened, edited, synchronize, reopened]
 
 jobs:
     build-and-publish:
@@ -19,14 +21,7 @@ jobs:
             run: dotnet restore back-end/PizzaOrderService/PizzaOrderService.csproj
           - name: Build PizzaOrderService service
             run: dotnet build back-end/PizzaOrderService/PizzaOrderService.csproj --no-restore
-          - name: Publish PizzaOrderService service
-            run: dotnet publish back-end/PizzaOrderService/PizzaOrderService.csproj --output ./publish
-          - name: Deploy to Azure Web App
-            uses: azure/webapps-deploy@v2
-            with:
-                app-name: catalyst-pizza-wa
-                publish-profile: ${{ secrets.AZURE_WEBAPP_PIZZA_PUBLISH_PROFILE }}
-                package: ./publish
+
 
           - name: Restore KitchenService dependencies
             run: dotnet restore back-end/KitchenService/KitchenService.csproj
