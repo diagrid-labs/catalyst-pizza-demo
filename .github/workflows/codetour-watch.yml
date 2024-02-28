@@ -4,6 +4,9 @@ on:
     pull_request:
         types: [opened, edited, synchronize, reopened]
 
+permissions:
+  issues: write
+  
 jobs:
     codetour-watch:
         runs-on: ubuntu-latest
