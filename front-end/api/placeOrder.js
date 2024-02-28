@@ -5,7 +5,7 @@ export default async function handler(request, response) {
     console.log(url);
     const workflowResponse = await fetch(url, {
         method: "POST",
-        mode: "no-cors", // no-cors, *cors, same-origin
+        mode: "no-cors",
         cache: "no-cache",
         headers: {
           "Content-Type": "application/json",
