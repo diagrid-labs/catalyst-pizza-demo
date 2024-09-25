@@ -138,13 +138,13 @@ Diagrid Catalyst provides serverless Dapr APIs that enables developers to quickl
 1. Create a pub/sub subscription for the *KitchenService* to receive messages from the *PizzaOrderService*:
 
 	```bash
-	diagrid subscription create pizzaorderssub --connection pubsub --topic pizza-orders --route /prepare --scopes kitchenservice
+	diagrid subscription create pizzaorderssub --component pubsub --topic pizza-orders --route /prepare --scopes kitchenservice
 	```
 
 1. Create a pub/sub subscription for the *PizzaOrderService* to receive messages from the *KitchenService*:
 
 	```bash
-	diagrid subscription create preparedorderssub --connection pubsub --topic prepared-orders --route /workflow/orderPrepared --scopes pizzaorderservice
+	diagrid subscription create preparedorderssub --component pubsub --topic prepared-orders --route /workflow/orderPrepared --scopes pizzaorderservice
 	```
 
 1. Verify that creation of the subscriptions is completed:
@@ -194,10 +194,10 @@ The two .NET services both use the same data in the key/value store to manage in
 1. Run the following command to update the managed key/value store:
 
     ```bash
-    diagrid connection apply -f ./infra/kv.yml
+    diagrid component apply -f ./infra/kv.yml
     ```
 
-    This will upload the `kv.yml` file to Diagrid and update the configuration of the *kvstore* connection so `keyPrefix` is set to `name`.
+    This will upload the `kv.yml` file to Diagrid and update the configuration of the *kvstore* component so `keyPrefix` is set to `name`.
 
 ### Inspect the DaprClient configuration
 
@@ -263,7 +263,7 @@ You can use the API explorer in the Catalyst web UI to interact with the managed
    - Select the `State API`.
    - Select the `pizzaorderservice` as the app ID.
    - Select `GET` as the API operation.
-   - Select `kvstore` as the state connection.
+   - Select `kvstore` as the state component.
    - Enter `Order-<ORDER-ID>` as the key, where `<ORDER-ID>` is substituted with the value copied from the devtools console.
 5. Click *Send*. The response should contain the state of the order item with `"status": "CompletedPreparation"`.
 
@@ -271,6 +271,6 @@ You can use the API explorer in the Catalyst web UI to interact with the managed
 
 ## What's Next?
 
-Congratulations! You’ve now used the Diagrid Catalyst serverless Dapr APIs for workflow, pub/sub messaging, service invocation, and state management. The ability to use these APIs from anywhere, without the overhead of managing Kubernetes clusters, brings great flexibility to developers on any platform to build distributed applications. The Dapr applications used in this demo can be hosted on any cloud. The demo uses the Diagrid managed infrastructure for key/value storage and pub/sub messaging, but these can be swapped out for other cloud-based resources, similarly to switching open-source Dapr components. You can extend this demo with an alternative pub/sub broker or state store by configuring other [infrastructure connections](https://docs.diagrid.io/catalyst/concepts/connections).
+Congratulations! You’ve now used the Diagrid Catalyst serverless Dapr APIs for workflow, pub/sub messaging, service invocation, and state management. The ability to use these APIs from anywhere, without the overhead of managing Kubernetes clusters, brings great flexibility to developers on any platform to build distributed applications. The Dapr applications used in this demo can be hosted on any cloud. The demo uses the Diagrid managed infrastructure for key/value storage and pub/sub messaging, but these can be swapped out for other cloud-based resources, similarly to switching open-source Dapr components. You can extend this demo with an alternative pub/sub broker or state store by configuring other [infrastructure components](https://docs.diagrid.io/catalyst/concepts/components).
 
 Any questions or comments about this demo? Join the [Diagrid Community on Discourse](https://community.diagrid.io/invites/fAUrdyBbie) and post a message in the *Catalyst* category. Have you made something with Catalyst? Post a message in the *Built with Catalyst* category, we love to see your creations!
