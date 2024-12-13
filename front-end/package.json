@@ -28,7 +28,7 @@
     "@types/node": "^16.11.56",
     "@types/uuid": "^9.0.8",
     "@vitejs/plugin-vue": "^3.1.2",
-    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
     "@vue/test-utils": "^2.1.0",
     "@vue/tsconfig": "^0.1.3",
