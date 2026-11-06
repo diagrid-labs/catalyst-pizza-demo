@@ -17,8 +17,8 @@
         </li>
         <li>
           <a
-            href="https://docs.diagrid.io/catalyst"
-            >Diagrid Catalyst Docs</a
+            href="https://docs.diagrid.io/concepts/what-is-diagrid/"
+            >Diagrid Docs</a
           >
           (our most read menu item 📖)
         </li>
