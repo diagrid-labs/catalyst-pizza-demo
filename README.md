@@ -2,7 +2,7 @@
 
 ![catalyst pizza workflow](/images/catalyst-pizza-workflow.gif)
 
-This repository contains a solution that demonstrates how to use the Diagrid Catalyst serverless Dapr APIs for workflow, service invocation, pub/sub, and state management to build a distributed pizza ordering system.
+This repository contains a solution that demonstrates how to use the Diagrid serverless Dapr APIs for workflow, service invocation, pub/sub, and state management to build a distributed pizza ordering system.
 
 > 📖 Read the [blog post](https://www.diagrid.io/blog/build-a-distributed-pizza-store-in-net-with-serverless-dapr-apis) for more context.
 
@@ -13,7 +13,7 @@ The solution includes:
 - [Ably](https://ably.com/); to provide realtime communication between the *PizzaOrderService* and the website.
 - A key/value store to manage inventory (managed by Diagrid).
 - A pub/sub message broker to communicate between the *PizzaOrderService* and the *KitchenService* (managed by Diagrid).
-- [Diagrid Catalyst](https://www.diagrid.io/catalyst) that offers serverless APIs for communication, state, and workflow powered by Dapr.
+- [Diagrid](https://www.diagrid.io/catalyst) that offers serverless APIs for communication, state, and workflow powered by Dapr.
 
 ![Pizza Store Architecture](/images/pizza-store-architecture-v2.png)
 
@@ -23,13 +23,13 @@ The *PizzaOrderService* contains a Dapr workflow that orchestrates the activitie
 
 > *The workflow also contains activities for sending realtime messages to the website, these have been omitted from the workflow diagram to keep it concise.*
 
-## Running the Diagrid Catalyst variation locally
+## Running the Diagrid variation locally
 
 ### Prerequisites
 
 The following services, tools, and frameworks are required for this demo:
 
-- [Diagrid Catalyst](https://www.diagrid.io/catalyst) account ([sign up](https://pages.diagrid.io/catalyst-early-access-waitlist) for private beta access) and the [Diagrid CLI](https://docs.diagrid.io/catalyst/references/cli-reference/intro)
+- [Diagrid](https://www.diagrid.io/catalyst) account ([sign up](https://pages.diagrid.io/catalyst-early-access-waitlist) for private beta access) and the [Diagrid CLI](https://docs.diagrid.io/references/diagrid/diagrid-cli-intro/)
 - [Vercel account (hobby)](https://vercel.com/signup) and the [Vercel CLI](https://vercel.com/docs/cli)
 - [Ably account (free)](https://www.ably.com/signup)
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
@@ -93,11 +93,11 @@ The Vue-based [front-end](/front-end/src) and two [JavaScript functions](/front-
 1. Run `vercel pull` to pull the configuration from Vercel to your local environment.
 1. Run `vercel build` to build the website and the serverless functions.
 
-#### Diagrid Catalyst
+#### Diagrid
 
-Diagrid Catalyst provides serverless Dapr APIs that enables developers to quickly build distributed applications with workflow, pub/sub messaging, service invocation, and state management capabilities. Diagrid also provides managed infrastructure for storing data in a key/value store, pub/sub messaging, and workflow, which are all used in this solution.
+Diagrid provides serverless Dapr APIs that enables developers to quickly build distributed applications with workflow, pub/sub messaging, service invocation, and state management capabilities. Diagrid also provides managed infrastructure for storing data in a key/value store, pub/sub messaging, and workflow, which are all used in this solution.
 
- The [Diagrid CLI](https://docs.diagrid.io/catalyst/references/cli-reference/intro) is used to configure the resources and run the .NET services locally.
+ The [Diagrid CLI](https://docs.diagrid.io/references/diagrid/diagrid-cli-intro/) is used to configure the resources and run the .NET services locally.
 
 1. Open another terminal in the root of the repository and use the Diagrid CLI to login to Diagrid:
 
@@ -105,7 +105,7 @@ Diagrid Catalyst provides serverless Dapr APIs that enables developers to quickl
    diagrid login
    ```
 
-1. Create a new Catalyst project named `catalyst-pizza-project` and use the Diagrid managed pub/sub broker & KV store, and enable the managed workflow API:
+1. Create a new Diagrid project named `catalyst-pizza-project` and use the Diagrid managed pub/sub broker & KV store, and enable the managed workflow API:
 
     ```bash
     diagrid project create catalyst-pizza-project --deploy-managed-pubsub --deploy-managed-kv --enable-managed-workflow --wait
@@ -201,7 +201,7 @@ The two .NET services both use the same data in the key/value store to manage in
 
 ### Inspect the DaprClient configuration
 
-The two .NET services use the Dapr .NET client SDK for workflow, and pub/sub messaging. The `DaprClient` is configured to use the endpoints provided by Diagrid Catalyst in the *[Program.cs](back-end\PizzaOrderService\Program.cs)* file:
+The two .NET services use the Dapr .NET client SDK for workflow, and pub/sub messaging. The `DaprClient` is configured to use the endpoints provided by Diagrid in the *[Program.cs](back-end\PizzaOrderService\Program.cs)* file:
 
 ```csharp
 var apiToken = Environment.GetEnvironmentVariable("DAPR_API_TOKEN");
@@ -246,16 +246,16 @@ builder.Services.AddHttpClient(
 1. Navigate to the URL provided by the Vercel CLI to view the website.
 1. Select some pizzas, place an order, and watch the progress of the workflow in realtime.
 
-### Use the Catalyst API explorer
+### Use the Diagrid API explorer
 
-You can use the API explorer in the Catalyst web UI to interact with the managed Dapr APIs. If you want to retrieve the order item from the key./value store that has just been processed follow these steps:
+You can use the API explorer in the Diagrid Console to interact with the managed Dapr APIs. If you want to retrieve the order item from the key./value store that has just been processed follow these steps:
 
 1. Open the browser devtools console of the browser that is running the demo (a pizza order must be started or completed).
 1. The order is logged to the console as a JSON object. Copy the `OrderId` property value.
 
     ![Order](/images/console-order.png)
 
-1. Navigate to the [Catalyst web UI](https://catalyst.diagrid.io). Ensure you're in the `catalyst-pizza-project` project.
+1. Navigate to the [Diagrid Console](https://catalyst.diagrid.io). Ensure you're in the `catalyst-pizza-project` project.
 
     ![API explorer](/images/catalyst-api-explorer.png)
 
@@ -271,6 +271,6 @@ You can use the API explorer in the Catalyst web UI to interact with the managed
 
 ## What's Next?
 
-Congratulations! You’ve now used the Diagrid Catalyst serverless Dapr APIs for workflow, pub/sub messaging, service invocation, and state management. The ability to use these APIs from anywhere, without the overhead of managing Kubernetes clusters, brings great flexibility to developers on any platform to build distributed applications. The Dapr applications used in this demo can be hosted on any cloud. The demo uses the Diagrid managed infrastructure for key/value storage and pub/sub messaging, but these can be swapped out for other cloud-based resources, similarly to switching open-source Dapr components. You can extend this demo with an alternative pub/sub broker or state store by configuring other [infrastructure connections](https://docs.diagrid.io/catalyst/concepts/connections).
+Congratulations! You’ve now used the Diagrid serverless Dapr APIs for workflow, pub/sub messaging, service invocation, and state management. The ability to use these APIs from anywhere, without the overhead of managing Kubernetes clusters, brings great flexibility to developers on any platform to build distributed applications. The Dapr applications used in this demo can be hosted on any cloud. The demo uses the Diagrid managed infrastructure for key/value storage and pub/sub messaging, but these can be swapped out for other cloud-based resources, similarly to switching open-source Dapr components. You can extend this demo with an alternative pub/sub broker or state store by configuring other [infrastructure connections](https://docs.diagrid.io/concepts/what-is-diagrid/).
 
-Any questions or comments about this demo? Join the [Diagrid Community on Discourse](https://community.diagrid.io/invites/fAUrdyBbie) and post a message in the *Catalyst* category. Have you made something with Catalyst? Post a message in the *Built with Catalyst* category, we love to see your creations!
+Any questions or comments about this demo? Join the [Diagrid Community on Discourse](https://community.diagrid.io/invites/fAUrdyBbie) and post a message in the *Diagrid* category. Have you made something with Diagrid? Post a message in the *Built with Diagrid* category, we love to see your creations!
